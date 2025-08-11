@@ -1,0 +1,17 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+
+chapters:
+- file: knn_intro
+  sections:
+    - file: knn_eda
+    - file: knn_miniproyecto
+- file: regresion_intro
+  sections:
+    - file: regresion_eda
+    - file: regresion_miniproyecto
+    - file: regresion_conclusions
+- file: ml_proyecto_final_eda

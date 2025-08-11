@@ -1,0 +1,2373 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Análisis Exploratorio y Visualización &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'knn_eda';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mini Proyecto #1:" href="knn_miniproyecto.html" />
+    <link rel="prev" title="K-Nearest Neighbors (KNN): Predicción del Éxito Académico y Riesgo de Deserción en Estudiantes Universitarios" href="knn_intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    About me
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="knn_intro.html">K-Nearest Neighbors (KNN): Predicción del Éxito Académico y Riesgo de Deserción en Estudiantes Universitarios</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Análisis Exploratorio y Visualización</a></li>
+<li class="toctree-l2"><a class="reference internal" href="knn_miniproyecto.html">Mini Proyecto #1:</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="ml_proyecto_final_eda.html">EDA- PROYECTO FINAL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fknn_eda.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/knn_eda.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Análisis Exploratorio y Visualización</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacion-de-librerias">0. Importación de Librerías</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacion-del-conjunto-de-datos-y-eda">1. Importación del Conjunto de Datos y EDA</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importacion-del-dataset-y-visualizacion-de-su-estructura">1.1. Importación del Dataset y Visualización de su Estructura</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#descripcion-de-los-atributos-del-dataset">1.2. Descripción de los Atributos del Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploracion-de-los-datos">1.3. Exploración de los datos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacion">1.4. Visualización</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-demografico">1.4.1. Análisis Demográfico</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-curricular">1.4.2. Análisis Curricular</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-descriptivo-y-matriz-de-correlacion">1.4.3. Resumen Descriptivo y Matriz de Correlación</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-exploratorio-y-visualizacion">
+<h1>Análisis Exploratorio y Visualización<a class="headerlink" href="#analisis-exploratorio-y-visualizacion" title="Link to this heading">#</a></h1>
+<section id="importacion-de-librerias">
+<h2>0. Importación de Librerías<a class="headerlink" href="#importacion-de-librerias" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>  
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ucimlrepo</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_ucirepo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="importacion-del-conjunto-de-datos-y-eda">
+<h2>1. Importación del Conjunto de Datos y EDA<a class="headerlink" href="#importacion-del-conjunto-de-datos-y-eda" title="Link to this heading">#</a></h2>
+<section id="importacion-del-dataset-y-visualizacion-de-su-estructura">
+<h3>1.1. Importación del Dataset y Visualización de su Estructura<a class="headerlink" href="#importacion-del-dataset-y-visualizacion-de-su-estructura" title="Link to this heading">#</a></h3>
+<p>Continuamos con la importación de los datos que son del interés del ejercicio y que están disponibles en el sitio <a class="reference external" href="https://archive.ics.uci.edu">https://archive.ics.uci.edu</a> en el siguiente <a class="reference external" href="https://archive.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success">enlace</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fetch dataset </span>
+<span class="n">predict_students_dropout_and_academic_success</span> <span class="o">=</span> <span class="n">fetch_ucirepo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">697</span><span class="p">)</span> 
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">predict_students_dropout_and_academic_success</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">features</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">predict_students_dropout_and_academic_success</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">targets</span>
+  
+<span class="c1"># data (as pandas dataframes) </span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="descripcion-de-los-atributos-del-dataset">
+<h3>1.2. Descripción de los Atributos del Dataset<a class="headerlink" href="#descripcion-de-los-atributos-del-dataset" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># variable information </span>
+<span class="n">variable_info</span> <span class="o">=</span> <span class="n">predict_students_dropout_and_academic_success</span><span class="o">.</span><span class="n">variables</span>
+<span class="n">variable_info</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>role</th>
+      <th>type</th>
+      <th>demographic</th>
+      <th>description</th>
+      <th>units</th>
+      <th>missing_values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Marital Status</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>Marital Status</td>
+      <td>1 – single 2 – married 3 – widower 4 – divorce...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Application mode</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>1 - 1st phase - general contingent 2 - Ordinan...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Application order</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Application order (between 0 - first choice; a...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Course</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>33 - Biofuel Production Technologies 171 - Ani...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Daytime/evening attendance</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>1 – daytime 0 - evening</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Previous qualification</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>Education Level</td>
+      <td>1 - Secondary education 2 - Higher education -...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Previous qualification (grade)</td>
+      <td>Feature</td>
+      <td>Continuous</td>
+      <td>None</td>
+      <td>Grade of previous qualification (between 0 and...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Nacionality</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>Nationality</td>
+      <td>1 - Portuguese; 2 - German; 6 - Spanish; 11 - ...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Mother's qualification</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>Education Level</td>
+      <td>1 - Secondary Education - 12th Year of Schooli...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Father's qualification</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>Education Level</td>
+      <td>1 - Secondary Education - 12th Year of Schooli...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Mother's occupation</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>Occupation</td>
+      <td>0 - Student 1 - Representatives of the Legisla...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Father's occupation</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>Occupation</td>
+      <td>0 - Student 1 - Representatives of the Legisla...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Admission grade</td>
+      <td>Feature</td>
+      <td>Continuous</td>
+      <td>None</td>
+      <td>Admission grade (between 0 and 200)</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Displaced</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>1 – yes 0 – no</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Educational special needs</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>1 – yes 0 – no</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Debtor</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>1 – yes 0 – no</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Tuition fees up to date</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>1 – yes 0 – no</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Gender</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>Gender</td>
+      <td>1 – male 0 – female</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Scholarship holder</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>1 – yes 0 – no</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Age at enrollment</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>Age</td>
+      <td>Age of studend at enrollment</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>International</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>1 – yes 0 – no</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Curricular units 1st sem (credited)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of curricular units credited in the 1st...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Curricular units 1st sem (enrolled)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of curricular units enrolled in the 1st...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Curricular units 1st sem (evaluations)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of evaluations to curricular units in t...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Curricular units 1st sem (approved)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of curricular units approved in the 1st...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Curricular units 1st sem (grade)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Grade average in the 1st semester (between 0 a...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Curricular units 1st sem (without evaluations)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of curricular units without evalutions ...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Curricular units 2nd sem (credited)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of curricular units credited in the 2nd...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Curricular units 2nd sem (enrolled)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of curricular units enrolled in the 2nd...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Curricular units 2nd sem (evaluations)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of evaluations to curricular units in t...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Curricular units 2nd sem (approved)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of curricular units approved in the 2nd...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Curricular units 2nd sem (grade)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Grade average in the 2nd semester (between 0 a...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Curricular units 2nd sem (without evaluations)</td>
+      <td>Feature</td>
+      <td>Integer</td>
+      <td>None</td>
+      <td>Number of curricular units without evalutions ...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Unemployment rate</td>
+      <td>Feature</td>
+      <td>Continuous</td>
+      <td>None</td>
+      <td>Unemployment rate (%)</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Inflation rate</td>
+      <td>Feature</td>
+      <td>Continuous</td>
+      <td>None</td>
+      <td>Inflation rate (%)</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>GDP</td>
+      <td>Feature</td>
+      <td>Continuous</td>
+      <td>None</td>
+      <td>GDP</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Target</td>
+      <td>Target</td>
+      <td>Categorical</td>
+      <td>None</td>
+      <td>Target. The problem is formulated as a three c...</td>
+      <td>None</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>De la estructura previamente desplegada, se puede evidenciar que en los 4424 observaciones no hay valores faltantes.</p>
+</section>
+<section id="exploracion-de-los-datos">
+<h3>1.3. Exploración de los datos<a class="headerlink" href="#exploracion-de-los-datos" title="Link to this heading">#</a></h3>
+<p>A continuación, se procede con la visualización del encabezado del dataset seguido del resumen descriptivo de las variables continuas que hacen parte del conjunto de datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ajuste de tipo de dato en variables categóricas a object.</span>
+
+<span class="n">cols_to_object</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Marital Status&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Application mode&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Application order&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Course&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Previous qualification&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Nacionality&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;Mother&#39;s qualification&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Father&#39;s qualification&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Mother&#39;s occupation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Father&#39;s occupation&quot;</span>
+<span class="p">]</span>
+
+<span class="n">X</span><span class="p">[</span><span class="n">cols_to_object</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">cols_to_object</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+
+<span class="c1"># Crear columna del promedio final</span>
+<span class="n">X</span><span class="p">[</span><span class="s1">&#39;promedio_acumulado&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[[</span><span class="s1">&#39;Curricular units 1st sem (grade)&#39;</span><span class="p">,</span> 
+                               <span class="s1">&#39;Curricular units 2nd sem (grade)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Marital Status</th>
+      <th>Application mode</th>
+      <th>Application order</th>
+      <th>Course</th>
+      <th>Daytime/evening attendance</th>
+      <th>Previous qualification</th>
+      <th>Previous qualification (grade)</th>
+      <th>Nacionality</th>
+      <th>Mother's qualification</th>
+      <th>Father's qualification</th>
+      <th>...</th>
+      <th>Curricular units 2nd sem (enrolled)</th>
+      <th>Curricular units 2nd sem (evaluations)</th>
+      <th>Curricular units 2nd sem (approved)</th>
+      <th>Curricular units 2nd sem (grade)</th>
+      <th>Curricular units 2nd sem (without evaluations)</th>
+      <th>Unemployment rate</th>
+      <th>Inflation rate</th>
+      <th>GDP</th>
+      <th>promedio_acumulado</th>
+      <th>Target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>17</td>
+      <td>5</td>
+      <td>171</td>
+      <td>1</td>
+      <td>1</td>
+      <td>122.0</td>
+      <td>1</td>
+      <td>19</td>
+      <td>12</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>10.8</td>
+      <td>1.4</td>
+      <td>1.74</td>
+      <td>0.000000</td>
+      <td>Dropout</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>15</td>
+      <td>1</td>
+      <td>9254</td>
+      <td>1</td>
+      <td>1</td>
+      <td>160.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>...</td>
+      <td>6</td>
+      <td>6</td>
+      <td>6</td>
+      <td>13.666667</td>
+      <td>0</td>
+      <td>13.9</td>
+      <td>-0.3</td>
+      <td>0.79</td>
+      <td>13.833333</td>
+      <td>Graduate</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>1</td>
+      <td>5</td>
+      <td>9070</td>
+      <td>1</td>
+      <td>1</td>
+      <td>122.0</td>
+      <td>1</td>
+      <td>37</td>
+      <td>37</td>
+      <td>...</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>10.8</td>
+      <td>1.4</td>
+      <td>1.74</td>
+      <td>0.000000</td>
+      <td>Dropout</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>17</td>
+      <td>2</td>
+      <td>9773</td>
+      <td>1</td>
+      <td>1</td>
+      <td>122.0</td>
+      <td>1</td>
+      <td>38</td>
+      <td>37</td>
+      <td>...</td>
+      <td>6</td>
+      <td>10</td>
+      <td>5</td>
+      <td>12.400000</td>
+      <td>0</td>
+      <td>9.4</td>
+      <td>-0.8</td>
+      <td>-3.12</td>
+      <td>12.914286</td>
+      <td>Graduate</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>39</td>
+      <td>1</td>
+      <td>8014</td>
+      <td>0</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>1</td>
+      <td>37</td>
+      <td>38</td>
+      <td>...</td>
+      <td>6</td>
+      <td>6</td>
+      <td>6</td>
+      <td>13.000000</td>
+      <td>0</td>
+      <td>13.9</td>
+      <td>-0.3</td>
+      <td>0.79</td>
+      <td>12.666667</td>
+      <td>Graduate</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 38 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Función que permite identificar el tipo de variable</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">identify_variable_types</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identifica automáticamente el tipo de cada variable en el DataFrame.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    df: DataFrame</span>
+<span class="sd">    target_column: str, nombre de la variable objetivo</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    dict: Diccionario con listas de variables por tipo</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Excluir la variable objetivo</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">df</span>
+    
+    <span class="n">variable_types</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;continuous&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;discrete&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;categorical&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;dichotomous&#39;</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">}</span>
+    
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">features</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">unique_values</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span>
+        
+        <span class="c1"># Dicotómicas: exactamente 2 valores únicos</span>
+        <span class="k">if</span> <span class="n">unique_values</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;dichotomous&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        
+        <span class="c1"># Categóricas: tipo object o menos de 10 valores únicos (umbral ajustable)</span>
+        <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span> <span class="ow">or</span> <span class="p">(</span><span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;int64&#39;</span><span class="p">,</span> <span class="s1">&#39;int32&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">unique_values</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">):</span>
+            <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;categorical&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        
+        <span class="c1"># Discretas: tipo entero con más de 2 pero menos de 50 valores únicos</span>
+        <span class="k">elif</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;int64&#39;</span><span class="p">,</span> <span class="s1">&#39;int32&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="n">unique_values</span> <span class="o">&lt;=</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        
+        <span class="c1"># Continuas: tipo float o enteros con muchos valores únicos</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;continuous&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">variable_types</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_preprocessing_pipeline</span><span class="p">(</span><span class="n">variable_types</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Crea un pipeline de preprocesamiento personalizado según los tipos de variables.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    variable_types: dict, resultado de identify_variable_types()</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    ColumnTransformer: Pipeline de preprocesamiento</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">transformers</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># Variables continuas: StandardScaler</span>
+    <span class="k">if</span> <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;continuous&#39;</span><span class="p">]:</span>
+        <span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;continuous&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;continuous&#39;</span><span class="p">])</span>
+        <span class="p">)</span>
+    
+    <span class="c1"># Variables discretas: StandardScaler (tratadas como numéricas)</span>
+    <span class="k">if</span> <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">]:</span>
+        <span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;discrete&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">])</span>
+        <span class="p">)</span>
+    
+    <span class="c1"># Variables dicotómicas: mantener como están (0,1) o StandardScaler ligero</span>
+    <span class="k">if</span> <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;dichotomous&#39;</span><span class="p">]:</span>
+        <span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;dichotomous&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;dichotomous&#39;</span><span class="p">])</span>
+        <span class="p">)</span>
+    
+    <span class="c1"># Variables categóricas: OneHotEncoder</span>
+    <span class="k">if</span> <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;categorical&#39;</span><span class="p">]:</span>
+        <span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;categorical&#39;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="n">sparse_output</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> 
+             <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;categorical&#39;</span><span class="p">])</span>
+        <span class="p">)</span>
+    
+    <span class="c1"># Si no hay transformers, crear uno dummy</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">transformers</span><span class="p">:</span>
+        <span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;passthrough&#39;</span><span class="p">,</span> <span class="s1">&#39;passthrough&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+    
+    <span class="k">return</span> <span class="n">ColumnTransformer</span><span class="p">(</span>
+        <span class="n">transformers</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
+        <span class="n">remainder</span><span class="o">=</span><span class="s1">&#39;passthrough&#39;</span>  <span class="c1"># Mantener columnas no especificadas</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizacion">
+<h3>1.4. Visualización<a class="headerlink" href="#visualizacion" title="Link to this heading">#</a></h3>
+<section id="analisis-demografico">
+<h4>1.4.1. Análisis Demográfico<a class="headerlink" href="#analisis-demografico" title="Link to this heading">#</a></h4>
+<p>Luego de la primera aproximación a los datos obtenida de la descripción del dataset, su estructura y el resumen descriptivo de las variables continuas, se procede con la etapa de visualización, iniciando con la distribución de los estudiantes por la variable <em>Target</em> (estatus final), la distribución de acuerdo con <em>Gender</em> (el género del estudiante) frente a <em>Target</em>, así como la distribución por el atributo <em>Marital Status</em> (Estado civil) y <em>Target</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configurar estilo</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Definir anchos relativos: 1 para el primero, 2 para el segundo y tercero</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+    <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width_ratios&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]}</span>  <span class="c1"># Proporción de anchos</span>
+<span class="p">)</span>
+
+<span class="n">target_color_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Dropout&#39;</span><span class="p">:</span> <span class="s1">&#39;#ff7f7f&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Graduate&#39;</span><span class="p">:</span> <span class="s1">&#39;#90ee90&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Enrolled&#39;</span><span class="p">:</span> <span class="s1">&#39;#87ceeb&#39;</span>
+<span class="p">}</span>
+
+<span class="n">marital_labels</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Single&quot;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Married&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Widower&quot;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Divorced&quot;</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;Facto Union&quot;</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;Legally Separated&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># --- Subplot 1 ---</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">status_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">status_percentages</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">plot_data1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Target&#39;</span><span class="p">:</span> <span class="n">status_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="s1">&#39;Count&#39;</span><span class="p">:</span> <span class="n">status_counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s1">&#39;Percentage&#39;</span><span class="p">:</span> <span class="n">status_percentages</span><span class="o">.</span><span class="n">values</span>
+<span class="p">})</span>
+<span class="n">colors1</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_color_map</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">plot_data1</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">]]</span>
+<span class="n">bars1</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">plot_data1</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">],</span> <span class="n">plot_data1</span><span class="p">[</span><span class="s1">&#39;Count&#39;</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">colors1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">bar</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bars1</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span><span class="o">+</span><span class="n">bar</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="o">+</span><span class="n">h</span><span class="o">*</span><span class="mf">0.01</span><span class="p">,</span>
+             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">plot_data1</span><span class="p">[</span><span class="s1">&#39;Percentage&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">,</span>
+             <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Target&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Número de Observaciones&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2400</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="c1"># ax1.tick_params(axis=&#39;x&#39;, rotation=45)</span>
+
+<span class="c1"># --- Subplot 2 ---</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">cross_gender</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Gender&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">])</span>
+<span class="n">gender_labels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;Female&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Male&#39;</span><span class="p">}</span>
+<span class="n">x_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cross_gender</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cross_gender</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+    <span class="n">vals</span> <span class="o">=</span> <span class="n">cross_gender</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">total_group</span> <span class="o">=</span> <span class="n">cross_gender</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x_pos</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">width</span> <span class="o">-</span> <span class="p">(</span><span class="n">width</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">cross_gender</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">vals</span><span class="p">,</span> <span class="n">width</span><span class="o">*</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">target_color_map</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">perc</span> <span class="o">=</span> <span class="n">val</span><span class="o">/</span><span class="n">total_group</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x_pos</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">width</span> <span class="o">-</span> <span class="p">(</span><span class="n">width</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">cross_gender</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">val</span><span class="o">+</span><span class="n">val</span><span class="o">*</span><span class="mf">0.01</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">perc</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">,</span>
+                     <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Gender&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Número de Observaciones&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2400</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x_pos</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="n">gender_labels</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cross_gender</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># --- Subplot 3 ---</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">cross_marital</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Marital Status&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">])</span>
+<span class="n">x_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cross_marital</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cross_marital</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+    <span class="n">vals</span> <span class="o">=</span> <span class="n">cross_marital</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x_pos</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">width</span> <span class="o">-</span> <span class="p">(</span><span class="n">width</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">cross_marital</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">vals</span><span class="p">,</span> <span class="n">width</span><span class="o">*</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">target_color_map</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ax3</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x_pos</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">width</span> <span class="o">-</span> <span class="p">(</span><span class="n">width</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">cross_marital</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">val</span><span class="o">+</span><span class="n">val</span><span class="o">*</span><span class="mf">0.01</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                     <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Marital Status&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Número de Observaciones&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2400</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x_pos</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="n">marital_labels</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">cross_marital</span><span class="o">.</span><span class="n">index</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># --- Leyenda general ---</span>
+<span class="n">handles</span> <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">target_color_map</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+           <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">target_color_map</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_color_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Target&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper center&#39;</span><span class="p">,</span>
+           <span class="n">ncol</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">target_color_map</span><span class="p">),</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Distribución de Estudiantes por Target, Target-Gender y Target-Marital Status&#39;</span><span class="p">,</span> 
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.08</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.93</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a52ba16955414e1a536ab27ecc4c408d8a817eaff67ee577d9f6a7cdc51d7b4a.png" src="_images/a52ba16955414e1a536ab27ecc4c408d8a817eaff67ee577d9f6a7cdc51d7b4a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Diccionario para los géneros</span>
+<span class="n">gender_labels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Masculino&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Femenino&quot;</span><span class="p">}</span>
+
+<span class="c1"># Columnas opcionales con etiquetas de estado civil y género</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Marital_Label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Marital Status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">marital_labels</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Gender_Label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Gender&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">gender_labels</span><span class="p">)</span>
+
+<span class="c1"># Crear figura 1x6</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Subgráficos por estado civil</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">marital_code</span><span class="p">,</span> <span class="n">marital_label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">marital_labels</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Marital Status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">marital_code</span><span class="p">]</span>
+
+    <span class="c1"># Dibujar boxplot</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Gender_Label&#39;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Age at enrollment&#39;</span><span class="p">,</span>
+        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Target&#39;</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">palette</span><span class="o">=</span><span class="n">target_color_map</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mf">0.5</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Calcular y graficar medias</span>
+    <span class="n">hue_levels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    <span class="n">gender_levels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="s1">&#39;Gender_Label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Obtener posiciones reales de cada grupo en el gráfico</span>
+    <span class="c1"># (igual lógica que seaborn: desplazamiento por hue)</span>
+    <span class="n">hue_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hue_levels</span><span class="p">)</span>
+    <span class="n">box_width</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">box_width</span> <span class="o">/</span> <span class="n">hue_count</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">gender</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">gender_levels</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">hue_levels</span><span class="p">)):</span>
+            <span class="n">group_data</span> <span class="o">=</span> <span class="n">subset</span><span class="p">[(</span><span class="n">subset</span><span class="p">[</span><span class="s1">&#39;Gender_Label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gender</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">group_data</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">mean_val</span> <span class="o">=</span> <span class="n">group_data</span><span class="p">[</span><span class="s1">&#39;Age at enrollment&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                <span class="n">x_pos</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="p">(</span><span class="n">hue_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">offset</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">mean_val</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">marital_label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Edad al ingreso&#39;</span> <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Quitar leyenda individual</span>
+    <span class="k">if</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend</span><span class="p">():</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+    <span class="c1"># Ocultar etiquetas Y en subplots que no son el primero</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="o">!=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Leyenda general</span>
+<span class="n">handles</span> <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">target_color_map</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+           <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">target_color_map</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_color_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Target&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper center&#39;</span><span class="p">,</span>
+           <span class="n">ncol</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">target_color_map</span><span class="p">),</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">))</span>
+
+<span class="c1"># Título general</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Boxplots de Edad por Estado Civil, diferenciados por Género y Target&#39;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="c1"># Ajustar espacios</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.93</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4efdef6e6e4935f71545db8bce4061b5c4989dbc8ebd69fecf9bc264b4d9badc.png" src="_images/4efdef6e6e4935f71545db8bce4061b5c4989dbc8ebd69fecf9bc264b4d9badc.png" />
+</div>
+</div>
+<p>De la figura 1, se puede establecer que cerca de 1 de cada 3 estudiantes (32.1%) abandona los estudios, así mismo, la tasa de abandono en las mujeres es significativamente inferior que en los hombres (25.1% vs 45.1%). Adicionalmente se puede evidenciar que la deserción en los estudiantes solteros es la más baja de todo el grupo, de acuerdo con el atributo <em>Marital Status</em>, seguido de los registrados como divorciados (46.7%) y los casados (47.2%).</p>
+<p>Por otra parte, la figura 2 muestra los atributos <em>Gender</em>, <em>Marital Status</em> y <em>Target</em> frente a la variable <em>Age at enrollment</em>, y claramente evidencia que los estudiantes solteros presentan la distribución de edad más joven y homogénea (mediana ~22 años), mientras que los estudiantes divorciados muestran las edades más avanzadas (mediana ~43 años). En lo referente a <em>Gender</em>, la gráfica sugiere una ligera tendencia hacia edades superiores en estudiantes masculinos comparados con femeninos dentro de la mayoría de categorías de estado civil, particularmente notable en estudiantes casados y divorciados. Finalmente, en el análisis de los resutados académicos por grupo demográfico, los estudiantes de mayor edad (divorciados, separados legalmente) exhiben una mayor propensión al abandono (dropout), evidenciado por las distribuciones de edad más elevadas en esta categoría. Conversamente, los estudiantes más jóvenes (solteros) muestran distribuciones más equilibradas entre las tres categorías de resultado académico.</p>
+<p>Teniendo en cuenta que el objetivo del proyecto es especificar un modelo que permita predecir tanto el éxito académico como el riesgo de abandono de los estudiantes, los escenarios que son de interés de este estudio son:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>1. Target = &quot;Dropout&quot;.
+2. Target = &quot;Graduated&quot; o Target = &quot;Enrollment&quot;.
+</pre></div>
+</div>
+<p>Por lo anterior, se procede con la especificación de una nueva variable <em>Dropout</em> con valores 1 (estudiantes que abandonaron) o 0 (estudiantes que terminaron satisfactoriamente o están matriculados). Con esta nueva variable se avanzará en el análisis exploratorio del conjunto de datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Especificación de la variable Dropout</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Dropout&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Dropout&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Marital Status</th>
+      <th>Application mode</th>
+      <th>Application order</th>
+      <th>Course</th>
+      <th>Daytime/evening attendance</th>
+      <th>Previous qualification</th>
+      <th>Previous qualification (grade)</th>
+      <th>Nacionality</th>
+      <th>Mother's qualification</th>
+      <th>Father's qualification</th>
+      <th>...</th>
+      <th>Curricular units 2nd sem (grade)</th>
+      <th>Curricular units 2nd sem (without evaluations)</th>
+      <th>Unemployment rate</th>
+      <th>Inflation rate</th>
+      <th>GDP</th>
+      <th>promedio_acumulado</th>
+      <th>Target</th>
+      <th>Marital_Label</th>
+      <th>Gender_Label</th>
+      <th>Dropout</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>17</td>
+      <td>5</td>
+      <td>171</td>
+      <td>1</td>
+      <td>1</td>
+      <td>122.0</td>
+      <td>1</td>
+      <td>19</td>
+      <td>12</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>10.8</td>
+      <td>1.4</td>
+      <td>1.74</td>
+      <td>0.000000</td>
+      <td>Dropout</td>
+      <td>Single</td>
+      <td>Masculino</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>15</td>
+      <td>1</td>
+      <td>9254</td>
+      <td>1</td>
+      <td>1</td>
+      <td>160.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>...</td>
+      <td>13.666667</td>
+      <td>0</td>
+      <td>13.9</td>
+      <td>-0.3</td>
+      <td>0.79</td>
+      <td>13.833333</td>
+      <td>Graduate</td>
+      <td>Single</td>
+      <td>Masculino</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>1</td>
+      <td>5</td>
+      <td>9070</td>
+      <td>1</td>
+      <td>1</td>
+      <td>122.0</td>
+      <td>1</td>
+      <td>37</td>
+      <td>37</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>10.8</td>
+      <td>1.4</td>
+      <td>1.74</td>
+      <td>0.000000</td>
+      <td>Dropout</td>
+      <td>Single</td>
+      <td>Masculino</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>17</td>
+      <td>2</td>
+      <td>9773</td>
+      <td>1</td>
+      <td>1</td>
+      <td>122.0</td>
+      <td>1</td>
+      <td>38</td>
+      <td>37</td>
+      <td>...</td>
+      <td>12.400000</td>
+      <td>0</td>
+      <td>9.4</td>
+      <td>-0.8</td>
+      <td>-3.12</td>
+      <td>12.914286</td>
+      <td>Graduate</td>
+      <td>Single</td>
+      <td>Femenino</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>39</td>
+      <td>1</td>
+      <td>8014</td>
+      <td>0</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>1</td>
+      <td>37</td>
+      <td>38</td>
+      <td>...</td>
+      <td>13.000000</td>
+      <td>0</td>
+      <td>13.9</td>
+      <td>-0.3</td>
+      <td>0.79</td>
+      <td>12.666667</td>
+      <td>Graduate</td>
+      <td>Married</td>
+      <td>Femenino</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 41 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="analisis-curricular">
+<h4>1.4.2. Análisis Curricular<a class="headerlink" href="#analisis-curricular" title="Link to this heading">#</a></h4>
+<p>Complementando el análisis de los atributos de tipo demográfico, se abordará a continuación el análisis de características curriculares, que contempla <em>features</em> como: Curricular units 1st sem (enrolled), Curricular units 1st sem (evaluations), Curricular units 1st sem (approved), Curricular units 2nd sem (enrolled), entre otras, para determinar el impacto de la carga académica (créditos) y la edad en el estatus final del estudiante.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configurar la figura con subplots (2 filas, 4 columnas)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">18</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Análisis de Variables Curriculares por Semestre vs Edad de Inscripción&#39;</span><span class="p">,</span> 
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.98</span><span class="p">)</span>
+
+<span class="c1"># Variables del primer semestre (excluyendo grade)</span>
+<span class="n">first_sem_vars</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1">#&#39;Curricular units 1st sem (credited)&#39;,</span>
+    <span class="s1">&#39;Curricular units 1st sem (enrolled)&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;Curricular units 1st sem (evaluations)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Curricular units 1st sem (approved)&#39;</span>
+<span class="p">]</span>
+
+<span class="c1"># Variables del segundo semestre (excluyendo grade)</span>
+<span class="n">second_sem_vars</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1">#&#39;Curricular units 2nd sem (credited)&#39;,</span>
+    <span class="s1">&#39;Curricular units 2nd sem (enrolled)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Curricular units 2nd sem (evaluations)&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;Curricular units 2nd sem (approved)&#39;</span>
+<span class="p">]</span>
+
+<span class="c1"># Crear etiquetas más cortas para los títulos</span>
+<span class="c1"># short_labels = [&#39;Credited&#39;, &#39;Enrolled&#39;, &#39;Evaluations&#39;, &#39;Approved&#39;]</span>
+<span class="n">short_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Enrolled&#39;</span><span class="p">,</span> <span class="s1">&#39;Evaluations&#39;</span><span class="p">,</span> <span class="s1">&#39;Approved&#39;</span><span class="p">]</span>
+
+<span class="c1"># Definir colores para la variable Abandono</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mediumseagreen&#39;</span><span class="p">,</span> <span class="s1">&#39;lightcoral&#39;</span><span class="p">]</span>  <span class="c1"># 0: No abandona (azul), 1: Abandona (salmon)</span>
+
+<span class="c1"># Primer semestre (fila 0)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">first_sem_vars</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    
+    <span class="c1"># Crear boxplot</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Age at enrollment&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Dropout&#39;</span><span class="p">,</span> 
+                <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">boxprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">))</span>
+    
+    <span class="c1"># Personalizar el gráfico</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;1er Sem - </span><span class="si">{</span><span class="n">short_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">short_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Age at enrollment&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+    <span class="c1"># Configurar la leyenda</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Solo mostrar leyenda en el último gráfico de la fila</span>
+        <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;No Abandona&#39;</span><span class="p">,</span> <span class="s1">&#39;Abandona&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Abandono&#39;</span><span class="p">,</span> 
+                    <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+    
+    <span class="c1"># Rotar etiquetas del eje x si es necesario</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="c1"># Segundo semestre (fila 1)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">second_sem_vars</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    
+    <span class="c1"># Crear boxplot</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Age at enrollment&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Dropout&#39;</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">boxprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">))</span>
+    
+    <span class="c1"># Personalizar el gráfico</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;2do Sem - </span><span class="si">{</span><span class="n">short_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">short_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Age at enrollment&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+    <span class="c1"># Configurar la leyenda</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Solo mostrar leyenda en el último gráfico de la fila</span>
+        <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;No Abandona&#39;</span><span class="p">,</span> <span class="s1">&#39;Abandona&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Abandono&#39;</span><span class="p">,</span>
+                    <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+    
+    <span class="c1"># Rotar etiquetas del eje x si es necesario</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="c1"># Ajustar el espaciado entre subplots</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.93</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="c1"># Mostrar el gráfico</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7dbc51dc383ddef316b9fc143a41c7a0a560082a060a8d6d810ed42d0d531be7.png" src="_images/7dbc51dc383ddef316b9fc143a41c7a0a560082a060a8d6d810ed42d0d531be7.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Diccionario con las descripciones de los cursos</span>
+<span class="n">course_descriptions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">33</span><span class="p">:</span> <span class="s2">&quot;Biofuel Production Tech&quot;</span><span class="p">,</span>
+    <span class="mi">171</span><span class="p">:</span> <span class="s2">&quot;A.M. Design&quot;</span><span class="p">,</span> 
+    <span class="mi">8014</span><span class="p">:</span> <span class="s2">&quot;Social Service (e)&quot;</span><span class="p">,</span>
+    <span class="mi">9003</span><span class="p">:</span> <span class="s2">&quot;Agronomy&quot;</span><span class="p">,</span>
+    <span class="mi">9070</span><span class="p">:</span> <span class="s2">&quot;Comm. Design&quot;</span><span class="p">,</span>
+    <span class="mi">9085</span><span class="p">:</span> <span class="s2">&quot;Veterinary&quot;</span><span class="p">,</span>
+    <span class="mi">9119</span><span class="p">:</span> <span class="s2">&quot;Informatics Eng.&quot;</span><span class="p">,</span>
+    <span class="mi">9130</span><span class="p">:</span> <span class="s2">&quot;Equinculture&quot;</span><span class="p">,</span>
+    <span class="mi">9147</span><span class="p">:</span> <span class="s2">&quot;Management&quot;</span><span class="p">,</span>
+    <span class="mi">9238</span><span class="p">:</span> <span class="s2">&quot;Social Service&quot;</span><span class="p">,</span>
+    <span class="mi">9254</span><span class="p">:</span> <span class="s2">&quot;Tourism&quot;</span><span class="p">,</span>
+    <span class="mi">9500</span><span class="p">:</span> <span class="s2">&quot;Nursing&quot;</span><span class="p">,</span>
+    <span class="mi">9556</span><span class="p">:</span> <span class="s2">&quot;Oral Hygiene&quot;</span><span class="p">,</span>
+    <span class="mi">9670</span><span class="p">:</span> <span class="s2">&quot;Advertising &amp; Mkt Mgmt&quot;</span><span class="p">,</span>
+    <span class="mi">9773</span><span class="p">:</span> <span class="s2">&quot;Journalism&quot;</span><span class="p">,</span>
+    <span class="mi">9853</span><span class="p">:</span> <span class="s2">&quot;Basic Education&quot;</span><span class="p">,</span>
+    <span class="mi">9991</span><span class="p">:</span> <span class="s2">&quot;Management (e)&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># Configurar el estilo</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Crear figura con subplots (3 filas, 6 columnas)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>  <span class="c1"># Aplanar para facilitar iteración</span>
+
+<span class="c1"># Obtener los cursos únicos ordenados</span>
+<span class="n">unique_courses</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Course&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+<span class="c1"># Verificar que tenemos exactamente 17 cursos</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_courses</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">17</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Advertencia: Se encontraron </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_courses</span><span class="p">)</span><span class="si">}</span><span class="s2"> cursos, se esperaban 17&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cursos encontrados: </span><span class="si">{</span><span class="n">unique_courses</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Colores para las curvas de densidad</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_courses</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># PRIMER GRÁFICO: Distribución total de todas las asignaturas</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">total_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;promedio_acumulado&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">total_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">total_data</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">,</span> 
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkblue&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    
+    <span class="c1"># Estadísticas básicas</span>
+    <span class="n">mean_val</span> <span class="o">=</span> <span class="n">total_data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">median_val</span> <span class="o">=</span> <span class="n">total_data</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+    
+    <span class="c1"># Líneas verticales para media y mediana</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mean_val</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> 
+                <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Media: </span><span class="si">{</span><span class="n">mean_val</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">median_val</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> 
+                <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Mediana: </span><span class="si">{</span><span class="n">median_val</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Leyenda</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+
+<span class="c1"># Configurar título para distribución total</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;TOTAL - Todas las Asignaturas&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> 
+            <span class="n">pad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkblue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Promedio Acumulado&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Densidad&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># Agregar información de n total</span>
+<span class="n">n_total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">total_data</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;n = </span><span class="si">{</span><span class="n">n_total</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> 
+        <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> 
+        <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;round,pad=0.3&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">))</span>
+
+<span class="c1"># Crear gráficos de densidad para cada curso (posiciones 1-17)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">course</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_courses</span><span class="p">):</span>
+    <span class="n">ax_idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Empezar en posición 1 (la 0 es para el total)</span>
+    
+    <span class="k">if</span> <span class="n">ax_idx</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">:</span>  <span class="c1"># Solo usar hasta la posición 17</span>
+        <span class="k">break</span>
+        
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">ax_idx</span><span class="p">]</span>
+    
+    <span class="c1"># Filtrar datos por curso</span>
+    <span class="n">course_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Course&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">course</span><span class="p">][</span><span class="s1">&#39;promedio_acumulado&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    
+    <span class="c1"># Crear gráfico de densidad</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">course_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Necesitamos al menos 2 puntos para densidad</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">course_data</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">,</span> 
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;darkblue&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        
+        <span class="c1"># Estadísticas básicas</span>
+        <span class="n">mean_val</span> <span class="o">=</span> <span class="n">course_data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">median_val</span> <span class="o">=</span> <span class="n">course_data</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+        
+        <span class="c1"># Líneas verticales para media y mediana</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mean_val</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> 
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Media: </span><span class="si">{</span><span class="n">mean_val</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">median_val</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> 
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Mediana: </span><span class="si">{</span><span class="n">median_val</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Leyenda</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Si no hay suficientes datos, mostrar mensaje</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;Datos insuficientes&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> 
+                <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    
+    <span class="c1"># Configurar título con descripción del curso</span>
+    <span class="n">course_desc</span> <span class="o">=</span> <span class="n">course_descriptions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">course</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Curso </span><span class="si">{</span><span class="n">course</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">course</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">course_desc</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> 
+                <span class="n">pad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Configurar etiquetas</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Promedio Acumulado&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Densidad&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+    <span class="c1"># Mejorar formato</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    
+    <span class="c1"># Agregar información de n</span>
+    <span class="n">n_students</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">course_data</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;n = </span><span class="si">{</span><span class="n">n_students</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> 
+            <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> 
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;round,pad=0.3&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">))</span>
+
+<span class="c1"># Título general</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Distribución de Promedio Acumulado por Curso&#39;</span><span class="p">,</span> 
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.98</span><span class="p">)</span>
+
+<span class="c1"># Ajustar espaciado</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7f9ecaa60642ad6a2621f6445a8cff74f55c1fba408fc82a56dd791b693ab3df.png" src="_images/7f9ecaa60642ad6a2621f6445a8cff74f55c1fba408fc82a56dd791b693ab3df.png" />
+</div>
+</div>
+<p>En el análisis de los gráficos de la figura 3, se observa consistentemente que los estudiantes que no abandonan (representados en verde) tienden a inscribirse en mayor número de unidades curriculares y mantener niveles de participación académica más elevados en comparación con aquellos que abandonan (representados en rosa/rojo). Esta diferencia es particularmente pronunciada en las variables de inscripción y evaluaciones. Sobre la distribución etaria, los datos revelan que los estudiantes de mayor edad muestran patrones de carga académica más conservadores, especialmente notable en los mayores de 40 años, quienes tienden a inscribirun menor número de créditos académicos.</p>
+<p>La figura 4, corresponde a un gráfico de densidad que muestra la distribución de la variable “promedio_acumulado” tanto para el total de la muestra como para cada uno de los cursos contemplados en el ejercicio. La tabla 1 resume el análisis de esta figura:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Programa / Código</p></th>
+<th class="head"><p>Forma de distribución</p></th>
+<th class="head"><p>Relación media vs. mediana</p></th>
+<th class="head"><p>Posibles implicaciones académicas</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>171 - Animation and Multimedia Design</p></td>
+<td><p>Asimétrica positiva extrema</p></td>
+<td><p>Media &gt;&gt; Mediana (mediana = 0)</p></td>
+<td><p>Mayoría con rendimiento nulo, alto riesgo académico generalizado.</p></td>
+</tr>
+<tr class="row-odd"><td><p>9119 - Informatics Engineering</p></td>
+<td><p>Bimodal</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Presencia de estudiantes con bajo rendimiento que afectan la media.</p></td>
+</tr>
+<tr class="row-even"><td><p>9853 - Basic Education</p></td>
+<td><p>Bimodal</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Segmentación clara de rendimiento, se requiere intervención para el grupo de bajo desempeño.</p></td>
+</tr>
+<tr class="row-odd"><td><p>TOTAL - Todas las Asignaturas</p></td>
+<td><p>Bimodal</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Existen dos grupos: alto rendimiento y bajo rendimiento, posible segmentación para intervenciones.</p></td>
+</tr>
+<tr class="row-even"><td><p>9773 - Journalism and Communication</p></td>
+<td><p>Bimodal</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Dos grupos diferenciados, uno con alto y otro con bajo rendimiento.</p></td>
+</tr>
+<tr class="row-odd"><td><p>9085 - Veterinary Nursing</p></td>
+<td><p>Bimodal</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Dos subgrupos de desempeño, intervención focalizada en el grupo con bajas notas.</p></td>
+</tr>
+<tr class="row-even"><td><p>8014 - Social Service (evening)</p></td>
+<td><p>Asimétrica positiva</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Grupo de bajo rendimiento que reduce la media, posible necesidad de refuerzo académico.</p></td>
+</tr>
+<tr class="row-odd"><td><p>9003 - Agronomy</p></td>
+<td><p>Asimétrica positiva</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Algunos estudiantes con bajo desempeño afectan el promedio general.</p></td>
+</tr>
+<tr class="row-even"><td><p>9147 - Management</p></td>
+<td><p>Asimétrica positiva</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Parte del grupo con bajo rendimiento, atención a casos rezagados.</p></td>
+</tr>
+<tr class="row-odd"><td><p>9238 - Social Service</p></td>
+<td><p>Asimétrica positiva</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Desempeño general alto con minoría en bajo rendimiento.</p></td>
+</tr>
+<tr class="row-even"><td><p>9254 - Tourism</p></td>
+<td><p>Asimétrica positiva</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Desempeño estable pero con un grupo pequeño en riesgo.</p></td>
+</tr>
+<tr class="row-odd"><td><p>9991 - Management (evening)</p></td>
+<td><p>Asimétrica positiva</p></td>
+<td><p>Mediana &gt; Media</p></td>
+<td><p>Rendimiento aceptable en la mayoría, algunos casos con notas muy bajas.</p></td>
+</tr>
+<tr class="row-even"><td><p>33 - Biofuel Production Technologies</p></td>
+<td><p>Asimétrica negativa</p></td>
+<td><p>Media &lt; Mediana</p></td>
+<td><p>Rendimiento relativamente homogéneo pero con pocos datos, sensibilidad a valores extremos.</p></td>
+</tr>
+<tr class="row-odd"><td><p>9130 - Equiculture</p></td>
+<td><p>Asimétrica negativa</p></td>
+<td><p>Media &lt; Mediana</p></td>
+<td><p>Tendencia a buen rendimiento con pocos casos bajos, bajo riesgo académico.</p></td>
+</tr>
+<tr class="row-even"><td><p>9070 - Communication Design</p></td>
+<td><p>Relativamente simétrica</p></td>
+<td><p>Media ≈ Mediana</p></td>
+<td><p>Rendimiento estable y homogéneo, bajo riesgo académico.</p></td>
+</tr>
+<tr class="row-odd"><td><p>9500 - Nursing</p></td>
+<td><p>Relativamente simétrica</p></td>
+<td><p>Media ≈ Mediana</p></td>
+<td><p>Alto rendimiento homogéneo, buen desempeño global.</p></td>
+</tr>
+<tr class="row-even"><td><p>9556 - Oral Hygiene</p></td>
+<td><p>Relativamente simétrica</p></td>
+<td><p>Media ≈ Mediana</p></td>
+<td><p>Buen desempeño general, baja dispersión de notas.</p></td>
+</tr>
+<tr class="row-odd"><td><p>9670 - Advertising &amp; Marketing Mgmt</p></td>
+<td><p>Relativamente simétrica</p></td>
+<td><p>Media ≈ Mediana</p></td>
+<td><p>Alto rendimiento uniforme, baja tasa de riesgo.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="resumen-descriptivo-y-matriz-de-correlacion">
+<h4>1.4.3. Resumen Descriptivo y Matriz de Correlación<a class="headerlink" href="#resumen-descriptivo-y-matriz-de-correlacion" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Identificar tipos de variables</span>
+<span class="n">variable_types</span> <span class="o">=</span> <span class="n">identify_variable_types</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Variable a mover. Tiene pocos valores únicos por lo que la función la evalúa como variable categórica.</span>
+<span class="n">var_to_move</span> <span class="o">=</span> <span class="s1">&#39;Curricular units 2nd sem (without evaluations)&#39;</span>
+
+<span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;categorical&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">var_to_move</span><span class="p">)</span>
+<span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var_to_move</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Resumen descriptivo</span>
+
+<span class="c1"># Unir atributos continuos y discretos</span>
+<span class="n">num_vars</span> <span class="o">=</span> <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;continuous&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">variable_types</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">]</span>
+
+<span class="c1"># Resumen descriptivo de las variables numéricas.</span>
+<span class="n">numeric_X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">num_vars</span><span class="p">]</span>
+
+<span class="n">desc_df</span> <span class="o">=</span> <span class="n">numeric_X</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">desc_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;variable_name&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">desc_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>variable_name</th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Previous qualification (grade)</td>
+      <td>4424.0</td>
+      <td>132.613314</td>
+      <td>13.188332</td>
+      <td>95.00</td>
+      <td>125.00</td>
+      <td>133.100000</td>
+      <td>140.000000</td>
+      <td>190.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Admission grade</td>
+      <td>4424.0</td>
+      <td>126.978119</td>
+      <td>14.482001</td>
+      <td>95.00</td>
+      <td>117.90</td>
+      <td>126.100000</td>
+      <td>134.800000</td>
+      <td>190.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Curricular units 1st sem (grade)</td>
+      <td>4424.0</td>
+      <td>10.640822</td>
+      <td>4.843663</td>
+      <td>0.00</td>
+      <td>11.00</td>
+      <td>12.285714</td>
+      <td>13.400000</td>
+      <td>18.875000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Curricular units 2nd sem (grade)</td>
+      <td>4424.0</td>
+      <td>10.230206</td>
+      <td>5.210808</td>
+      <td>0.00</td>
+      <td>10.75</td>
+      <td>12.200000</td>
+      <td>13.333333</td>
+      <td>18.571429</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Unemployment rate</td>
+      <td>4424.0</td>
+      <td>11.566139</td>
+      <td>2.663850</td>
+      <td>7.60</td>
+      <td>9.40</td>
+      <td>11.100000</td>
+      <td>13.900000</td>
+      <td>16.200000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Inflation rate</td>
+      <td>4424.0</td>
+      <td>1.228029</td>
+      <td>1.382711</td>
+      <td>-0.80</td>
+      <td>0.30</td>
+      <td>1.400000</td>
+      <td>2.600000</td>
+      <td>3.700000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>GDP</td>
+      <td>4424.0</td>
+      <td>0.001969</td>
+      <td>2.269935</td>
+      <td>-4.06</td>
+      <td>-1.70</td>
+      <td>0.320000</td>
+      <td>1.790000</td>
+      <td>3.510000</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>promedio_acumulado</td>
+      <td>4424.0</td>
+      <td>10.435514</td>
+      <td>4.818530</td>
+      <td>0.00</td>
+      <td>11.00</td>
+      <td>12.250000</td>
+      <td>13.266667</td>
+      <td>18.283654</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Age at enrollment</td>
+      <td>4424.0</td>
+      <td>23.265145</td>
+      <td>7.587816</td>
+      <td>17.00</td>
+      <td>19.00</td>
+      <td>20.000000</td>
+      <td>25.000000</td>
+      <td>70.000000</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Curricular units 1st sem (credited)</td>
+      <td>4424.0</td>
+      <td>0.709991</td>
+      <td>2.360507</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>20.000000</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Curricular units 1st sem (enrolled)</td>
+      <td>4424.0</td>
+      <td>6.270570</td>
+      <td>2.480178</td>
+      <td>0.00</td>
+      <td>5.00</td>
+      <td>6.000000</td>
+      <td>7.000000</td>
+      <td>26.000000</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Curricular units 1st sem (evaluations)</td>
+      <td>4424.0</td>
+      <td>8.299051</td>
+      <td>4.179106</td>
+      <td>0.00</td>
+      <td>6.00</td>
+      <td>8.000000</td>
+      <td>10.000000</td>
+      <td>45.000000</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Curricular units 1st sem (approved)</td>
+      <td>4424.0</td>
+      <td>4.706600</td>
+      <td>3.094238</td>
+      <td>0.00</td>
+      <td>3.00</td>
+      <td>5.000000</td>
+      <td>6.000000</td>
+      <td>26.000000</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Curricular units 1st sem (without evaluations)</td>
+      <td>4424.0</td>
+      <td>0.137658</td>
+      <td>0.690880</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>12.000000</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Curricular units 2nd sem (credited)</td>
+      <td>4424.0</td>
+      <td>0.541817</td>
+      <td>1.918546</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>19.000000</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Curricular units 2nd sem (enrolled)</td>
+      <td>4424.0</td>
+      <td>6.232143</td>
+      <td>2.195951</td>
+      <td>0.00</td>
+      <td>5.00</td>
+      <td>6.000000</td>
+      <td>7.000000</td>
+      <td>23.000000</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Curricular units 2nd sem (evaluations)</td>
+      <td>4424.0</td>
+      <td>8.063291</td>
+      <td>3.947951</td>
+      <td>0.00</td>
+      <td>6.00</td>
+      <td>8.000000</td>
+      <td>10.000000</td>
+      <td>33.000000</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Curricular units 2nd sem (approved)</td>
+      <td>4424.0</td>
+      <td>4.435805</td>
+      <td>3.014764</td>
+      <td>0.00</td>
+      <td>2.00</td>
+      <td>5.000000</td>
+      <td>6.000000</td>
+      <td>20.000000</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Curricular units 2nd sem (without evaluations)</td>
+      <td>4424.0</td>
+      <td>0.150316</td>
+      <td>0.753774</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>12.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generacieon de los coeficientes de correlación</span>
+<span class="n">CorMatrix</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">num_vars</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+
+<span class="c1"># Crear una máscara para los valores que están en la diagonal principal y sobre ella.</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">CorMatrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>  <span class="c1"># Actualiza dtype=np.bool -&gt; dtype=bool (evita warning)</span>
+
+<span class="c1"># Fijar las dimensiones del gráfico</span>
+<span class="n">fig_width</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">fig_height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fig_width</span> <span class="o">*</span> <span class="mf">0.82</span><span class="p">)</span>  <span class="c1"># proporcional</span>
+
+<span class="c1"># Definir la variable asociada al gráfico</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">fig_width</span><span class="p">,</span> <span class="n">fig_height</span><span class="p">))</span>
+
+<span class="c1"># Esquema de colores a utilizar</span>
+<span class="c1"># cmap = &quot;viridis&quot;</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;crest&quot;</span>
+
+<span class="c1"># Ajustes del heatmap</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
+    <span class="n">CorMatrix</span><span class="p">,</span>
+    <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+    <span class="n">annot_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">},</span> 
+    <span class="n">square</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.2f&#39;</span><span class="p">,</span>
+    <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;shrink&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># Visualización de la matriz</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c10916455329ca03cedbc8f50948caf48ac0162e05e21230471967d6c3450744.png" src="_images/c10916455329ca03cedbc8f50948caf48ac0162e05e21230471967d6c3450744.png" />
+</div>
+</div>
+<p>La matriz de la figura 4, muestra los coeficientes de correlación entre las variables continuas del resumen descriptivo, destacando los siguientes aspectos:</p>
+<ul class="simple">
+<li><p>La clara correlación fuerte y positiva entre las calificaciones del primer y segundo semestre, y entre cada una de estas con el promedio acumulado.</p></li>
+<li><p>La correlación moderada positiva (r = 0.58) entre calificación previa y nota de admisión sugiere que los antecedentes académicos son predictores razonables del desempeño en el proceso de admisión, aunque existe variabilidad suficiente para considerar ambas variables como complementarias.</p></li>
+<li><p>Las correlaciones negativas débiles de la edad con las calificaciones semestrales (r = -0.16 y -0.17) sugieren una tendencia leve hacia menor rendimiento académico en estudiantes de mayor edad, posiblemente reflejando diferentes dinámicas de aprendizaje o responsabilidades adicionales.</p></li>
+<li><p>Las variables económicas (<em>Unemployment rate</em>, <em>Inflation rate</em>, <em>GDP</em>) muestran correlaciones prácticamente nulas con las variables académicas (r ≈ 0.00 a 0.07), revelando que los indicadores económicos o condiciones del mercado laboral no tienen asociación directa con el rendimiento individual estudiantil en esta muestra.</p></li>
+</ul>
+<p>De este modo, se da fin al análisis exploratorio de la muestra para dar continuidad con el pre-procesamiento de los datos y la eventual construcción y evaluación del modelo.</p>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="knn_intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">K-Nearest Neighbors (KNN): Predicción del Éxito Académico y Riesgo de Deserción en Estudiantes Universitarios</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="knn_miniproyecto.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Mini Proyecto #1:</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacion-de-librerias">0. Importación de Librerías</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacion-del-conjunto-de-datos-y-eda">1. Importación del Conjunto de Datos y EDA</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importacion-del-dataset-y-visualizacion-de-su-estructura">1.1. Importación del Dataset y Visualización de su Estructura</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#descripcion-de-los-atributos-del-dataset">1.2. Descripción de los Atributos del Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploracion-de-los-datos">1.3. Exploración de los datos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacion">1.4. Visualización</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-demografico">1.4.1. Análisis Demográfico</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-curricular">1.4.2. Análisis Curricular</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-descriptivo-y-matriz-de-correlacion">1.4.3. Resumen Descriptivo y Matriz de Correlación</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
