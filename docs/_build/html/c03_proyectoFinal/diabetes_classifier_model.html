@@ -1,0 +1,1496 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Implementación de Modelos &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'c03_proyectoFinal/diabetes_classifier_model';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="K-Nearest Neighbors (KNN): Predicción del Éxito Académico y Riesgo de Deserción en Estudiantes Universitarios" href="diabetes_classifier_abstract.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    About me
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../knn_intro.html">K-Nearest Neighbors (KNN): Predicción del Éxito Académico y Riesgo de Deserción en Estudiantes Universitarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../knn_eda.html">Análisis Exploratorio y Visualización</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../knn_miniproyecto.html">Mini Proyecto #1:</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../regresion_intro.html">Regresión Logística, Ridge y Lasso: Modelos de Clasificación de Vehículos Usados por Demanda y Regresión para Predicción de Precios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../regresion_eda.html">ANALISIS EXPLORATORIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../regresion_conclusions.html">Conclusiones</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="diabetes_classifier_abstract.html">K-Nearest Neighbors (KNN): Predicción del Éxito Académico y Riesgo de Deserción en Estudiantes Universitarios</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Implementación de Modelos</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fc03_proyectoFinal/diabetes_classifier_model.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/c03_proyectoFinal/diabetes_classifier_model.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Implementación de Modelos</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Implementación de Modelos</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-de-vecinos-y-distancias">Algoritmos de Vecinos y Distancias</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kneighborsclassifier"><code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-basados-en-modelos-lineales">Algoritmos Basados en Modelos Lineales</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logisticregression"><code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-basados-en-arboles-de-decision">Algoritmos Basados en Árboles de Decisión</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiontreeclassifier"><code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest"><code class="docutils literal notranslate"><span class="pre">Random</span> <span class="pre">Forest</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost"><code class="docutils literal notranslate"><span class="pre">XGBoost</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-basados-en-support-vector-machines-svm">Algoritmos Basados en <code class="docutils literal notranslate"><span class="pre">Support</span> <span class="pre">Vector</span> <span class="pre">Machines</span> <span class="pre">(SVM)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svm-con-kernel-lineal"><code class="docutils literal notranslate"><span class="pre">SVM</span> <span class="pre">con</span> <span class="pre">Kernel</span> <span class="pre">Lineal</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svm-con-kernel-rbf"><code class="docutils literal notranslate"><span class="pre">SVM</span> <span class="pre">con</span> <span class="pre">Kernel</span> <span class="pre">RBF</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-de-metricas-de-performance">Evaluación de Métricas de Performance</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="implementacion-de-modelos">
+<h1>Implementación de Modelos<a class="headerlink" href="#implementacion-de-modelos" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">graphviz</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Añadir carpeta raíz del proyecto al path</span>
+<span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;..&quot;</span><span class="p">))</span>
+
+<span class="c1"># Añadir root al sys.path</span>
+<span class="k">if</span> <span class="n">root_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root_dir</span><span class="p">)</span>
+
+<span class="c1"># Utilidades pre-procesamiento, pipelines y automatización de entrenamiento</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">train_test_split</span><span class="p">,</span> 
+    <span class="n">cross_val_score</span><span class="p">,</span> 
+    <span class="n">KFold</span><span class="p">,</span> 
+    <span class="n">StratifiedKFold</span><span class="p">,</span> 
+    <span class="n">GridSearchCV</span>
+    <span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.compose</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColumnTransformer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="c1"># Métricas de performance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">mean_squared_error</span><span class="p">,</span> 
+    <span class="n">mean_absolute_error</span><span class="p">,</span> 
+    <span class="n">r2_score</span><span class="p">,</span> 
+    <span class="n">mean_absolute_percentage_error</span><span class="p">,</span> 
+    <span class="n">classification_report</span><span class="p">,</span>
+    <span class="n">accuracy_score</span><span class="p">,</span> 
+    <span class="n">precision_score</span><span class="p">,</span> 
+    <span class="n">recall_score</span><span class="p">,</span> 
+    <span class="n">f1_score</span><span class="p">,</span> 
+    <span class="n">roc_auc_score</span><span class="p">,</span> 
+    <span class="n">confusion_matrix</span><span class="p">,</span> 
+    <span class="n">RocCurveDisplay</span>
+<span class="p">)</span>
+
+<span class="c1"># Modelos</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.trainClassifiers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">train_KNN</span><span class="p">,</span>
+    <span class="n">train_LogisticRegression</span><span class="p">,</span>
+    <span class="n">train_DecisionTree</span><span class="p">,</span>
+    <span class="n">train_RandomForest</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xgboost</span><span class="w"> </span><span class="kn">import</span> <span class="n">XGBClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVR</span><span class="p">,</span> <span class="n">SVC</span>
+
+
+
+<span class="c1"># Utilidades</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">missingno</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">msno</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importación de los datos</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/tuliorozco/applied-statistics/refs/heads/main/data/diabetes_dataset.csv&#39;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>location</th>
+      <th>race:AfricanAmerican</th>
+      <th>race:Asian</th>
+      <th>race:Caucasian</th>
+      <th>race:Hispanic</th>
+      <th>race:Other</th>
+      <th>hypertension</th>
+      <th>heart_disease</th>
+      <th>smoking_history</th>
+      <th>bmi</th>
+      <th>hbA1c_level</th>
+      <th>blood_glucose_level</th>
+      <th>diabetes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020</td>
+      <td>Female</td>
+      <td>32.0</td>
+      <td>Alabama</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>27.32</td>
+      <td>5.0</td>
+      <td>100</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2015</td>
+      <td>Female</td>
+      <td>29.0</td>
+      <td>Alabama</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>19.95</td>
+      <td>5.0</td>
+      <td>90</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2015</td>
+      <td>Male</td>
+      <td>18.0</td>
+      <td>Alabama</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>23.76</td>
+      <td>4.8</td>
+      <td>160</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2015</td>
+      <td>Male</td>
+      <td>41.0</td>
+      <td>Alabama</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>27.32</td>
+      <td>4.0</td>
+      <td>159</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2016</td>
+      <td>Female</td>
+      <td>52.0</td>
+      <td>Alabama</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>23.75</td>
+      <td>6.5</td>
+      <td>90</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Eliminación de observaciones duplicadas</span>
+<span class="n">data1</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nuevo total de registros: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">data1</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nuevo total de registros: 100000
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(99986, 16)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># =================================== PREPROCESAMIENTO ===================================</span>
+<span class="c1"># 1. Separar las features predictoras (X) de la variable objetivo/target (y).</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data1</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;diabetes&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="s1">&#39;diabetes&#39;</span><span class="p">]</span>
+
+<span class="c1"># 2. Clasificar los campos por tipo de variable para el pre-procesamiento adecuado</span>
+<span class="n">numerical_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;bmi&quot;</span><span class="p">,</span> <span class="s2">&quot;hbA1c_level&quot;</span><span class="p">,</span> <span class="s2">&quot;blood_glucose_level&quot;</span><span class="p">]</span> 
+<span class="n">categorical_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data1</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">numerical_cols</span><span class="p">]</span>
+<span class="n">categorical_cols</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;diabetes&#39;</span><span class="p">)</span> 
+
+
+<span class="c1"># 3. División Train/Test</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+
+<span class="c1"># 4. Pre-procesamiento de los datos</span>
+<span class="n">preprocessor</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">(</span><span class="n">transformers</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="n">handle_unknown</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">),</span> <span class="n">categorical_cols</span><span class="p">),</span>  
+    <span class="p">(</span><span class="s2">&quot;num&quot;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">numerical_cols</span><span class="p">)</span> 
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="algoritmos-de-vecinos-y-distancias">
+<h2>Algoritmos de Vecinos y Distancias<a class="headerlink" href="#algoritmos-de-vecinos-y-distancias" title="Link to this heading">#</a></h2>
+<section id="kneighborsclassifier">
+<h3><code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code><a class="headerlink" href="#kneighborsclassifier" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Entrenamiento de modelo con algoritmo de KNN</span>
+
+<span class="n">results_df_KNN</span><span class="p">,</span> <span class="o">*</span><span class="n">best_configs_KNN</span> <span class="o">=</span> <span class="n">train_KNN</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span>
+    <span class="n">X_test</span><span class="o">=</span><span class="n">X_test</span><span class="p">,</span>
+    <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+    <span class="n">y_test</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span>
+    <span class="n">preprocessor</span><span class="o">=</span><span class="n">preprocessor</span><span class="p">,</span>
+    <span class="n">param_grid</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;classifier__n_neighbors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+            <span class="s1">&#39;classifier__weights&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;classifier__metric&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;euclidean&#39;</span><span class="p">]</span>
+        <span class="p">},</span>
+    <span class="n">cv_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">101</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iniciando entrenamiento del modelo KNN...
+Fitting 5 folds for each of 14 candidates, totalling 70 fits
+
+Evaluando cada valor de neighbors en el conjunto de test...
+  Evaluando k=3...
+  Evaluando k=5...
+  Evaluando k=7...
+  Evaluando k=9...
+  Evaluando k=11...
+  Evaluando k=13...
+  Evaluando k=15...
+Entrenamiento completado.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;TABLA COMPARATIVA DE RESULTADOS: KNeighborsClassifier&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">results_df_KNN</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="s2">&quot;Threshold&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F1-Score&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROC-AUC&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+                    TABLA COMPARATIVA DE RESULTADOS: KNeighborsClassifier
+==========================================================================================
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_c9f8a">
+  <thead>
+    <tr>
+      <th id="T_c9f8a_level0_col0" class="col_heading level0 col0" >Neighbors</th>
+      <th id="T_c9f8a_level0_col1" class="col_heading level0 col1" >Precision</th>
+      <th id="T_c9f8a_level0_col2" class="col_heading level0 col2" >Recall</th>
+      <th id="T_c9f8a_level0_col3" class="col_heading level0 col3" >F1-Score</th>
+      <th id="T_c9f8a_level0_col4" class="col_heading level0 col4" >Accuracy</th>
+      <th id="T_c9f8a_level0_col5" class="col_heading level0 col5" >ROC-AUC</th>
+      <th id="T_c9f8a_level0_col6" class="col_heading level0 col6" >Best Params</th>
+      <th id="T_c9f8a_level0_col7" class="col_heading level0 col7" >TN</th>
+      <th id="T_c9f8a_level0_col8" class="col_heading level0 col8" >TP</th>
+      <th id="T_c9f8a_level0_col9" class="col_heading level0 col9" >FP</th>
+      <th id="T_c9f8a_level0_col10" class="col_heading level0 col10" >FN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_c9f8a_row0_col0" class="data row0 col0" >3</td>
+      <td id="T_c9f8a_row0_col1" class="data row0 col1" >0.832</td>
+      <td id="T_c9f8a_row0_col2" class="data row0 col2" >0.563</td>
+      <td id="T_c9f8a_row0_col3" class="data row0 col3" >0.672</td>
+      <td id="T_c9f8a_row0_col4" class="data row0 col4" >0.953</td>
+      <td id="T_c9f8a_row0_col5" class="data row0 col5" >0.844</td>
+      <td id="T_c9f8a_row0_col6" class="data row0 col6" >weights: distance, metric: euclidean</td>
+      <td id="T_c9f8a_row0_col7" class="data row0 col7" >27157</td>
+      <td id="T_c9f8a_row0_col8" class="data row0 col8" >1435</td>
+      <td id="T_c9f8a_row0_col9" class="data row0 col9" >289</td>
+      <td id="T_c9f8a_row0_col10" class="data row0 col10" >1115</td>
+    </tr>
+    <tr>
+      <td id="T_c9f8a_row1_col0" class="data row1 col0" >5</td>
+      <td id="T_c9f8a_row1_col1" class="data row1 col1" >0.910</td>
+      <td id="T_c9f8a_row1_col2" class="data row1 col2" >0.545</td>
+      <td id="T_c9f8a_row1_col3" class="data row1 col3" >0.682</td>
+      <td id="T_c9f8a_row1_col4" class="data row1 col4" >0.957</td>
+      <td id="T_c9f8a_row1_col5" class="data row1 col5" >0.878</td>
+      <td id="T_c9f8a_row1_col6" class="data row1 col6" >weights: distance, metric: euclidean</td>
+      <td id="T_c9f8a_row1_col7" class="data row1 col7" >27309</td>
+      <td id="T_c9f8a_row1_col8" class="data row1 col8" >1390</td>
+      <td id="T_c9f8a_row1_col9" class="data row1 col9" >137</td>
+      <td id="T_c9f8a_row1_col10" class="data row1 col10" >1160</td>
+    </tr>
+    <tr>
+      <td id="T_c9f8a_row2_col0" class="data row2 col0" >7</td>
+      <td id="T_c9f8a_row2_col1" class="data row2 col1" >0.937</td>
+      <td id="T_c9f8a_row2_col2" class="data row2 col2" >0.534</td>
+      <td id="T_c9f8a_row2_col3" class="data row2 col3" >0.680</td>
+      <td id="T_c9f8a_row2_col4" class="data row2 col4" >0.957</td>
+      <td id="T_c9f8a_row2_col5" class="data row2 col5" >0.894</td>
+      <td id="T_c9f8a_row2_col6" class="data row2 col6" >weights: distance, metric: euclidean</td>
+      <td id="T_c9f8a_row2_col7" class="data row2 col7" >27355</td>
+      <td id="T_c9f8a_row2_col8" class="data row2 col8" >1362</td>
+      <td id="T_c9f8a_row2_col9" class="data row2 col9" >91</td>
+      <td id="T_c9f8a_row2_col10" class="data row2 col10" >1188</td>
+    </tr>
+    <tr>
+      <td id="T_c9f8a_row3_col0" class="data row3 col0" >9</td>
+      <td id="T_c9f8a_row3_col1" class="data row3 col1" >0.956</td>
+      <td id="T_c9f8a_row3_col2" class="data row3 col2" >0.530</td>
+      <td id="T_c9f8a_row3_col3" class="data row3 col3" >0.682</td>
+      <td id="T_c9f8a_row3_col4" class="data row3 col4" >0.958</td>
+      <td id="T_c9f8a_row3_col5" class="data row3 col5" >0.906</td>
+      <td id="T_c9f8a_row3_col6" class="data row3 col6" >weights: distance, metric: euclidean</td>
+      <td id="T_c9f8a_row3_col7" class="data row3 col7" >27384</td>
+      <td id="T_c9f8a_row3_col8" class="data row3 col8" >1351</td>
+      <td id="T_c9f8a_row3_col9" class="data row3 col9" >62</td>
+      <td id="T_c9f8a_row3_col10" class="data row3 col10" >1199</td>
+    </tr>
+    <tr>
+      <td id="T_c9f8a_row4_col0" class="data row4 col0" >11</td>
+      <td id="T_c9f8a_row4_col1" class="data row4 col1" >0.970</td>
+      <td id="T_c9f8a_row4_col2" class="data row4 col2" >0.526</td>
+      <td id="T_c9f8a_row4_col3" class="data row4 col3" >0.682</td>
+      <td id="T_c9f8a_row4_col4" class="data row4 col4" >0.958</td>
+      <td id="T_c9f8a_row4_col5" class="data row4 col5" >0.915</td>
+      <td id="T_c9f8a_row4_col6" class="data row4 col6" >weights: distance, metric: euclidean</td>
+      <td id="T_c9f8a_row4_col7" class="data row4 col7" >27405</td>
+      <td id="T_c9f8a_row4_col8" class="data row4 col8" >1341</td>
+      <td id="T_c9f8a_row4_col9" class="data row4 col9" >41</td>
+      <td id="T_c9f8a_row4_col10" class="data row4 col10" >1209</td>
+    </tr>
+    <tr>
+      <td id="T_c9f8a_row5_col0" class="data row5 col0" >13</td>
+      <td id="T_c9f8a_row5_col1" class="data row5 col1" >0.978</td>
+      <td id="T_c9f8a_row5_col2" class="data row5 col2" >0.521</td>
+      <td id="T_c9f8a_row5_col3" class="data row5 col3" >0.680</td>
+      <td id="T_c9f8a_row5_col4" class="data row5 col4" >0.958</td>
+      <td id="T_c9f8a_row5_col5" class="data row5 col5" >0.923</td>
+      <td id="T_c9f8a_row5_col6" class="data row5 col6" >weights: distance, metric: euclidean</td>
+      <td id="T_c9f8a_row5_col7" class="data row5 col7" >27416</td>
+      <td id="T_c9f8a_row5_col8" class="data row5 col8" >1329</td>
+      <td id="T_c9f8a_row5_col9" class="data row5 col9" >30</td>
+      <td id="T_c9f8a_row5_col10" class="data row5 col10" >1221</td>
+    </tr>
+    <tr>
+      <td id="T_c9f8a_row6_col0" class="data row6 col0" >15</td>
+      <td id="T_c9f8a_row6_col1" class="data row6 col1" >0.987</td>
+      <td id="T_c9f8a_row6_col2" class="data row6 col2" >0.522</td>
+      <td id="T_c9f8a_row6_col3" class="data row6 col3" >0.683</td>
+      <td id="T_c9f8a_row6_col4" class="data row6 col4" >0.959</td>
+      <td id="T_c9f8a_row6_col5" class="data row6 col5" >0.929</td>
+      <td id="T_c9f8a_row6_col6" class="data row6 col6" >weights: distance, metric: euclidean</td>
+      <td id="T_c9f8a_row6_col7" class="data row6 col7" >27428</td>
+      <td id="T_c9f8a_row6_col8" class="data row6 col8" >1331</td>
+      <td id="T_c9f8a_row6_col9" class="data row6 col9" >18</td>
+      <td id="T_c9f8a_row6_col10" class="data row6 col10" >1219</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">best_configs_KNN</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_configs_KNN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">best_configs_KNN</span> <span class="o">=</span> <span class="n">best_configs_KNN</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">30</span> <span class="o">+</span> <span class="s2">&quot;TABLA MEJORES CONFIGURACIONES&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">best_configs_KNN</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="c1"># &quot;Mejor Threshold&quot;: &quot;{:.2f}&quot;,</span>
+    <span class="s2">&quot;Valor&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+                              TABLA MEJORES CONFIGURACIONES
+==========================================================================================
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_1de51">
+  <thead>
+    <tr>
+      <th id="T_1de51_level0_col0" class="col_heading level0 col0" >Métrica</th>
+      <th id="T_1de51_level0_col1" class="col_heading level0 col1" >Mejor n_neighbors</th>
+      <th id="T_1de51_level0_col2" class="col_heading level0 col2" >Valor</th>
+      <th id="T_1de51_level0_col3" class="col_heading level0 col3" >Parámetros</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_1de51_row0_col0" class="data row0 col0" >Precision</td>
+      <td id="T_1de51_row0_col1" class="data row0 col1" >15</td>
+      <td id="T_1de51_row0_col2" class="data row0 col2" >0.987</td>
+      <td id="T_1de51_row0_col3" class="data row0 col3" >weights: distance, metric: euclidean</td>
+    </tr>
+    <tr>
+      <td id="T_1de51_row1_col0" class="data row1 col0" >Recall</td>
+      <td id="T_1de51_row1_col1" class="data row1 col1" >3</td>
+      <td id="T_1de51_row1_col2" class="data row1 col2" >0.563</td>
+      <td id="T_1de51_row1_col3" class="data row1 col3" >weights: distance, metric: euclidean</td>
+    </tr>
+    <tr>
+      <td id="T_1de51_row2_col0" class="data row2 col0" >F1-Score</td>
+      <td id="T_1de51_row2_col1" class="data row2 col1" >15</td>
+      <td id="T_1de51_row2_col2" class="data row2 col2" >0.683</td>
+      <td id="T_1de51_row2_col3" class="data row2 col3" >weights: distance, metric: euclidean</td>
+    </tr>
+    <tr>
+      <td id="T_1de51_row3_col0" class="data row3 col0" >Accuracy</td>
+      <td id="T_1de51_row3_col1" class="data row3 col1" >15</td>
+      <td id="T_1de51_row3_col2" class="data row3 col2" >0.959</td>
+      <td id="T_1de51_row3_col3" class="data row3 col3" >weights: distance, metric: euclidean</td>
+    </tr>
+    <tr>
+      <td id="T_1de51_row4_col0" class="data row4 col0" >ROC-AUC</td>
+      <td id="T_1de51_row4_col1" class="data row4 col1" >15</td>
+      <td id="T_1de51_row4_col2" class="data row4 col2" >0.929</td>
+      <td id="T_1de51_row4_col3" class="data row4 col3" >weights: distance, metric: euclidean</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<section id="algoritmos-basados-en-modelos-lineales">
+<h2>Algoritmos Basados en Modelos Lineales<a class="headerlink" href="#algoritmos-basados-en-modelos-lineales" title="Link to this heading">#</a></h2>
+<section id="logisticregression">
+<h3><code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code><a class="headerlink" href="#logisticregression" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Entreaniemto de modelo con algoritmo de Regresión Logística</span>
+
+<span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+
+<span class="n">results_df</span><span class="p">,</span> <span class="n">best_configs</span> <span class="o">=</span> <span class="n">train_LogisticRegression</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span>
+    <span class="n">X_test</span><span class="o">=</span><span class="n">X_test</span><span class="p">,</span>
+    <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+    <span class="n">y_test</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span>
+    <span class="n">preprocessor</span><span class="o">=</span><span class="n">preprocessor</span><span class="p">,</span>
+    <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
+    <span class="n">param_grid</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;classifier__C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+        <span class="s1">&#39;classifier__solver&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;liblinear&#39;</span><span class="p">,</span> <span class="s1">&#39;lbfgs&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="n">cv_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">101</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;TABLA COMPARATIVA DE RESULTADOS: LogisticRegression&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">results_df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="s2">&quot;Threshold&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F1-Score&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROC-AUC&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+                    TABLA COMPARATIVA DE RESULTADOS: LogisticRegression
+==========================================================================================
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_74131">
+  <thead>
+    <tr>
+      <th id="T_74131_level0_col0" class="col_heading level0 col0" >Threshold</th>
+      <th id="T_74131_level0_col1" class="col_heading level0 col1" >Precision</th>
+      <th id="T_74131_level0_col2" class="col_heading level0 col2" >Recall</th>
+      <th id="T_74131_level0_col3" class="col_heading level0 col3" >F1-Score</th>
+      <th id="T_74131_level0_col4" class="col_heading level0 col4" >Accuracy</th>
+      <th id="T_74131_level0_col5" class="col_heading level0 col5" >ROC-AUC</th>
+      <th id="T_74131_level0_col6" class="col_heading level0 col6" >Best Params</th>
+      <th id="T_74131_level0_col7" class="col_heading level0 col7" >TN</th>
+      <th id="T_74131_level0_col8" class="col_heading level0 col8" >TP</th>
+      <th id="T_74131_level0_col9" class="col_heading level0 col9" >FP</th>
+      <th id="T_74131_level0_col10" class="col_heading level0 col10" >FN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_74131_row0_col0" class="data row0 col0" >0.30</td>
+      <td id="T_74131_row0_col1" class="data row0 col1" >0.714</td>
+      <td id="T_74131_row0_col2" class="data row0 col2" >0.709</td>
+      <td id="T_74131_row0_col3" class="data row0 col3" >0.712</td>
+      <td id="T_74131_row0_col4" class="data row0 col4" >0.951</td>
+      <td id="T_74131_row0_col5" class="data row0 col5" >0.961</td>
+      <td id="T_74131_row0_col6" class="data row0 col6" >C: 0.1</td>
+      <td id="T_74131_row0_col7" class="data row0 col7" >26723</td>
+      <td id="T_74131_row0_col8" class="data row0 col8" >1808</td>
+      <td id="T_74131_row0_col9" class="data row0 col9" >723</td>
+      <td id="T_74131_row0_col10" class="data row0 col10" >742</td>
+    </tr>
+    <tr>
+      <td id="T_74131_row1_col0" class="data row1 col0" >0.35</td>
+      <td id="T_74131_row1_col1" class="data row1 col1" >0.759</td>
+      <td id="T_74131_row1_col2" class="data row1 col2" >0.680</td>
+      <td id="T_74131_row1_col3" class="data row1 col3" >0.717</td>
+      <td id="T_74131_row1_col4" class="data row1 col4" >0.954</td>
+      <td id="T_74131_row1_col5" class="data row1 col5" >0.961</td>
+      <td id="T_74131_row1_col6" class="data row1 col6" >C: 0.1</td>
+      <td id="T_74131_row1_col7" class="data row1 col7" >26896</td>
+      <td id="T_74131_row1_col8" class="data row1 col8" >1734</td>
+      <td id="T_74131_row1_col9" class="data row1 col9" >550</td>
+      <td id="T_74131_row1_col10" class="data row1 col10" >816</td>
+    </tr>
+    <tr>
+      <td id="T_74131_row2_col0" class="data row2 col0" >0.40</td>
+      <td id="T_74131_row2_col1" class="data row2 col1" >0.804</td>
+      <td id="T_74131_row2_col2" class="data row2 col2" >0.663</td>
+      <td id="T_74131_row2_col3" class="data row2 col3" >0.727</td>
+      <td id="T_74131_row2_col4" class="data row2 col4" >0.958</td>
+      <td id="T_74131_row2_col5" class="data row2 col5" >0.961</td>
+      <td id="T_74131_row2_col6" class="data row2 col6" >C: 0.1</td>
+      <td id="T_74131_row2_col7" class="data row2 col7" >27035</td>
+      <td id="T_74131_row2_col8" class="data row2 col8" >1690</td>
+      <td id="T_74131_row2_col9" class="data row2 col9" >411</td>
+      <td id="T_74131_row2_col10" class="data row2 col10" >860</td>
+    </tr>
+    <tr>
+      <td id="T_74131_row3_col0" class="data row3 col0" >0.45</td>
+      <td id="T_74131_row3_col1" class="data row3 col1" >0.845</td>
+      <td id="T_74131_row3_col2" class="data row3 col2" >0.642</td>
+      <td id="T_74131_row3_col3" class="data row3 col3" >0.730</td>
+      <td id="T_74131_row3_col4" class="data row3 col4" >0.960</td>
+      <td id="T_74131_row3_col5" class="data row3 col5" >0.961</td>
+      <td id="T_74131_row3_col6" class="data row3 col6" >C: 0.1</td>
+      <td id="T_74131_row3_col7" class="data row3 col7" >27145</td>
+      <td id="T_74131_row3_col8" class="data row3 col8" >1638</td>
+      <td id="T_74131_row3_col9" class="data row3 col9" >301</td>
+      <td id="T_74131_row3_col10" class="data row3 col10" >912</td>
+    </tr>
+    <tr>
+      <td id="T_74131_row4_col0" class="data row4 col0" >0.50</td>
+      <td id="T_74131_row4_col1" class="data row4 col1" >0.877</td>
+      <td id="T_74131_row4_col2" class="data row4 col2" >0.627</td>
+      <td id="T_74131_row4_col3" class="data row4 col3" >0.731</td>
+      <td id="T_74131_row4_col4" class="data row4 col4" >0.961</td>
+      <td id="T_74131_row4_col5" class="data row4 col5" >0.961</td>
+      <td id="T_74131_row4_col6" class="data row4 col6" >C: 0.1</td>
+      <td id="T_74131_row4_col7" class="data row4 col7" >27221</td>
+      <td id="T_74131_row4_col8" class="data row4 col8" >1600</td>
+      <td id="T_74131_row4_col9" class="data row4 col9" >225</td>
+      <td id="T_74131_row4_col10" class="data row4 col10" >950</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">30</span> <span class="o">+</span> <span class="s2">&quot;TABLA MEJORES CONFIGURACIONES&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">best_configs</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="s2">&quot;Mejor Threshold&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Valor&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+                              TABLA MEJORES CONFIGURACIONES
+==========================================================================================
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_0a3cc">
+  <thead>
+    <tr>
+      <th id="T_0a3cc_level0_col0" class="col_heading level0 col0" >Métrica</th>
+      <th id="T_0a3cc_level0_col1" class="col_heading level0 col1" >Mejor Threshold</th>
+      <th id="T_0a3cc_level0_col2" class="col_heading level0 col2" >Valor</th>
+      <th id="T_0a3cc_level0_col3" class="col_heading level0 col3" >Parámetros</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_0a3cc_row0_col0" class="data row0 col0" >Precision</td>
+      <td id="T_0a3cc_row0_col1" class="data row0 col1" >0.50</td>
+      <td id="T_0a3cc_row0_col2" class="data row0 col2" >0.877</td>
+      <td id="T_0a3cc_row0_col3" class="data row0 col3" >C: 0.1</td>
+    </tr>
+    <tr>
+      <td id="T_0a3cc_row1_col0" class="data row1 col0" >Recall</td>
+      <td id="T_0a3cc_row1_col1" class="data row1 col1" >0.30</td>
+      <td id="T_0a3cc_row1_col2" class="data row1 col2" >0.709</td>
+      <td id="T_0a3cc_row1_col3" class="data row1 col3" >C: 0.1</td>
+    </tr>
+    <tr>
+      <td id="T_0a3cc_row2_col0" class="data row2 col0" >F1-Score</td>
+      <td id="T_0a3cc_row2_col1" class="data row2 col1" >0.50</td>
+      <td id="T_0a3cc_row2_col2" class="data row2 col2" >0.731</td>
+      <td id="T_0a3cc_row2_col3" class="data row2 col3" >C: 0.1</td>
+    </tr>
+    <tr>
+      <td id="T_0a3cc_row3_col0" class="data row3 col0" >Accuracy</td>
+      <td id="T_0a3cc_row3_col1" class="data row3 col1" >0.50</td>
+      <td id="T_0a3cc_row3_col2" class="data row3 col2" >0.961</td>
+      <td id="T_0a3cc_row3_col3" class="data row3 col3" >C: 0.1</td>
+    </tr>
+    <tr>
+      <td id="T_0a3cc_row4_col0" class="data row4 col0" >ROC-AUC</td>
+      <td id="T_0a3cc_row4_col1" class="data row4 col1" >0.30</td>
+      <td id="T_0a3cc_row4_col2" class="data row4 col2" >0.961</td>
+      <td id="T_0a3cc_row4_col3" class="data row4 col3" >C: 0.1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<section id="algoritmos-basados-en-arboles-de-decision">
+<h2>Algoritmos Basados en Árboles de Decisión<a class="headerlink" href="#algoritmos-basados-en-arboles-de-decision" title="Link to this heading">#</a></h2>
+<section id="decisiontreeclassifier">
+<h3><code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code><a class="headerlink" href="#decisiontreeclassifier" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_dt</span><span class="p">,</span> <span class="n">best_dt</span> <span class="o">=</span> <span class="n">train_DecisionTree</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span>
+    <span class="n">preprocessor</span><span class="o">=</span><span class="n">preprocessor</span><span class="p">,</span>
+    <span class="n">max_depth_list</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>  <span class="c1"># lista explícita</span>
+    <span class="n">cv_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">101</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;TABLA COMPARATIVA DE RESULTADOS: DecisionTreeClassifier&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">results_dt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F1-Score&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROC-AUC&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+                    TABLA COMPARATIVA DE RESULTADOS: DecisionTreeClassifier
+==========================================================================================
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_3bab5">
+  <thead>
+    <tr>
+      <th id="T_3bab5_level0_col0" class="col_heading level0 col0" >Max Depth</th>
+      <th id="T_3bab5_level0_col1" class="col_heading level0 col1" >Precision</th>
+      <th id="T_3bab5_level0_col2" class="col_heading level0 col2" >Recall</th>
+      <th id="T_3bab5_level0_col3" class="col_heading level0 col3" >F1-Score</th>
+      <th id="T_3bab5_level0_col4" class="col_heading level0 col4" >Accuracy</th>
+      <th id="T_3bab5_level0_col5" class="col_heading level0 col5" >ROC-AUC</th>
+      <th id="T_3bab5_level0_col6" class="col_heading level0 col6" >Best Params</th>
+      <th id="T_3bab5_level0_col7" class="col_heading level0 col7" >TN</th>
+      <th id="T_3bab5_level0_col8" class="col_heading level0 col8" >TP</th>
+      <th id="T_3bab5_level0_col9" class="col_heading level0 col9" >FP</th>
+      <th id="T_3bab5_level0_col10" class="col_heading level0 col10" >FN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_3bab5_row0_col0" class="data row0 col0" >3</td>
+      <td id="T_3bab5_row0_col1" class="data row0 col1" >1.000</td>
+      <td id="T_3bab5_row0_col2" class="data row0 col2" >0.664</td>
+      <td id="T_3bab5_row0_col3" class="data row0 col3" >0.798</td>
+      <td id="T_3bab5_row0_col4" class="data row0 col4" >0.971</td>
+      <td id="T_3bab5_row0_col5" class="data row0 col5" >0.901</td>
+      <td id="T_3bab5_row0_col6" class="data row0 col6" >{'classifier__criterion': 'entropy'}</td>
+      <td id="T_3bab5_row0_col7" class="data row0 col7" >27446</td>
+      <td id="T_3bab5_row0_col8" class="data row0 col8" >1694</td>
+      <td id="T_3bab5_row0_col9" class="data row0 col9" >0</td>
+      <td id="T_3bab5_row0_col10" class="data row0 col10" >856</td>
+    </tr>
+    <tr>
+      <td id="T_3bab5_row1_col0" class="data row1 col0" >5</td>
+      <td id="T_3bab5_row1_col1" class="data row1 col1" >1.000</td>
+      <td id="T_3bab5_row1_col2" class="data row1 col2" >0.664</td>
+      <td id="T_3bab5_row1_col3" class="data row1 col3" >0.798</td>
+      <td id="T_3bab5_row1_col4" class="data row1 col4" >0.971</td>
+      <td id="T_3bab5_row1_col5" class="data row1 col5" >0.959</td>
+      <td id="T_3bab5_row1_col6" class="data row1 col6" >{'classifier__criterion': 'entropy'}</td>
+      <td id="T_3bab5_row1_col7" class="data row1 col7" >27446</td>
+      <td id="T_3bab5_row1_col8" class="data row1 col8" >1694</td>
+      <td id="T_3bab5_row1_col9" class="data row1 col9" >0</td>
+      <td id="T_3bab5_row1_col10" class="data row1 col10" >856</td>
+    </tr>
+    <tr>
+      <td id="T_3bab5_row2_col0" class="data row2 col0" >7</td>
+      <td id="T_3bab5_row2_col1" class="data row2 col1" >1.000</td>
+      <td id="T_3bab5_row2_col2" class="data row2 col2" >0.664</td>
+      <td id="T_3bab5_row2_col3" class="data row2 col3" >0.798</td>
+      <td id="T_3bab5_row2_col4" class="data row2 col4" >0.971</td>
+      <td id="T_3bab5_row2_col5" class="data row2 col5" >0.970</td>
+      <td id="T_3bab5_row2_col6" class="data row2 col6" >{'classifier__criterion': 'entropy'}</td>
+      <td id="T_3bab5_row2_col7" class="data row2 col7" >27446</td>
+      <td id="T_3bab5_row2_col8" class="data row2 col8" >1694</td>
+      <td id="T_3bab5_row2_col9" class="data row2 col9" >0</td>
+      <td id="T_3bab5_row2_col10" class="data row2 col10" >856</td>
+    </tr>
+    <tr>
+      <td id="T_3bab5_row3_col0" class="data row3 col0" >9</td>
+      <td id="T_3bab5_row3_col1" class="data row3 col1" >0.989</td>
+      <td id="T_3bab5_row3_col2" class="data row3 col2" >0.673</td>
+      <td id="T_3bab5_row3_col3" class="data row3 col3" >0.801</td>
+      <td id="T_3bab5_row3_col4" class="data row3 col4" >0.972</td>
+      <td id="T_3bab5_row3_col5" class="data row3 col5" >0.972</td>
+      <td id="T_3bab5_row3_col6" class="data row3 col6" >{'classifier__criterion': 'entropy'}</td>
+      <td id="T_3bab5_row3_col7" class="data row3 col7" >27427</td>
+      <td id="T_3bab5_row3_col8" class="data row3 col8" >1715</td>
+      <td id="T_3bab5_row3_col9" class="data row3 col9" >19</td>
+      <td id="T_3bab5_row3_col10" class="data row3 col10" >835</td>
+    </tr>
+    <tr>
+      <td id="T_3bab5_row4_col0" class="data row4 col0" >None</td>
+      <td id="T_3bab5_row4_col1" class="data row4 col1" >0.726</td>
+      <td id="T_3bab5_row4_col2" class="data row4 col2" >0.730</td>
+      <td id="T_3bab5_row4_col3" class="data row4 col3" >0.728</td>
+      <td id="T_3bab5_row4_col4" class="data row4 col4" >0.954</td>
+      <td id="T_3bab5_row4_col5" class="data row4 col5" >0.852</td>
+      <td id="T_3bab5_row4_col6" class="data row4 col6" >{'classifier__criterion': 'entropy'}</td>
+      <td id="T_3bab5_row4_col7" class="data row4 col7" >26743</td>
+      <td id="T_3bab5_row4_col8" class="data row4 col8" >1861</td>
+      <td id="T_3bab5_row4_col9" class="data row4 col9" >703</td>
+      <td id="T_3bab5_row4_col10" class="data row4 col10" >689</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">30</span> <span class="o">+</span> <span class="s2">&quot;TABLA MEJORES CONFIGURACIONES&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">best_dt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="s2">&quot;Valor&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+                              TABLA MEJORES CONFIGURACIONES
+==========================================================================================
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_2ab60">
+  <thead>
+    <tr>
+      <th id="T_2ab60_level0_col0" class="col_heading level0 col0" >Métrica</th>
+      <th id="T_2ab60_level0_col1" class="col_heading level0 col1" >Mejor max_depth</th>
+      <th id="T_2ab60_level0_col2" class="col_heading level0 col2" >Valor</th>
+      <th id="T_2ab60_level0_col3" class="col_heading level0 col3" >Parámetros</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_2ab60_row0_col0" class="data row0 col0" >Precision</td>
+      <td id="T_2ab60_row0_col1" class="data row0 col1" >3</td>
+      <td id="T_2ab60_row0_col2" class="data row0 col2" >1.000</td>
+      <td id="T_2ab60_row0_col3" class="data row0 col3" >{'classifier__criterion': 'entropy'}</td>
+    </tr>
+    <tr>
+      <td id="T_2ab60_row1_col0" class="data row1 col0" >Recall</td>
+      <td id="T_2ab60_row1_col1" class="data row1 col1" >None</td>
+      <td id="T_2ab60_row1_col2" class="data row1 col2" >0.730</td>
+      <td id="T_2ab60_row1_col3" class="data row1 col3" >{'classifier__criterion': 'entropy'}</td>
+    </tr>
+    <tr>
+      <td id="T_2ab60_row2_col0" class="data row2 col0" >F1-Score</td>
+      <td id="T_2ab60_row2_col1" class="data row2 col1" >9</td>
+      <td id="T_2ab60_row2_col2" class="data row2 col2" >0.801</td>
+      <td id="T_2ab60_row2_col3" class="data row2 col3" >{'classifier__criterion': 'entropy'}</td>
+    </tr>
+    <tr>
+      <td id="T_2ab60_row3_col0" class="data row3 col0" >Accuracy</td>
+      <td id="T_2ab60_row3_col1" class="data row3 col1" >9</td>
+      <td id="T_2ab60_row3_col2" class="data row3 col2" >0.972</td>
+      <td id="T_2ab60_row3_col3" class="data row3 col3" >{'classifier__criterion': 'entropy'}</td>
+    </tr>
+    <tr>
+      <td id="T_2ab60_row4_col0" class="data row4 col0" >ROC-AUC</td>
+      <td id="T_2ab60_row4_col1" class="data row4 col1" >9</td>
+      <td id="T_2ab60_row4_col2" class="data row4 col2" >0.972</td>
+      <td id="T_2ab60_row4_col3" class="data row4 col3" >{'classifier__criterion': 'entropy'}</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="random-forest">
+<h3><code class="docutils literal notranslate"><span class="pre">Random</span> <span class="pre">Forest</span></code><a class="headerlink" href="#random-forest" title="Link to this heading">#</a></h3>
+</section>
+<section id="xgboost">
+<h3><code class="docutils literal notranslate"><span class="pre">XGBoost</span></code><a class="headerlink" href="#xgboost" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="algoritmos-basados-en-support-vector-machines-svm">
+<h2>Algoritmos Basados en <code class="docutils literal notranslate"><span class="pre">Support</span> <span class="pre">Vector</span> <span class="pre">Machines</span> <span class="pre">(SVM)</span></code><a class="headerlink" href="#algoritmos-basados-en-support-vector-machines-svm" title="Link to this heading">#</a></h2>
+<section id="svm-con-kernel-lineal">
+<h3><code class="docutils literal notranslate"><span class="pre">SVM</span> <span class="pre">con</span> <span class="pre">Kernel</span> <span class="pre">Lineal</span></code><a class="headerlink" href="#svm-con-kernel-lineal" title="Link to this heading">#</a></h3>
+</section>
+<section id="svm-con-kernel-rbf">
+<h3><code class="docutils literal notranslate"><span class="pre">SVM</span> <span class="pre">con</span> <span class="pre">Kernel</span> <span class="pre">RBF</span></code><a class="headerlink" href="#svm-con-kernel-rbf" title="Link to this heading">#</a></h3>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="evaluacion-de-metricas-de-performance">
+<h1>Evaluación de Métricas de Performance<a class="headerlink" href="#evaluacion-de-metricas-de-performance" title="Link to this heading">#</a></h1>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./c03_proyectoFinal"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="diabetes_classifier_abstract.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">K-Nearest Neighbors (KNN): Predicción del Éxito Académico y Riesgo de Deserción en Estudiantes Universitarios</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Implementación de Modelos</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-de-vecinos-y-distancias">Algoritmos de Vecinos y Distancias</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kneighborsclassifier"><code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-basados-en-modelos-lineales">Algoritmos Basados en Modelos Lineales</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logisticregression"><code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-basados-en-arboles-de-decision">Algoritmos Basados en Árboles de Decisión</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiontreeclassifier"><code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest"><code class="docutils literal notranslate"><span class="pre">Random</span> <span class="pre">Forest</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost"><code class="docutils literal notranslate"><span class="pre">XGBoost</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-basados-en-support-vector-machines-svm">Algoritmos Basados en <code class="docutils literal notranslate"><span class="pre">Support</span> <span class="pre">Vector</span> <span class="pre">Machines</span> <span class="pre">(SVM)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svm-con-kernel-lineal"><code class="docutils literal notranslate"><span class="pre">SVM</span> <span class="pre">con</span> <span class="pre">Kernel</span> <span class="pre">Lineal</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svm-con-kernel-rbf"><code class="docutils literal notranslate"><span class="pre">SVM</span> <span class="pre">con</span> <span class="pre">Kernel</span> <span class="pre">RBF</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-de-metricas-de-performance">Evaluación de Métricas de Performance</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

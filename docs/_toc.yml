@@ -5,13 +5,17 @@ format: jb-book
 root: intro
 
 chapters:
-- file: knn_intro
+- file: c01_miniproyecto_KNN/knn_intro
   sections:
-    - file: knn_eda
-    - file: knn_miniproyecto
+    - file: c01_miniproyecto_KNN/knn_eda
+    - file: c01_miniproyecto_KNN/knn_miniproyecto
 - file: regresion_intro
   sections:
     - file: regresion_eda
     - file: regresion_miniproyecto
     - file: regresion_conclusions
-- file: ml_proyecto_final_eda
+- file: c03_proyectoFinal/diabetes_classifier_abstract
+  sections:
+    - file: c03_proyectoFinal/iabetes_classifier_eda
+    - file: c03_proyectoFinal/diabetes_classifier_model
+    - file: c03_proyectoFinal/diabetes_classifier_conclusions
