@@ -1,7 +1,16 @@
+import os
+# Establece el nivel de registro de logs de TensorFlow para ocultar los mensajes de INFO.
+# 0 = Muestra todos los mensajes (default)
+# 1 = Filtra los mensajes INFO
+# 2 = Filtra los mensajes INFO y WARNING
+# 3 = Filtra los mensajes INFO, WARNING, y ERROR
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import tensorflow as tf
 from tensorflow import keras
 from keras import layers, ops
-from keras.callbacks import Callback, ModelCheckpoint, EarlyStopping
+from keras.callbacks import Callback, ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
+from sklearn.model_selection import StratifiedKFold
 import numpy as np
 import pandas as pd
 from sklearn.metrics import (
@@ -16,74 +25,43 @@ from imblearn.combine import SMOTETomek
 
 class EpochLogger(Callback):
     """
-    Custom callback to format output like:
-    Epoch 1: val_auc improved from -inf to 0.67143, saving model to model.weights.best.keras
+    Callback personalizado que guarda el mejor modelo y loguea el progreso de la época.
     """
-    def __init__(self, filepath, monitor="val_auc", mode="max"):
+    def __init__(self, filepath, monitor="val_f1_score", mode="max"):
         super().__init__()
         self.monitor = monitor
-        self.best = -np.inf if mode == "max" else np.inf
         self.filepath = filepath
         self.mode = mode
+        
+        if mode == "max":
+            self.best = -np.inf
+            self.monitor_op = np.greater
+        else: # mode == "min"
+            self.best = np.inf
+            self.monitor_op = np.less
 
     def on_epoch_end(self, epoch, logs=None):
         logs = logs or {}
         current = logs.get(self.monitor)
+        
         if current is None:
             return
-        if (self.mode == "max" and current > self.best) or (self.mode == "min" and current < self.best):
+            
+        # Extraer el valor numérico del tensor si es necesario
+        if hasattr(current, 'numpy'):
+            current = current.numpy()
+
+        if self.monitor_op(current, self.best):
             prev_best = self.best
             self.best = current
             print(f"\nEpoch {epoch+1}: {self.monitor} improved from {prev_best:.5f} to {current:.5f}, "
                   f"saving model to {self.filepath}")
-            self.model.save_weights(self.filepath)
+            self.model.save_weights(self.filepath, overwrite=True)
         else:
             print(f"\nEpoch {epoch+1}: {self.monitor} did not improve from {self.best:.5f}")
 
 
-def resample_with_smote(
-    df: pd.DataFrame,
-    target_col: str,
-    sampling_strategy: dict,
-    use_tomek: bool = False,
-    random_state: int = 42
-) -> pd.DataFrame:
-    """
-    Aplica SMOTE o SMOTE+Tomek Links al dataset de entrenamiento.
-    """
-    X = df.drop(columns=[target_col])
-    y = df[target_col]
 
-    if use_tomek:
-        sm = SMOTETomek(sampling_strategy=sampling_strategy, random_state=random_state)
-    else:
-        sm = SMOTE(sampling_strategy=sampling_strategy, random_state=random_state)
-
-    X_res, y_res = sm.fit_resample(X, y)
-
-    df_resampled = pd.DataFrame(X_res, columns=X.columns)
-    df_resampled[target_col] = y_res
-
-    return df_resampled
-
-# ============================
-# UTIL: crear tf.data desde DataFrame
-# ============================
-def df_to_tf_dataset(X: pd.DataFrame, y: pd.Series,
-                     batch_size: int = 256,
-                     shuffle: bool = True,
-                     repeat: bool = False) -> tf.data.Dataset:
-    """
-    Convierte X,y (pandas) a tf.data.Dataset -> (dict_of_inputs, label)
-    Se asume que para columnas categóricas convertiste a str si usas StringLookup.
-    """
-    ds = tf.data.Dataset.from_tensor_slices((dict(X), y.values.astype("float32")))
-    if shuffle:
-        ds = ds.shuffle(buffer_size=len(y))
-    if repeat:
-        ds = ds.repeat()
-    ds = ds.batch(batch_size).prefetch(tf.data.AUTOTUNE)
-    return ds
 
 def binary_focal_loss(gamma=2., alpha=0.25):
     """
@@ -101,9 +79,42 @@ def binary_focal_loss(gamma=2., alpha=0.25):
         return ops.mean(weight * cross_entropy)
     return loss
 
-# ============================
-# Capa SwitchLayer con gating Top-k (Mixture of Experts)
-# ============================
+class F1ScoreMetric(keras.metrics.Metric):
+    """
+    Métrica F1-Score 'con estado' (stateful) para Keras.
+    
+    Esta implementación es numéricamente estable y acumula los valores
+    a lo largo de los lotes de una época antes de calcular el resultado final.
+    """
+    def __init__(self, name='f1_score', threshold=0.5, **kwargs):
+        super().__init__(name=name, **kwargs)
+        self.threshold = threshold
+        # Usamos las métricas internas de Keras para manejar el estado
+        self.precision = keras.metrics.Precision(thresholds=threshold)
+        self.recall = keras.metrics.Recall(thresholds=threshold)
+
+    def update_state(self, y_true, y_pred, sample_weight=None):
+        # TensorFlow se encarga de castear y_true al tipo de y_pred
+        # Actualizamos el estado de nuestras métricas internas
+        self.precision.update_state(y_true, y_pred, sample_weight)
+        self.recall.update_state(y_true, y_pred, sample_weight)
+
+    def result(self):
+        # Calculamos el F1-score a partir de los resultados de las métricas internas
+        precision_result = self.precision.result()
+        recall_result = self.recall.result()
+        # Usamos tf.math.divide_no_nan para evitar divisiones por cero
+        f1 = tf.math.divide_no_nan(
+            2 * precision_result * recall_result,
+            precision_result + recall_result
+        )
+        return f1
+
+    def reset_state(self):
+        # Se llama al inicio de cada época
+        self.precision.reset_state()
+        self.recall.reset_state()
+
 class SwitchLayer(layers.Layer):
     """
     Capa Mixture of Experts (MoE) con gating Top-k.
@@ -132,13 +143,84 @@ class SwitchLayer(layers.Layer):
                 ], name=f"expert_{i}")
             )
         super().build(input_shape)
+    
+    def call(self, x, training=False):
+        """
+        x: Tensor (batch, seq, d_model)
+        return: Tensor (batch, seq, d_model)
+        """
+        import tensorflow as tf
+        from keras import ops
+
+        # Validaciones básicas
+        tf.debugging.assert_rank(x, 3, message="SwitchLayer espera (batch, seq, d_model)")
+        x_dtype = x.dtype
+
+        # ---- Gating ----
+        logits = self.gate(x)                 # (b, s, E), dtype ~ x.dtype
+        P = ops.softmax(logits, axis=-1)      # (b, s, E)
+        P = ops.cast(P, x_dtype)              # para mezclar con salidas de expertos
+
+        # ---- Top-k gating ----
+        # tf.math.top_k opera sobre tensores tf.*; convertimos explícitamente
+        topk_vals, topk_idx = tf.math.top_k(tf.convert_to_tensor(P), k=self.k)  # (b, s, k)
+
+        # Máscara one-hot por experto (b, s, E), sumando las k selecciones
+        # one_hot sobre la última dimensión E, luego reducimos el eje k
+        one_hot_masks = tf.one_hot(topk_idx, depth=self.num_experts, dtype=x_dtype)  # (b, s, k, E)
+        topk_mask = tf.reduce_sum(one_hot_masks, axis=2)  # (b, s, E), valores 0/1
+
+        # Mantener solo top-k pesos y renormalizar por token
+        P_topk = P * topk_mask                             # (b, s, E) – 0 fuera de top-k
+        denom = tf.reduce_sum(P_topk, axis=-1, keepdims=True)  # (b, s, 1)
+        denom = denom + tf.cast(1e-9, x_dtype)             # estabilidad numérica
+        P_norm = P_topk / denom                            # (b, s, E) suma=1 por token
+
+        # ---- Mezcla de expertos ----
+        # Evaluamos todos los expertos y ponderamos por P_norm[..., e]
+        outputs = []
+        for e, expert in enumerate(self.experts):
+            y_e = expert(x, training=training)             # (b, s, d_model)
+            y_e = ops.cast(y_e, x_dtype)                   # asegurar dtype consistente
+            w_e = ops.expand_dims(P_norm[..., e], axis=-1) # (b, s, 1)
+            outputs.append(y_e * w_e)
+
+        y = tf.add_n(outputs)                              # (b, s, d_model)
+
+        # ---- Auxiliary Load-Balancing Loss (opcional y en float32) ----
+        if training and (self.aux_loss_weight is not None) and (self.aux_loss_weight > 0.0):
+            # Fracción de carga por experto (proporción de tokens en top-k)
+            f = ops.mean(topk_mask, axis=[0, 1])           # (E,)
+            # Promedio de pesos asignados (solo top-k ya renormalizados)
+            P_bar = ops.mean(P_norm, axis=[0, 1])          # (E,)
+
+            # Calcular la aux loss en float32 para mayor estabilidad bajo mixed precision
+            f32       = tf.cast(f, tf.float32)
+            P32       = tf.cast(P_bar, tf.float32)
+            aux_w32   = tf.cast(self.aux_loss_weight, tf.float32)
+            num_exp32 = tf.cast(self.num_experts, tf.float32)
+            aux_loss  = aux_w32 * num_exp32 * tf.reduce_sum(f32 * P32)
+
+            self.add_loss(aux_loss)
+
+        return y
+
 
     # CAMBIO: El método call ha sido reescrito para implementar la lógica Top-k.
-    def call(self, x, training=None):
+    def call_base(self, x, training=None):
         B, T, d = ops.shape(x)[0], ops.shape(x)[1], ops.shape(x)[2]
         
         # Gating
         logits = self.gate(x)
+        
+        # --- INICIO DE LA CORRECCIÓN ---
+        # Convertir logits a float32 antes de softmax para estabilidad numérica
+        # y para asegurar que todos los cálculos de la pérdida auxiliar usen float32.
+        # Esto soluciona el error de tipo de dato con la precisión mixta.
+        if logits.dtype != 'float32':
+            logits = ops.cast(logits, 'float32')
+        # --- FIN DE LA CORRECCIÓN ---
+
         probs = ops.softmax(logits, axis=-1)
 
         # Seleccionar los k mejores expertos y sus probabilidades
@@ -151,26 +233,31 @@ class SwitchLayer(layers.Layer):
         # Pérdida de Balanceo de Carga
         if training:
             # P_i: Probabilidad promedio del router para cada experto
+            # Como 'probs' ahora es float32, 'P' también lo será.
             P = ops.mean(probs, axis=[0, 1])
             
             # f_i: Fracción de tokens enrutados a cada experto (considerando las k selecciones)
             # Creamos un one-hot para todas las selecciones top-k
-            mask_k_one_hot = ops.one_hot(top_k_indices, self.num_experts, dtype='float32')
+            mask_k_one_hot = tf.one_hot(top_k_indices, self.num_experts, dtype='float32')
             # Sumamos sobre la dimensión k para saber qué expertos fueron elegidos para cada token
             experts_chosen_per_token = tf.reduce_sum(mask_k_one_hot, axis=2)
             # Calculamos la fracción de carga promediando sobre el batch y la secuencia
+            # Como 'mask_k_one_hot' es float32, 'f' también lo será.
             f = ops.mean(experts_chosen_per_token, axis=[0, 1])
             
+            # Ahora, la multiplicación f * P será entre dos tensores float32.
             aux_loss = self.aux_loss_weight * self.num_experts * ops.sum(f * P)
             self.add_loss(aux_loss)
             
         # Inicializar la salida final
+        # La salida final debe tener el mismo tipo de dato que la entrada original 'x'.
         final_output = ops.zeros_like(x)
 
         # Iterar a través de los k expertos seleccionados para el enrutamiento
         for i in range(self.k):
             expert_indices = top_k_indices[..., i]
-            gating_weights = top_k_probs[..., i]
+            # Convertimos los pesos de vuelta al dtype original si es necesario
+            gating_weights = tf.cast(top_k_probs[..., i], dtype=x.dtype)
             
             # Ponderar la entrada con los pesos del gating
             weighted_input = x * ops.expand_dims(gating_weights, axis=-1)
@@ -201,7 +288,7 @@ class SwitchLayer(layers.Layer):
             final_output += combined_output
             
         return final_output
-
+    
 # ============================
 # Transformer block (Pre-LayerNorm) usando SwitchLayer
 # ============================
@@ -267,31 +354,32 @@ def build_tabular_encoder(
     # Concatenar todos los tokens de características
     X = ops.concatenate(all_projections, axis=1)
 
-    # Añadir token [CLS] aprendible
-    #cls_token = layers.Embedding(input_dim=1, output_dim=d_model, name="cls_token")
-
-    # --- CORRECCIÓN DEFINITIVA ---
-    # 1. Usamos tf.shape(X) para obtener la forma DINÁMICA del tensor X.
-    #    Esto devuelve un tensor 1D (ej. [batch_size, seq_len, features]), no una tupla con None.
-    # 2. Extraemos el tamaño del lote, que ahora es un TENSOR escalar, no el objeto None.
-    #batch_size = tf.shape(X)[0]
-    
-    # 3. Creamos el tensor de forma [batch_size, 1] usando tf.stack.
-    #    Como batch_size ya es un tensor, tf.stack puede manejarlo sin problemas.
-    #shape_for_zeros = ops.stack([batch_size, 1])
-    #cls_input = tf.zeros(shape_for_zeros, dtype="int32")
-
-    #cls = cls_token(cls_input)
-    #X = ops.concatenate([cls, X], axis=1)
     # --- 5. Añadir token [CLS] ---
-    def add_cls_lambda(x):
-        import tensorflow as tf
-        batch_size = tf.shape(x)[0]
-        cls_token = tf.zeros([batch_size, 1, d_model])
-        return tf.concat([cls_token, x], axis=1)
+    # def add_cls_lambda(x):
+    #    import tensorflow as tf
+    #    batch_size = tf.shape(x)[0]
+    #    cls_token = tf.zeros([batch_size, 1, d_model])
+    #    return tf.concat([cls_token, x], axis=1)
 
-    X = layers.Lambda(add_cls_lambda)(X)
+    def add_cls_lambda(x):
+        # x: (batch, seq_len, d_model)
+        tf.debugging.assert_rank(x, 3, message="Esperaba (batch, seq, d_model)")
+        x_dtype = x.dtype
+        cls = tf.zeros_like(x[:, :1, :], dtype=x_dtype)
+        x = tf.cast(x, x_dtype)
+        out = tf.concat([cls, x], axis=1)
+        tf.debugging.assert_type(out, x_dtype)
+        return out
     
+    def compute_cls_output_shape(input_shape):
+        # input_shape es una tupla tipo (batch, seq_len, d_model)
+        return (input_shape[0], input_shape[1] + 1, input_shape[2])
+
+    X = layers.Lambda(add_cls_lambda, output_shape=compute_cls_output_shape)(X)
+
+    # X = layers.Lambda(add_cls_lambda)(X)
+
+
     return inputs, X
 
 # ============================
@@ -344,52 +432,42 @@ def build_switch_transformer_tabular(
     model = keras.Model(inputs=inputs, outputs=outputs)
     return model
 
-# ============================
-# Función de Entrenamiento (con `df_to_input_dict` y estrategia de muestreo personalizada SMOTE / SMOTE-Tomek Links)
-# ============================
-def train(model: keras.Model,
-          df_train: pd.DataFrame, df_val: pd.DataFrame,
-          cont_cols: List[str], bin_cols: List[str], cat_cols: List[str],
+# ==============================================================================
+# FUNCIÓN DE ENTRENAMIENTO OPTIMIZADA (VERSIÓN 2.0)
+# ==============================================================================
+def train_(model: keras.Model,
+          df_train: pd.DataFrame,
+          df_val: pd.DataFrame,
+          cont_cols: List[str],
+          bin_cols: List[str],
+          cat_cols: List[str],
           target_col: str,
           batch_size: int = 256,
           epochs: int = 30,
           lr: float = 1e-4,
-          focal_loss=True,
+          focal_loss: bool = True,
           callbacks: Optional[List[keras.callbacks.Callback]] = None,
-          smote_config: Optional[dict] = None,
-          mixed_precision: bool = False):
+          mixed_precision: bool = True): # CAMBIO: True por defecto para máximo rendimiento
+    """
+    Entrena el modelo usando un pipeline de tf.data optimizado y vectorizado.
     
-    """
-    Entrena el modelo. Si smote_config no es None, aplica SMOTE/SMOTE+Tomek
-    al conjunto de entrenamiento antes de entrenar.
-
-    smote_config ejemplo:
-    {
-        "sampling_strategy": {0: 2000, 1: 2000},
-        "use_tomek": True,
-        "random_state": 42
-    }
+    CAMBIOS CLAVE:
+    - Se eliminó el `data_generator` y el parámetro `smote_config`. El remuestreo
+      debe realizarse ANTES de llamar a esta función.
+    - Se utiliza `tf.data.Dataset.from_tensor_slices` para una ingesta de datos
+      de alto rendimiento, eliminando el cuello de botella de `iterrows`.
+    - Se recomienda ejecutar la construcción y compilación del modelo dentro de un
+      `strategy.scope()` para entrenamiento distribuido.
     """
 
-    # Mixed Precision: Permite procesar operaciones de float16 
-    # significativamente más rápido que las de float32
+    # --- CAMBIO: Mixed Precision activado por defecto ---
+    # Permite un rendimiento significativamente mayor en GPUs compatibles (Tensor Cores)
     if mixed_precision:
         tf.keras.mixed_precision.set_global_policy('mixed_float16')
 
-    # --- aplicar balanceo si está configurado ---
-    if smote_config is not None:
-        df_train = resample_with_smote(
-            df=df_train,
-            target_col=target_col,
-            sampling_strategy=smote_config.get("sampling_strategy", "auto"),
-            use_tomek=smote_config.get("use_tomek", False),
-            random_state=smote_config.get("random_state", 42)
-        )
-    
-    
-    # --- Fin de la Lógica de Remuestreo ---
-
-    def df_to_input_dict(df):
+    # --- CAMBIO: Conversión vectorizada de DataFrame a diccionario de tensores ---
+    # Este helper convierte eficientemente un DataFrame a un formato que TensorFlow puede ingerir.
+    def df_to_input_dict(df: pd.DataFrame) -> Dict[str, np.ndarray]:
         inputs = {}
         if cont_cols:
             inputs["cont_in"] = df[cont_cols].values.astype("float32")
@@ -398,44 +476,86 @@ def train(model: keras.Model,
         for col in cat_cols:
             inputs[f"cat_in_{col}"] = df[[col]].values.astype("int32")
         return inputs
-    
 
-
-    train_inputs = df_to_input_dict(df_train)
-    val_inputs = df_to_input_dict(df_val)
+    # 1. Convertir los DataFrames a diccionarios de arrays NumPy (una sola vez)
+    print("Convirtiendo DataFrames a tensores para el entrenamiento...")
+    train_inputs_dict = df_to_input_dict(df_train)
     train_labels = df_train[target_col].values.astype("float32")
+    
+    val_inputs_dict = df_to_input_dict(df_val)
     val_labels = df_val[target_col].values.astype("float32")
 
-    train_ds = tf.data.Dataset.from_tensor_slices((train_inputs, train_labels))
-    train_ds = train_ds.shuffle(buffer_size=len(df_train)).batch(batch_size).prefetch(tf.data.AUTOTUNE)
+    # 2. Crear los Datasets de TensorFlow de forma eficiente
+    print("Creando datasets de TensorFlow...")
+    train_ds = tf.data.Dataset.from_tensor_slices((train_inputs_dict, train_labels))
+    val_ds = tf.data.Dataset.from_tensor_slices((val_inputs_dict, val_labels))
 
-    val_ds = tf.data.Dataset.from_tensor_slices((val_inputs, val_labels))
-    val_ds = val_ds.batch(batch_size).prefetch(tf.data.AUTOTUNE)
+    # 3. Aplicar caching, shuffle y batching (sin cambios, ya era correcto)
+    # El `cache()` ahora guardará los tensores preprocesados, siendo mucho más rápido.
+    train_ds = train_ds.cache().shuffle(buffer_size=len(df_train)).batch(batch_size).prefetch(tf.data.AUTOTUNE)
+    val_ds = val_ds.cache().batch(batch_size).prefetch(tf.data.AUTOTUNE)
     
+    # 4. Compilar y entrenar el modelo (sin cambios en la lógica)
+    # NOTA: La compilación debe ocurrir dentro de `strategy.scope()` en tu script principal.
     opt = keras.optimizers.Adam(learning_rate=lr)
     loss_fn = binary_focal_loss() if focal_loss else keras.losses.BinaryCrossentropy(from_logits=False)
+    f1_metric = F1ScoreMetric()
 
-
-
-    model.compile(
-        optimizer=opt,
-        loss=loss_fn,
-        metrics=[
-            keras.metrics.AUC(name="auc"),
-            keras.metrics.Precision(name="precision"),
-            keras.metrics.Recall(name="recall"),
-            keras.metrics.BinaryAccuracy(name="accuracy")
-        ],
-        jit_compile=True        # Compilación del Modelo con XLA (Accelerated Linear Algebra)
-    )
+    # Se asume que el modelo ya está compilado antes de llamar a train().
+    # Si no, se compila aquí.
+    if model.optimizer is None:
+        print("Compilando el modelo...")
+        model.compile(
+            optimizer=opt,
+            loss=loss_fn,
+            metrics=[
+                keras.metrics.AUC(name="auc"),
+                keras.metrics.Precision(name="precision"),
+                keras.metrics.Recall(name="recall"),
+                f1_metric,
+                keras.metrics.BinaryAccuracy(name="accuracy")
+            ]#,
+            #jit_compile=True
+        )
 
     # --- callbacks ---
     ckpt_path = "model.weights.best.weights.h5"
+
+    # 1. Callback para guardar el mejor modelo basado en F1-score
+    model_checkpoint = EpochLogger(
+        filepath="model.weights.best.keras",
+        monitor=f1_score,
+        mode="max"
+    )
+
+    # 2. Callback para detener el entrenamiento si el F1-score no mejora
+    early_stopping = EarlyStopping(
+        monitor=f1_score,       # Métrica a monitorear
+        patience=7,             # Épocas a esperar antes de detener si no hay mejora
+        mode="max",             # 'max' porque un F1-score más alto es mejor
+        restore_best_weights=True, # Vuelve a los pesos del mejor F1-score al finalizar
+        verbose=1
+    )
+
+    # 3. Callback para reducir la tasa de aprendizaje si el F1-score se estanca
+    reduce_lr = ReduceLROnPlateau(
+        monitor=f1_score,       # Métrica a monitorear
+        factor=0.5,             # Factor por el cual se reduce la tasa de aprendizaje (new_lr = lr * factor)
+        patience=3,             # Épocas a esperar antes de reducir la tasa de aprendizaje
+        mode="max",             # 'max' porque un F1-score más alto es mejor
+        min_lr=1e-6,            # Tasa de aprendizaje mínima
+        verbose=1
+    )
+
+    # Agrupar todos los callbacks en una sola lista
+    callbacks_list = [
+        model_checkpoint,
+        early_stopping,
+        reduce_lr
+    ]
     if callbacks is None:
-         callbacks = [
-            EpochLogger(filepath=ckpt_path, monitor="val_auc", mode="max"),
-            keras.callbacks.EarlyStopping(monitor="val_loss", patience=10, mode="min",restore_best_weights=True)
-        ]
+         callbacks = callbacks_list
+        
 
     history = model.fit(
         train_ds, 
@@ -444,6 +564,14 @@ def train(model: keras.Model,
         callbacks=callbacks, 
         verbose=2
     )
+
+    # --- cleanup datasets/tensores para liberar memoria entre folds ---
+    try:
+        del train_ds, val_ds, train_inputs_dict, val_inputs_dict, train_labels, val_labels
+    except Exception:
+        pass
+    import gc as _gc; _gc.collect()
+
     return model, history
 
 # ============================
@@ -552,9 +680,31 @@ def evaluate(model: keras.Model,
     Evalúa el modelo en df_test. Si thresholds list se evalúa para cada threshold y retorna df con filas por threshold.
     Devuelve (results_df, last_conf_matrix_dict)
     """
-    ds_test = df_to_tf_dataset(df_test[cont_cols+bin_cols+cat_cols], df_test[target_col], batch_size=batch_size, shuffle=False)
-    logits = model.predict(ds_test, verbose=0)
-    probs = tf.sigmoid(logits).numpy().reshape(-1)
+    # --- INICIO DE LA CORRECCIÓN ---
+
+    # 1. Replicar la misma lógica de preparación de datos que en `train_`
+    def df_to_input_dict(df: pd.DataFrame) -> Dict[str, np.ndarray]:
+        inputs = {}
+        if cont_cols:
+            inputs["cont_in"] = df[cont_cols].values.astype("float32")
+        if bin_cols:
+            inputs["bin_in"] = df[bin_cols].values.astype("float32")
+        for col in cat_cols:
+            inputs[f"cat_in_{col}"] = df[[col]].values.astype("int32")
+        return inputs
+
+    # Convertir el DataFrame de test al formato de diccionario correcto
+    test_inputs_dict = df_to_input_dict(df_test)
+    
+    # Crear el dataset de TensorFlow a partir del diccionario
+    # No incluimos las etiquetas aquí porque `model.predict` solo necesita las características
+    ds_test = tf.data.Dataset.from_tensor_slices(test_inputs_dict).batch(batch_size).prefetch(tf.data.AUTOTUNE)
+
+    # `model.predict` devuelve las probabilidades directamente porque la última capa ya tiene activación "sigmoid"
+    probs = model.predict(ds_test, verbose=0).reshape(-1)
+    
+    # --- FIN DE LA CORRECCIÓN ---
+    
     y_true = df_test[target_col].astype(int).values
 
     thr_list = thresholds if thresholds is not None else [threshold]
@@ -582,18 +732,120 @@ def evaluate(model: keras.Model,
     results_df = pd.DataFrame(rows)
     return results_df, last_cm
 
-# ============================
-# UTILS: generar class_weight automáticamente
-# ============================
-def make_class_weight(y: pd.Series, mu: float = 0.15) -> Dict[int, float]:
+
+# ==============================================================================
+# FUNCIÓN DE VALIDACIÓN CRUZADA (VERSIÓN 2.0 - CON CONTROL DE REMUESTREO)
+# ==============================================================================
+def run_cross_validation(
+    df_full_train: pd.DataFrame,
+    target_col: str,
+    strategy: tf.distribute.Strategy,
+    model_build_params: Dict,
+    training_params: Dict,
+    n_splits: int = 5,
+    apply_smote: bool = True,
+    smote_sampler: str = 'SMOTETomek',
+    smote_strategy: Any = 'auto'
+) -> pd.DataFrame:
     """
-    Empiric class weight (sklearn-like) - puedes ajustar.
+    Ejecuta una validación cruzada estratificada con control sobre el remuestreo.
+
+    Args:
+        ... (parámetros anteriores) ...
+        apply_smote (bool): Si es True, aplica el remuestreo. Por defecto es True.
+        smote_sampler (str): El tipo de remuestreador a usar ('SMOTE' o 'SMOTETomek').
+        smote_strategy (Any): La estrategia para el remuestreo ('auto', float, o dict).
+    
+    Returns:
+        Un DataFrame de Pandas con los resultados agregados de todos los folds.
     """
-    value_counts = y.value_counts().to_dict()
-    total = len(y)
-    # inverse freq
-    weights = {cls: total/count for cls, count in value_counts.items()}
-    # normalize so that min weight = 1
-    min_w = min(weights.values())
-    weights_norm = {cls: float(w/min_w) for cls, w in weights.items()}
-    return weights_norm
+    skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+    X = df_full_train.drop(columns=[target_col])
+    y = df_full_train[target_col]
+    all_fold_results = []
+    trained_models = []
+    best_model = None
+    best_f1 = -np.inf
+
+    print(f"Iniciando validación cruzada con {n_splits} folds...")
+
+    for fold, (train_idx, val_idx) in enumerate(skf.split(X, y)):
+        print("-" * 50)
+        print(f"--- FOLD {fold + 1}/{n_splits} ---")
+        print("-" * 50)
+
+        train_fold_df = df_full_train.iloc[train_idx]
+        val_fold_df = df_full_train.iloc[val_idx]
+        
+        # Asignamos el DF de entrenamiento a una nueva variable
+        train_fold_to_use = train_fold_df
+
+        # --- NUEVO: Bloque de remuestreo condicional ---
+        if apply_smote:
+            print(f"Fold {fold+1}: Aplicando {smote_sampler} con estrategia: {smote_strategy}...")
+            
+            if smote_sampler == 'SMOTETomek':
+                sampler = SMOTETomek(sampling_strategy=smote_strategy, random_state=42, n_jobs=-1)
+            elif smote_sampler == 'SMOTE':
+                sampler = SMOTE(sampling_strategy=smote_strategy, random_state=42, n_jobs=-1)
+            else:
+                raise ValueError("El parámetro smote_sampler debe ser 'SMOTE' o 'SMOTETomek'")
+
+            X_train_fold = train_fold_df.drop(columns=[target_col])
+            y_train_fold = train_fold_df[target_col]
+            X_res, y_res = sampler.fit_resample(X_train_fold, y_train_fold)
+            
+            # El DF que se usará para entrenar es el remuestreado
+            train_fold_to_use = pd.concat([X_res, y_res], axis=1)
+            print(f"Remuestreo completado. Nuevo tamaño: {len(train_fold_to_use)}")
+        else:
+            print(f"Fold {fold+1}: No se aplicará remuestreo.")
+
+        # Limpieza de grafo/recursos entre folds para evitar fugas y fragmentación
+        tf.keras.backend.clear_session()
+        import gc; gc.collect()
+        print(f"Fold {fold+1}: Construyendo y compilando un nuevo modelo...")
+        
+
+        with strategy.scope():
+            model = build_switch_transformer_tabular(**model_build_params)
+            model.compile(
+                optimizer=keras.optimizers.Adam(learning_rate=training_params['lr']),
+                loss=binary_focal_loss(),
+                metrics=[F1ScoreMetric(name="f1_score"), keras.metrics.AUC(name="auc")],
+                jit_compile=False
+            )
+        
+        # Se usa la variable `train_fold_to_use` que contiene los datos correctos
+        model, history = train_(
+            model=model,
+            df_train=train_fold_to_use,
+            df_val=val_fold_df,
+            batch_size=training_params['batch_size'],
+            epochs=training_params['epochs'],
+            **training_params['col_groups']
+        )
+
+        print(f"Fold {fold+1}: Evaluando el modelo...")
+        results_df, _ = evaluate(
+            model=model,
+            df_test=val_fold_df,
+            threshold=0.5,
+            **training_params['col_groups']
+        )
+        results_df['fold'] = fold + 1
+        all_fold_results.append(results_df)
+
+    # Consolidar y promediar los resultados (sin cambios)
+    final_results_df = pd.concat(all_fold_results, ignore_index=True)
+    summary = final_results_df.drop(columns=['fold', 'Threshold']).mean()
+    summary_std = final_results_df.drop(columns=['fold', 'Threshold']).std()
+    summary_df = pd.DataFrame({'Mean': summary, 'Std Dev': summary_std})
+
+    print("\n" + "="*50)
+    print("Resumen de la Validación Cruzada")
+    print("="*50)
+    print(summary_df)
+
+    return final_results_df
+

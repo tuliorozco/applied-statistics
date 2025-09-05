@@ -16,6 +16,6 @@ chapters:
     - file: regresion_conclusions
 - file: c03_proyectoFinal/diabetes_classifier_abstract
   sections:
-    - file: c03_proyectoFinal/iabetes_classifier_eda
+    - file: c03_proyectoFinal/diabetes_classifier_eda
     - file: c03_proyectoFinal/diabetes_classifier_model
-    - file: c03_proyectoFinal/diabetes_classifier_conclusions
+#    - file: c03_proyectoFinal/diabetes_classifier_conclusions
