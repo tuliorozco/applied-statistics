@@ -1,0 +1,873 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Clasificación de Riesgo en Pacientes con Diabetes: Comparativa de Modelos Clásicos de Machine Learning Frente a Propuesta de Modelo Híbrido &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'c03_proyectoFinal/diabetes_classifier_abstract';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="EDA- PROYECTO FINAL" href="diabetes_classifier_eda.html" />
+    <link rel="prev" title="Mini Proyecto #1:" href="../c01_miniproyecto_KNN/knn_miniproyecto.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    About me
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../c01_miniproyecto_KNN/knn_intro.html">K-Nearest Neighbors (KNN): Predicción del Éxito Académico y Riesgo de Deserción en Estudiantes Universitarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../c01_miniproyecto_KNN/knn_eda.html">Análisis Exploratorio y Visualización</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c01_miniproyecto_KNN/knn_miniproyecto.html">Mini Proyecto #1:</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Clasificación de Riesgo en Pacientes con Diabetes: Comparativa de Modelos Clásicos de Machine Learning Frente a Propuesta de Modelo Híbrido</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="diabetes_classifier_eda.html">EDA- PROYECTO FINAL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diabetes_classifier_model.html">Implementación de Modelos</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="diabetes_classifier_conclusions.html">Conclusiones</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fc03_proyectoFinal/diabetes_classifier_abstract.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/c03_proyectoFinal/diabetes_classifier_abstract.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Clasificación de Riesgo en Pacientes con Diabetes: Comparativa de Modelos Clásicos de Machine Learning Frente a Propuesta de Modelo Híbrido</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proyecto-integrador-de-aprendizaje-automatico">Proyecto Integrador de Aprendizaje Automático</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen">Resumen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-a-evaluar">Algoritmos a Evaluar</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#propuesta-mixture-of-experts-conformal-prediction-transformed-based-moe-conformal-transformer">Propuesta: <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts-Conformal</span> <span class="pre">Prediction-Transformed</span> <span class="pre">Based</span> <span class="pre">(MOE</span> <span class="pre">Conformal</span> <span class="pre">Transformer)</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-conformal-prediction">¿Qué es <code class="docutils literal notranslate"><span class="pre">Conformal</span> <span class="pre">Prediction</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-principal-de-la-conformal-prediction-cobertura-marginal-garantizada">Objetivo Principal de la <code class="docutils literal notranslate"><span class="pre">Conformal</span> <span class="pre">Prediction</span></code>: Cobertura Marginal Garantizada</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mecanismo-operativo-puntuaciones-de-no-conformidad-y-cuantiles-empiricos">Mecanismo Operativo: Puntuaciones de No Conformidad y Cuantiles Empíricos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#propiedades-fundamentales">Propiedades Fundamentales</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-son-los-transformers">¿Qué son los <code class="docutils literal notranslate"><span class="pre">Transformers</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-y-propiedades">Objetivos y Propiedades</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mecanismos-operativos">Mecanismos Operativos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relacion-de-los-transformers-con-mixture-of-experts-moe">Relación de los Transformers con Mixture of Experts (MoE)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-mixture-of-experts">¿Qué es <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamentos-del-concepto-una-perspectiva-probabilistica">Fundamentos del Concepto: Una Perspectiva Probabilística</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-y-propiedades-estadisticas">Objetivos y Propiedades Estadísticas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-em-para-moe">Algoritmo EM para MoE:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mecanismos-operativos-la-red-de-compuertas">Mecanismos Operativos: La Red de Compuertas</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vision-general-de-la-solucion">Visión general de la solución</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="clasificacion-de-riesgo-en-pacientes-con-diabetes-comparativa-de-modelos-clasicos-de-machine-learning-frente-a-propuesta-de-modelo-hibrido">
+<h1>Clasificación de Riesgo en Pacientes con Diabetes: Comparativa de Modelos Clásicos de Machine Learning Frente a Propuesta de Modelo Híbrido<a class="headerlink" href="#clasificacion-de-riesgo-en-pacientes-con-diabetes-comparativa-de-modelos-clasicos-de-machine-learning-frente-a-propuesta-de-modelo-hibrido" title="Link to this heading">#</a></h1>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\textit{Leyniker Escobar Brache, Carlos Hodwalker Martínez, Tulio Orozco Torres} \\
+\textit{Maestría en Estadística Aplicada, Universidad del Norte} \\
+\small{\textit{Septiembre 05 de 2025}}
+\end{align}
+\end{split}\]</div>
+<section id="proyecto-integrador-de-aprendizaje-automatico">
+<h2>Proyecto Integrador de Aprendizaje Automático<a class="headerlink" href="#proyecto-integrador-de-aprendizaje-automatico" title="Link to this heading">#</a></h2>
+</section>
+<section id="resumen">
+<h2>Resumen<a class="headerlink" href="#resumen" title="Link to this heading">#</a></h2>
+<p>La diabetes mellitus es una enfermedad metabólica crónica caracterizada por niveles elevados de glucosa en sangre, ocasionados por una producción insuficiente de insulina o por la resistencia del organismo a su acción. Esta condición altera la capacidad del cuerpo para transformar los alimentos en energía y, si no se controla, puede generar complicaciones graves como enfermedades cardiovasculares, insuficiencia renal, daño ocular y neuropatías.
+En este estudio, se emplea un conjunto de datos obtenido de la plataforma Kaggle, que recopila información clínica, demográfica y de hábitos de vida de 100.000 individuos. Dicho dataset ofrece variables relevantes que incluyen:</p>
+<ul class="simple">
+<li><p>Datos demográficos: género, edad, raza y ubicación geográfica.</p></li>
+<li><p>Indicadores clínicos y de salud: hipertensión, enfermedades cardíacas, historial de tabaquismo, índice de masa corporal (IMC), hemoglobina glicosilada (HbA1c), glucemia y otros parámetros biomédicos.</p></li>
+<li><p>Variable objetivo: diagnóstico de diabetes (positivo o negativo).</p></li>
+</ul>
+<p>El enfoque del trabajo se centra en una comparativa entre algoritmos clásicos de machine learning y una propuesta híbrida que integra <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts</span></code> y <code class="docutils literal notranslate"><span class="pre">Conformal</span> <span class="pre">Prediction</span></code> y establecer la solución más óptima para clasificar pacientes con y sin diagnóstico de diabetes, buscando predicciones más confiables que apoyen la toma de decisiones médicas.</p>
+</section>
+<section id="algoritmos-a-evaluar">
+<h2>Algoritmos a Evaluar<a class="headerlink" href="#algoritmos-a-evaluar" title="Link to this heading">#</a></h2>
+<p>A continuación, se define el alcance de los algoritmos a evaluar y que son del interés de este artículo.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Random</span> <span class="pre">Forest</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">XGBoost</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SVC</span></code> (Support Vector Machine/Máquinas de Vectores de Soporte)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MLP</span></code> (Multilayer Perceptron/Red Neuronal Multicapa)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MOE</span> <span class="pre">Conformal</span> <span class="pre">Transformer</span></code> (Mixture of Experts-Conformal Prediction-Transformed Based)</p></li>
+</ul>
+<p>El propósito de este documento es desarrollar y presentar un <em>benchmark</em> entre todos los algoritmos citados y compararlos, especialmente, con <code class="docutils literal notranslate"><span class="pre">MOE</span> <span class="pre">Conformal</span> <span class="pre">Transformer</span></code>. Sin embargo, antes de la implementación o entrenamiento se abordará la fundamentacieon de la propuesta novedosa de este ejercicio.</p>
+<section id="propuesta-mixture-of-experts-conformal-prediction-transformed-based-moe-conformal-transformer">
+<h3>Propuesta: <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts-Conformal</span> <span class="pre">Prediction-Transformed</span> <span class="pre">Based</span> <span class="pre">(MOE</span> <span class="pre">Conformal</span> <span class="pre">Transformer)</span></code><a class="headerlink" href="#propuesta-mixture-of-experts-conformal-prediction-transformed-based-moe-conformal-transformer" title="Link to this heading">#</a></h3>
+<p>Para entender qué es <code class="docutils literal notranslate"><span class="pre">MoE-Conformal</span> <span class="pre">Transformer</span></code>, cómo funciona, sus características, entre otros aspectos así como el impacto que tiene su aplicación reciente en <em>deep learning</em> (como en Large Language Models o LLMs), se presenta una vista general de los 3 componentes principales que lo integran:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Conformal</span> <span class="pre">Prediction</span></code> o Predicción Conforme.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Transformers</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts</span></code> o Mezcla de Expertos.</p></li>
+</ul>
+</section>
+<section id="que-es-conformal-prediction">
+<h3>¿Qué es <code class="docutils literal notranslate"><span class="pre">Conformal</span> <span class="pre">Prediction</span></code>?<a class="headerlink" href="#que-es-conformal-prediction" title="Link to this heading">#</a></h3>
+<p>Conformal Prediction (CP) es un marco estadístico novedoso que proporciona una forma robusta y fundamental para cuantificar la incertidumbre en las predicciones de cualquier algoritmo, transformando predicciones puntuales de cualquier modelo en conjuntos de predicción con sólidas propiedades de cobertura. A diferencia de los métodos clásicos que a menudo dependen de supuestos asintóticos o distribucionales (e.g., normalidad de los residuos), CP ofrece un enfoque no paramétrico y agnóstico al modelo. Su validez teórica se fundamenta en un único supuesto relativamente débil: la intercambiabilidad de los datos (Vovk, Gammerman, &amp; Shafer, 2005).</p>
+<p>El supuesto de intercambiabilidad estipula que la probabilidad conjunta de una secuencia de variables aleatorias <span class="math notranslate nohighlight">\((Z_{1}, Z_{2},..., Z_{n})\)</span> es invariante bajo cualquier permutación de sus índices, donde <span class="math notranslate nohighlight">\(Z_{i} = (Z_{i}, Y_{i})\)</span>. Formalmente, para cualquier permutación <span class="math notranslate nohighlight">\(\pi\)</span> de {<span class="math notranslate nohighlight">\(1,...,n\)</span>}, se tiene que:</p>
+<div class="math notranslate nohighlight">
+\[P(Z_{1},..., Z_{n}) = P(Z_{\pi(1)},..., Z_{\pi(n)})\]</div>
+<p>Este supuesto es más débil que el de datos independientemente e idénticamente distribuidos (i.i.d.), aunque en la práctica, los datos i.i.d. son el caso de uso más común que satisface la intercambiabilidad.</p>
+<section id="objetivo-principal-de-la-conformal-prediction-cobertura-marginal-garantizada">
+<h4>Objetivo Principal de la <code class="docutils literal notranslate"><span class="pre">Conformal</span> <span class="pre">Prediction</span></code>: Cobertura Marginal Garantizada<a class="headerlink" href="#objetivo-principal-de-la-conformal-prediction-cobertura-marginal-garantizada" title="Link to this heading">#</a></h4>
+<p>El objetivo central de Conformal Prediction no es la precisión de la predicción puntual, sino la construcción de un conjunto de predicción <span class="math notranslate nohighlight">\(C(X_{n+1})\)</span> para una nueva observación <span class="math notranslate nohighlight">\(X_{n+1}\)</span> que contenga el verdadero valor <span class="math notranslate nohighlight">\(Y_{n+1}\)</span> con una probabilidad predefinida y controlada por el usuario. Específicamente, para un nivel de significancia <span class="math notranslate nohighlight">\(\alpha\in(0,1)\)</span> elegido a priori, el conjunto de predicción debe satisfacer la siguiente propiedad de cobertura marginal:</p>
+<div class="math notranslate nohighlight">
+\[
+P(Y_{n+1} \in C(X_{n+1})) \geq (1 - \alpha)
+\]</div>
+<p>Esta garantía es válida para cualquier tamaño de muestra n, para cualquier distribución de datos que cumpla con la intercambiabilidad y para cualquier algoritmo de predicción subyacente. Esta robustez es una de las características más atractivas del marco (Angelopoulos &amp; Bates, 2023).</p>
+</section>
+<section id="mecanismo-operativo-puntuaciones-de-no-conformidad-y-cuantiles-empiricos">
+<h4>Mecanismo Operativo: Puntuaciones de No Conformidad y Cuantiles Empíricos<a class="headerlink" href="#mecanismo-operativo-puntuaciones-de-no-conformidad-y-cuantiles-empiricos" title="Link to this heading">#</a></h4>
+<p>El mecanismo de CP se articula en torno a una función de puntuación de no conformidad (Non-Conformity Measure, NCM). Esta función, denotada como <span class="math notranslate nohighlight">\(s(x,y)\)</span>, asigna una puntuación numérica a cada par <span class="math notranslate nohighlight">\((x,y)\)</span> que cuantifica qué tan “atípico” o “disconforme” es el valor <span class="math notranslate nohighlight">\(y\)</span> para las covariables <span class="math notranslate nohighlight">\(x\)</span>, según un modelo de predicción subyacente. Una elección común en regresión es el residuo absoluto:</p>
+<div class="math notranslate nohighlight">
+\[
+s(x,y) = |y - \widehat{\mu}(x)|
+\]</div>
+<p>donde <span class="math notranslate nohighlight">\(\widehat{\mu}(x)\)</span> es la predicción puntual de un modelo entrenado.</p>
+<p>Para mitigar el sobreajuste y mantener la validez teórica, el procedimiento más extendido y práctico es el <em>Split Conformal Prediction</em> o <em>Inductive Conformal Prediction</em> (Lei et al., 2018; Papadopoulos, 2008). El proceso es el siguiente:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    S_{cal} = \{ s_{i} = s(X_{i}, Y_{i}) | (X_{i}, Y_{i}) \in {\mathcal{D}_{cal}\}} \\
+\end{split}\]</div>
+<ol class="arabic">
+<li><p>División de Datos (Data Splitting): El conjunto de datos de entrenamiento <span class="math notranslate nohighlight">\(\mathcal{D} = {\{(X_{i}, Y_{i})\}_{i=1}^{n}}\)</span> se divide aleatoriamente en dos subconjuntos disjuntos: un conjunto de entrenamiento propiamente dicho <span class="math notranslate nohighlight">\(\mathcal{D}_{train}\)</span> (con <span class="math notranslate nohighlight">\(m\)</span> puntos), y un conjunto de calibración <span class="math notranslate nohighlight">\(\mathcal{D}_{cal}\)</span> con <span class="math notranslate nohighlight">\(n_{cal} = n - m\)</span> puntos.</p></li>
+<li><p>Entrenamiento del Modelo: Se entrena cualquier modelo de predicción (ejemplo RandomForest, Red Neuronal, Gradient Boosting) utilizando únicamente <span class="math notranslate nohighlight">\(\mathcal{D}_{train}\)</span>.</p></li>
+<li><p>Cálculo de Puntuaciones de No Conformidad: Utilizando el modelo fijo <span class="math notranslate nohighlight">\(\widehat{\mu}(x)\)</span> se calculan las puntuaciones de no conformidad para cada punto en el conjunto de calibración <span class="math notranslate nohighlight">\(\mathcal{D}_{cal}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+        S_{cal} = \{ s_{i} = s(X_{i}, Y_{i}) | (X_{i}, Y_{i}) \in \mathcal{D}_{cal}\}
+    \]</div>
+<p>Estos <span class="math notranslate nohighlight">\(n_{cal}\)</span> scores forman una distribución empírica de “errores” o “disconformidades” observados en datos no vistos durante el entrenamiento.</p>
+</li>
+<li><p>Determinación del Umbral (Cuantil): Se calcula el umbral <span class="math notranslate nohighlight">\(\widehat{q}\)</span> como el cuantil empírico de las puntuaciones de calibración <span class="math notranslate nohighlight">\(S_{cal}\)</span> que asegura la cobertura deseada. Específicamente, <span class="math notranslate nohighlight">\(\widehat{q}\)</span> se define como el <span class="math notranslate nohighlight">\([(1 - \alpha)(n_{cal} + 1)]\)</span>-ésimo valor más pequeño en el conjunto <span class="math notranslate nohighlight">\(S_{cal}\)</span>. El ajuste <span class="math notranslate nohighlight">\((n_{cal} + 1)\)</span> es una corrección para muestras finitas que garantiza la desigualdad de cobertura (Angelopoulos &amp; Bates, 2023).</p></li>
+<li><p>Construcción del Conjunto de Predicción: Para una nueva instancia <span class="math notranslate nohighlight">\(X_{new}\)</span>, el conjunto de predicción <span class="math notranslate nohighlight">\(C(X_{new})\)</span> se construye invirtiendo la función de puntuación. Se define como el conjunto de todos los posibles valores <span class="math notranslate nohighlight">\(y \in \mathcal{Y}\)</span> para los cuales la puntuación de no conformidad no excede el umbral <span class="math notranslate nohighlight">\(\widehat{q}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+        C(X_{new}) = \{y \in \mathcal{Y} \; | \; s(X_{new}, y) \leq \widehat{q}\}
+    \]</div>
+<p>Para el caso de la <em>Puntuación de No Conformidad</em> de residuo absoluto, esto resulta en un intervalo de predicción simétrico:</p>
+<div class="math notranslate nohighlight">
+\[
+        C(X_{new}) = [\widehat{\mu}(X_{new}) - \widehat{q}\text{,} \quad \widehat{\mu}(X_{new}) + \widehat{q}]
+    \]</div>
+</li>
+</ol>
+</section>
+<section id="propiedades-fundamentales">
+<h4>Propiedades Fundamentales<a class="headerlink" href="#propiedades-fundamentales" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>Validez (Garantía de Cobertura): Como se mencionó, la propiedad principal es la cobertura marginal <span class="math notranslate nohighlight">\(P(Y_{n+1} \in C(X_{n+1})) \geq (1 - \alpha)\)</span>, que se mantiene bajo el único supuesto de intercambiabilidad.</p></li>
+<li><p>Agnosticismo del Modelo: CP es una “envoltura” (wrapper) que puede aplicarse sobre cualquier algoritmo preexistente (k-NN, SVM, árboles de decisión, redes neuronales, regresión ridge o clasificadores probabilísticos) para producir conjuntos de predicción calibrados. La calidad del modelo subyacente no afecta la validez de la cobertura, pero sí su eficiencia.</p></li>
+<li><p>Eficiencia: La eficiencia se refiere al tamaño (e.g., la longitud en regresión, la cardinalidad en clasificación) de los conjuntos de predicción. Un modelo <span class="math notranslate nohighlight">\(\widehat{\mu}\)</span> más preciso generará puntuaciones de no conformidad más bajas en <span class="math notranslate nohighlight">\(\mathcal{D}_{cal}\)</span>, lo que resultará en un umbral <span class="math notranslate nohighlight">\(\widehat{\mu}\)</span> más pequeño y, por ende, en conjuntos de predicción más informativos (más pequeños), manteniendo la misma garantía de cobertura (Lei et al., 2018).</p></li>
+</ol>
+</section>
+</section>
+<section id="que-son-los-transformers">
+<h3>¿Qué son los <code class="docutils literal notranslate"><span class="pre">Transformers</span></code>?<a class="headerlink" href="#que-son-los-transformers" title="Link to this heading">#</a></h3>
+<p>En el panorama actual del aprendizaje profundo, la arquitectura Transformer ha surgido como un pilar fundamental, redefiniendo el estado del arte en el procesamiento de datos secuenciales y extendiendo su influencia a dominios que trascienden el lenguaje natural. En el ámbito de la estadística, comprender la formalización y las propiedades inherentes de este modelo es crucial, no solo para su aplicación sino también para su potencial extensión y mejora. A continuacieon se desglosan los fundamentos, objetivos, propiedades y de la arquitectura Transformer, y explora su relación sinérgica con el paradigma de <em>Mixture of Experts</em> (MoE).</p>
+<p>La arquitectura <em>Transformer</em>, introducida por Vaswani et al. (2017) en su influyente artículo “<em>Attention Is All You Need</em>”, representa un cambio de paradigma con respecto a las arquitecturas de redes neuronale recurrentes (RNN) y convolucionales (CNN) que dominaban el procesamiento de secuencias. El objetivo principal del <em>Transformer</em> es capturar dependencias a larga distancia en los datos sin la necesidad de un procesamiento secuencial inherente, lo que a su vez permite una paralelización masiva y una eficiencia computacional sin precedentes.</p>
+<p>El concepto fundamental que sustenta al <em>Transformer</em> es el mecanismo de auto-atención (self-attention). A diferencia de las RNN que procesan la información de manera secuencial, manteniendo un estado oculto que evoluciona en el tiempo, la auto-atención permite al modelo ponderar la importancia de todas las demás palabras en la secuencia al procesar una palabra específica. Esto se logra calculando una representación de cada elemento de la secuencia que es una suma ponderada de todos los demás elementos, donde los pesos son determinados dinámicamente.</p>
+<section id="objetivos-y-propiedades">
+<h4>Objetivos y Propiedades<a class="headerlink" href="#objetivos-y-propiedades" title="Link to this heading">#</a></h4>
+<p>Desde una perspectiva estadística, los objetivos y propiedades de la arquitectura Transformer son de gran interés:</p>
+<ul class="simple">
+<li><p>Modelado de Dependencias a Larga Distancia: El principal objetivo es superar la dificultad de las RNN para mantener información a través de secuencias largas, un problema conocido como el desvanecimiento del gradiente. La auto-atención, al conectar directamente cada par de elementos de la secuencia, reduce la longitud máxima de la ruta de la señal a O(1), en contraste con O(n) en las RNN, donde n es la longitud de la secuencia.</p></li>
+<li><p>Paralelización y Escalabilidad: Al eliminar la recurrencia, los cálculos dentro de cada capa del Transformer pueden ser masivamente paralelos. Esta propiedad ha sido fundamental para entrenar modelos de un tamaño sin precedentes en vastos conjuntos de datos, una tendencia que ha dado lugar a los modelos de lenguaje a gran escala (LLMs).</p></li>
+<li><p>Invariancia a la Permutación y la Necesidad de Codificación Posicional: El mecanismo de auto-atención es, por diseño, invariante a la permutación del orden de la secuencia de entrada. Para que el modelo pueda utilizar el orden de la secuencia, es necesario inyectar información sobre la posición de los elementos. Esto se logra mediante la codificación posicional (positional encoding), que son vectores que se suman a las representaciones de entrada (embeddings) para proporcionar al modelo información sobre la posición relativa o absoluta de los tokens.</p></li>
+</ul>
+</section>
+<section id="mecanismos-operativos">
+<h4>Mecanismos Operativos<a class="headerlink" href="#mecanismos-operativos" title="Link to this heading">#</a></h4>
+<p>La arquitectura Transformer se compone típicamente de un codificador (encoder) y un decodificador (decoder), cada uno de los cuales es una pila de capas idénticas. Cada capa, a su vez, está compuesta por sub-capas: un mecanismo de atención multi-cabeza y una red neuronal de avance (feed-forward) completamente conectada.</p>
+<p>Auto-Atención Escalada por Producto Punto (Scaled Dot-Product Self-Attention)</p>
+<p>El mecanismo de atención se puede describir como una función que mapea una consulta y un conjunto de pares clave-valor a una salida. La salida se calcula como una suma ponderada de los valores, donde el peso asignado a cada valor es calculado por una función de compatibilidad de la consulta con la clave correspondiente. En el Transformer, se utiliza la atención de producto punto escalada.</p>
+<p>Para una secuencia de entrada, se crean tres matrices: la de Consulta (Query, Q), la de Clave (Key, K) y la de Valor (Value, V), que se obtienen al multiplicar la matriz de embeddings de entrada por tres matrices de pesos aprendibles <span class="math notranslate nohighlight">\(W^{Q}, W^{K} \text{ y } W^{V}\)</span>. La salida de la atención se calcula como:</p>
+<div class="math notranslate nohighlight">
+\[
+    Attention(Q, K, V) = softmax \left( \frac{QK^{T}}{\sqrt{d_{k}}}\right)*V
+\]</div>
+<p>donde <span class="math notranslate nohighlight">\(d_{k}\)</span> es la dimensión de los vectores de clave y consulta. La escala por <span class="math notranslate nohighlight">\(\sqrt{d_{k}}\)</span> es un factor crucial que previene que los productos punto crezcan demasiado en magnitud, lo que podría llevar a gradientes extremadamente pequeños en la función softmax.</p>
+</section>
+<section id="relacion-de-los-transformers-con-mixture-of-experts-moe">
+<h4>Relación de los Transformers con Mixture of Experts (MoE)<a class="headerlink" href="#relacion-de-los-transformers-con-mixture-of-experts-moe" title="Link to this heading">#</a></h4>
+<p>A medida que los modelos Transformer han crecido en tamaño, el costo computacional de entrenarlos y servirlos se ha vuelto prohibitivo. El paradigma de Mixture of Experts (MoE) ofrece una solución para escalar la capacidad del modelo sin un aumento proporcional en el costo computacional.</p>
+<p>El concepto central de MoE es reemplazar componentes densos del modelo, como las redes de avance (feed-forward), por múltiples “expertos” (redes neuronales más pequeñas) y una red de compuerta (gating network) que aprende a enrutar cada token de la secuencia de entrada a un pequeño subconjunto de estos expertos. De esta manera, para cada entrada, solo se activa una fracción del modelo total, lo que resulta en una activación dispersa.</p>
+</section>
+</section>
+<section id="que-es-mixture-of-experts">
+<h3>¿Qué es <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts</span></code>?<a class="headerlink" href="#que-es-mixture-of-experts" title="Link to this heading">#</a></h3>
+<p><em>Mixture of Experts</em> (MoE) puede ser interpretado no solo como una técnica de <em>ensemble learning</em>, sino como una poderosa extensión de los modelos de mezcla finita y los Modelos Lineales Generalizados (GLM). Su concepción fundamental radica en una estrategia de “divide y vencerás” que particiona el espacio de los predictores de manera suave (<em>soft partitioning</em>), permitiendo que diferentes modelos expertos se especialicen en distintas regiones de dicho espacio. Esta aproximación ofrece una flexibilidad considerable para modelar procesos complejos y heterogéneos, y ha resurgido como un componente clave en la arquitectura de modelos de lenguaje a gran escala (LLMs) y otros sistemas de aprendizaje profundo.</p>
+<section id="fundamentos-del-concepto-una-perspectiva-probabilistica">
+<h4>Fundamentos del Concepto: Una Perspectiva Probabilística<a class="headerlink" href="#fundamentos-del-concepto-una-perspectiva-probabilistica" title="Link to this heading">#</a></h4>
+<p>En esencia, un modelo MoE establece que la variable de respuesta <span class="math notranslate nohighlight">\(Y\)</span>, dado un vector de predictores <span class="math notranslate nohighlight">\(x\)</span>, se genera a partir de un modelo de mezcla cuya densidad (o masa) de probabilidad condicional es:</p>
+<div class="math notranslate nohighlight">
+\[
+    p(y|x, \theta) = \sum_{i=1}^{N}g_{i}(x,v)*p_{i}(y|x, {\theta}_{i})  
+\]</div>
+<p>donde:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(N\)</span> es el número de subpoblaciones o regímenes, cada uno modelado por un “experto”.</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_{i}(y|x, {\theta}_{i})\)</span> es la densidad de probabilidad condicional del i-ésimo modelo experto, parametrizado por <span class="math notranslate nohighlight">\({\theta}_{i}\)</span>. Típicamente, los expertos son modelos de una misma familia, como regresiones lineales, regresiones logísticas o incluso redes neuronales más complejas.</p></li>
+<li><p><span class="math notranslate nohighlight">\(g_{i}(x,v)\)</span> es la función de la red de puertas (gating network), que representa la probabilidad a priori, dependiente de los predictores <span class="math notranslate nohighlight">\(x\)</span>, de seleccionar al experto <span class="math notranslate nohighlight">\(i\)</span>. Estas funciones deben satisfacer las condiciones <span class="math notranslate nohighlight">\(\sum_{i=1}^{N}g_{i}(x,v) = 1\)</span> y <span class="math notranslate nohighlight">\(g_{i}(x,v) \geq 0\)</span>.</p></li>
+</ul>
+<p>El conjunto total de parámetros del modelo es <span class="math notranslate nohighlight">\(\theta = \{{\theta}_{1},...,{\theta}_{N}, v\}\)</span>.  A diferencia de un modelo de mezcla estándar, donde las probabilidades de mezcla son constantes, en un MoE estas probabilidades son funciones de las variables de entrada, permitiendo una partición dinámica y flexible del espacio de datos.</p>
+</section>
+<section id="objetivos-y-propiedades-estadisticas">
+<h4>Objetivos y Propiedades Estadísticas<a class="headerlink" href="#objetivos-y-propiedades-estadisticas" title="Link to this heading">#</a></h4>
+<p>El objetivo principal de un MoE es modelar datos que exhiben heterogeneidad en la relación entre variables predictoras y respuesta. En lugar de ajustar un único modelo global que puede resultar inadecuado, MoE ajusta múltiples modelos más simples, cada uno especializado en una región del espacio de entrada, y los combina de una manera probabilísticamente coherente.</p>
+<p>Desde una perspectiva estadística, las propiedades de los estimadores de MoE son de gran interés. La estimación de los parámetros se realiza comúnmente a través de Máxima Verosimilitud (Maximum Likelihood Estimation, MLE). Dada la estructura de la verosimilitud, que involucra una suma dentro del logaritmo, la optimización directa es a menudo intratable. Por ello, el algoritmo de Expectativa-Maximización (EM) es el mecanismo operativo para la inferencia en estos modelos.</p>
+</section>
+<section id="algoritmo-em-para-moe">
+<h4>Algoritmo EM para MoE:<a class="headerlink" href="#algoritmo-em-para-moe" title="Link to this heading">#</a></h4>
+<p>El algoritmo EM aborda el problema de optimización introduciendo variables latentes <span class="math notranslate nohighlight">\(z_{i}\)</span>, que indican qué experto generó cada observación.</p>
+<ol class="arabic simple">
+<li><p>Paso E (Expectativa): Se calcula la responsabilidad o probabilidad a posteriori de que el experto <span class="math notranslate nohighlight">\(j\)</span> haya generado la observación <span class="math notranslate nohighlight">\((y_{k}, x_{k})\)</span>, dados los parámetros actuales <span class="math notranslate nohighlight">\({\theta}^{(t)}\)</span>:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+    h_{j}^{(k)}
+                = P\!\left(z_{k}=j \mid y_{k}, \mathbf{x}_{k}, \boldsymbol{\theta}^{(t)}\right)
+                = \frac{
+                g_{j}\!\left(\mathbf{x}_{k}, \boldsymbol{\nu}^{(t)}\right)\,
+                p_{j}\!\left(y_{k}\mid \mathbf{x}_{k}, \boldsymbol{\theta}_{j}^{(t)}\right)
+                }{
+                \sum_{i=1}^{N}
+                g_{i}\!\left(\mathbf{x}_{k}, \boldsymbol{\nu}^{(t)}\right)\,
+                p_{i}\!\left(y_{k}\mid \mathbf{x}_{k}, \boldsymbol{\theta}_{i}^{(t)}\right)
+                }
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>Paso M (Maximización): Se actualizan los parámetros del modelo maximizando la esperanza del logaritmo de la verosimilitud completa, que se desacopla en optimizaciones separadas para la red de puertas y para cada experto. Para el experto j, esto equivale a resolver un problema de máxima verosimilitud ponderada:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+    {\theta}_{j}^{t+1} = = \operatorname*{arg\,max}_{\theta_j}
+\sum_{k=1}^{M} h_{j}^{(k)} \, \log p_{j}\!\left(y_{k}\mid \mathbf{x}_{k}, \theta_{j}\right)
+\]</div>
+<p>La actualización de los parámetros <span class="math notranslate nohighlight">\(v\)</span> de la red de puertas también se realiza de manera similar, tratándolo como un problema de clasificación multiclase ponderado.</p>
+<p>Bajo ciertas condiciones de regularidad, se ha demostrado que los estimadores de máxima verosimilitud en los modelos MoE son consistentes y asintóticamente normales. Sin embargo, la teoría asintótica es compleja y presenta desafíos, como la posibilidad de una función de verosimilitud no acotada (particularmente en mezclas de regresiones gausianas) y cuestiones de identificabilidad de los parámetros en la red de puertas.</p>
+</section>
+<section id="mecanismos-operativos-la-red-de-compuertas">
+<h4>Mecanismos Operativos: La Red de Compuertas<a class="headerlink" href="#mecanismos-operativos-la-red-de-compuertas" title="Link to this heading">#</a></h4>
+<p>La red de compuertas es el componente central que distingue a los MoE. Su función es determinar la contribución de cada experto para una entrada dada. La formulación más común para la red de puertas es el modelo softmax, que es una generalización de la regresión logística para múltiples clases:</p>
+<div class="math notranslate nohighlight">
+\[
+    g_{i}(x,v) = \frac{exp(v_{i}^{T}x)}{\sum_{j=1}^{N} exp(v_{j}^{T}x)}
+\]</div>
+<p>donde <span class="math notranslate nohighlight">\(ν_{i}\)</span> es el vector de parámetros asociado al experto <span class="math notranslate nohighlight">\(i\)</span>. Esta formulación produce una partición suave del espacio de entrada, donde las fronteras de decisión entre las regiones de los expertos son lineales (en el espacio de <span class="math notranslate nohighlight">\(x\)</span>).</p>
+</section>
+</section>
+<section id="vision-general-de-la-solucion">
+<h3>Visión general de la solución<a class="headerlink" href="#vision-general-de-la-solucion" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Arquitectura central (Transformer-MoE para tabular)</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">SwitchLayer</span></code>: capa MoE con gating Top-k (parámetro k) inspirada en Switch Transformers. Ejecuta todos los expertos en paralelo sólo para los tokens seleccionados y agrega pérdida auxiliar de balanceo de carga (aux_loss_weight) usando la probabilidad media del router y la fracción de enrutamiento por experto para evitar el colapso de expertos.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TransformerSwitchBlock</span></code>: bloque Pre-LayerNorm + MultiHeadAttention + <code class="docutils literal notranslate"><span class="pre">SwitchLayer</span></code>, con residuals y dropout.</p></li>
+<li><p>Tokenizador tabular (<code class="docutils literal notranslate"><span class="pre">build_tabular_encoder</span></code>):</p>
+<ul>
+<li><p>Continuas y binarias → proyección densa a d_model como tokens.</p></li>
+<li><p>Categóricas → embeddings por columna (una entrada por feature con su vocab_size).</p></li>
+<li><p>Inserta un token [CLS] para el pooling final.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">build_switch_transformer_tabular</span></code>: ensambla el encoder + N bloques Transformer-MoE y una salida sigmoide (clasificación binaria).</p></li>
+</ul>
+</li>
+<li><p><strong>Entrenamiento y rendimiento</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">train.py</span></code>: pipeline con tf.data (vectorizado, cache(), prefetch()), mixed precision opcional para GPUs y métricas: AUC, Precision, Recall, F1 (métrica principal) y Accuracy.</p></li>
+<li><p><strong>Callbacks</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">EpochLogger</span></code>: guarda pesos del mejor modelo por F1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EarlyStopping</span></code> y <code class="docutils literal notranslate"><span class="pre">ReduceLROnPlateau</span></code> monitorizando F1 (modo <code class="docutils literal notranslate"><span class="pre">max</span></code>).</p></li>
+</ul>
+</li>
+<li><p><strong>Pérdida</strong>: <code class="docutils literal notranslate"><span class="pre">binary_focal_loss</span></code>(gamma, alpha) para manejar desbalanceo.</p></li>
+</ul>
+</li>
+<li><p><strong>Validación, selección de modelo y remuestreo</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">cross_validation.py</span></code>: StratifiedKFold con soporte de <code class="docutils literal notranslate"><span class="pre">tf.distribute.Strategy</span></code> (p.ej., <code class="docutils literal notranslate"><span class="pre">MirroredStrategy</span></code>/<code class="docutils literal notranslate"><span class="pre">MultiWorkerMirroredStrategy</span></code>).</p></li>
+<li><p><strong>SMOTE / SMOTE-Tomek</strong> integrados (via <code class="docutils literal notranslate"><span class="pre">imblearn</span></code>) con <code class="docutils literal notranslate"><span class="pre">sampling_strategy</span></code> flexible (proporción, entero por clase o diccionario).</p></li>
+<li><p>Para cada fold: se entrena, se evalúan múltiples umbrales, se conserva el mejor F1 y se retorna la instancia entrenada del mejor modelo + el <code class="docutils literal notranslate"><span class="pre">final_results_df</span></code> consolidado.</p></li>
+</ul>
+</li>
+<li><p><strong>Evaluación y visualización</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">evaluate.py</span></code>: calcula Precision, Recall, F1, Accuracy, ROC-AUC y matriz de confusión a lo largo de una rejilla de thresholds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plotting.py</span></code>: utilitario para curva ROC.</p></li>
+</ul>
+</li>
+<li><p><strong>Conformal Prediction (binario, condicional por clase)</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">conformal.py</span></code>: Split Conformal con calibración condicional por clase (qhat_0, qhat_1) usando puntuaciones de no-conformidad:
+positivos: <span class="math notranslate nohighlight">\(s = 1 - p\)</span>; negativos: <span class="math notranslate nohighlight">\(s = p\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">evaluate_conformal_sets</span></code>: genera conjuntos de predicción <span class="math notranslate nohighlight">\(\{0,1\}\)</span> por muestra y reporta coverage y tamaño medio de conjunto.</p></li>
+<li><p>La separación por clase ayuda a mantener cobertura con clases desbalanceadas y umbrales diferenciados.</p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>Puntos fuertes (highlights)</p>
+<ul>
+<li><p><strong>Especializado para tabular</strong>: tokenización nativa de continuas, binarias y categóricas (embeddings por columna) + [CLS] para un readout robusto.</p></li>
+<li><p><strong>MoE eficiente y estable</strong>: Top-k gating + pérdida de balanceo para distribuir carga entre expertos y mejorar capacidad sin costear un modelo denso equivalente.</p></li>
+<li><p><strong>Pipeline productivo</strong>: tf.data vectorizado, mixed precision, y callbacks orientados a F1 → entrenamiento estable y más rápido.</p></li>
+<li><p><strong>Desbalanceo cubierto extremo a extremo</strong>: combinación de Focal Loss, SMOTE/SMOTE-Tomek y selección de umbral por F1.</p></li>
+<li><p><strong>Selección de mejor modelo real</strong>: se retorna la instancia entrenada con el mejor F1 (no sólo archivos), lista para calibrar Conformal.</p></li>
+<li><p><strong>Conformal Prediction condicional</strong>: cobertura controlada y trazable (coverage y tamaño de conjunto), útil para decisiones bajo riesgo.</p></li>
+<li><p><strong>Escalabilidad</strong>: soporte directo para estrategias distribuidas vía tf.distribute.Strategy.</p></li>
+<li><p><strong>Modularidad y mantenibilidad</strong>: arquitectura, entrenamiento, validación, métricas, pérdidas, callbacks y conformal separados por módulos.</p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>Stack utilizado</p>
+<ul>
+<li><p>Lenguaje: Python (&gt;=3.10 recomendado).</p></li>
+<li><p>Framework DL: TensorFlow / Keras (MultiHeadAttention, Layers personalizados, <code class="docutils literal notranslate"><span class="pre">tf.data</span></code>, <code class="docutils literal notranslate"><span class="pre">mixed_precision</span></code>, <code class="docutils literal notranslate"><span class="pre">tf.distribute</span></code>).</p></li>
+<li><p>ML clásico &amp; utilidades: scikit-learn (KFold, métricas), imbalanced-learn (SMOTE, SMOTE-Tomek), pandas, numpy.</p></li>
+<li><p>Visualización: matplotlib (ROC).</p></li>
+<li><p>Arquitectura propia: capas personalizadas (<code class="docutils literal notranslate"><span class="pre">SwitchLayer</span></code>, <code class="docutils literal notranslate"><span class="pre">TransformerSwitchBlock</span></code>), <em>loss</em> focal y métrica F1 stateful.</p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>Flujo típico de uso</p>
+<ul>
+<li><p>Construcción del modelo con `build_switch_transformer_tabular  (parámetros: d_model, num_heads, d_ff, num_experts, k, aux_loss_weight, num_layers, dropout, cat_vocab_sizes).</p></li>
+<li><p>Entrenamiento/validación cruzada con <code class="docutils literal notranslate"><span class="pre">run_cross_validation</span></code>(…) pasando una Strategy y training_params (col_groups, batch_size, epochs, lr, etc.).</p></li>
+<li><p>Selección de umbral y métricas con <code class="docutils literal notranslate"><span class="pre">evaluate</span></code>(…) y curva ROC con <code class="docutils literal notranslate"><span class="pre">plotting.py</span></code>.</p></li>
+<li><p>Calibración conforme con <code class="docutils literal notranslate"><span class="pre">calibrate_conformal_conditional</span></code>(…) y evaluación con <code class="docutils literal notranslate"><span class="pre">evaluate_conformal_sets</span></code>(…).</p></li>
+<li><p>Estado actual: la arquitectura y evaluación están orientadas a clasificación binaria (salida sigmoide). La extensión a multiclase es directa (p.ej., softmax + sets conformes multicategoría), manteniendo el mismo patrón modular.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./c03_proyectoFinal"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../c01_miniproyecto_KNN/knn_miniproyecto.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Mini Proyecto #1:</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="diabetes_classifier_eda.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">EDA- PROYECTO FINAL</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proyecto-integrador-de-aprendizaje-automatico">Proyecto Integrador de Aprendizaje Automático</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen">Resumen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-a-evaluar">Algoritmos a Evaluar</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#propuesta-mixture-of-experts-conformal-prediction-transformed-based-moe-conformal-transformer">Propuesta: <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts-Conformal</span> <span class="pre">Prediction-Transformed</span> <span class="pre">Based</span> <span class="pre">(MOE</span> <span class="pre">Conformal</span> <span class="pre">Transformer)</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-conformal-prediction">¿Qué es <code class="docutils literal notranslate"><span class="pre">Conformal</span> <span class="pre">Prediction</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-principal-de-la-conformal-prediction-cobertura-marginal-garantizada">Objetivo Principal de la <code class="docutils literal notranslate"><span class="pre">Conformal</span> <span class="pre">Prediction</span></code>: Cobertura Marginal Garantizada</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mecanismo-operativo-puntuaciones-de-no-conformidad-y-cuantiles-empiricos">Mecanismo Operativo: Puntuaciones de No Conformidad y Cuantiles Empíricos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#propiedades-fundamentales">Propiedades Fundamentales</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-son-los-transformers">¿Qué son los <code class="docutils literal notranslate"><span class="pre">Transformers</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-y-propiedades">Objetivos y Propiedades</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mecanismos-operativos">Mecanismos Operativos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relacion-de-los-transformers-con-mixture-of-experts-moe">Relación de los Transformers con Mixture of Experts (MoE)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-mixture-of-experts">¿Qué es <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamentos-del-concepto-una-perspectiva-probabilistica">Fundamentos del Concepto: Una Perspectiva Probabilística</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-y-propiedades-estadisticas">Objetivos y Propiedades Estadísticas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-em-para-moe">Algoritmo EM para MoE:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mecanismos-operativos-la-red-de-compuertas">Mecanismos Operativos: La Red de Compuertas</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vision-general-de-la-solucion">Visión general de la solución</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

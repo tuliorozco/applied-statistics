@@ -1,0 +1,2291 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Implementación de Modelos &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'c03_proyectoFinal/diabetes_classifier_model';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Conclusiones" href="diabetes_classifier_conclusions.html" />
+    <link rel="prev" title="EDA- PROYECTO FINAL" href="diabetes_classifier_eda.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    About me
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../c01_miniproyecto_KNN/knn_intro.html">K-Nearest Neighbors (KNN): Predicción del Éxito Académico y Riesgo de Deserción en Estudiantes Universitarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../c01_miniproyecto_KNN/knn_eda.html">Análisis Exploratorio y Visualización</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c01_miniproyecto_KNN/knn_miniproyecto.html">Mini Proyecto #1:</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="diabetes_classifier_abstract.html">Clasificación de Riesgo en Pacientes con Diabetes: Comparativa de Modelos Clásicos de Machine Learning Frente a Propuesta de Modelo Híbrido</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="diabetes_classifier_eda.html">EDA- PROYECTO FINAL</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Implementación de Modelos</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="diabetes_classifier_conclusions.html">Conclusiones</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fc03_proyectoFinal/diabetes_classifier_model.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/c03_proyectoFinal/diabetes_classifier_model.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Implementación de Modelos</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Implementación de Modelos</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-y-preprocesamiento-de-datos">Carga y Preprocesamiento de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">Metodología</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#especificacion-del-grid-de-hiperparametros-por-tipo-de-modelo">Especificación del Grid de Hiperparámetros por Tipo de Modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-algoritmos-clasicos">Entrenamiento: Algoritmos Clásicos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-algoritmos-clasicos-caso-regresion-logistica">Entrenamiento Algoritmos Clásicos: Caso Regresión Logística</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-moe-conformal-transformer">Entrenamiento <code class="docutils literal notranslate"><span class="pre">MoE</span> <span class="pre">Conformal</span> <span class="pre">Transformer</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-de-la-validacion-cruzada">Resumen de la Validación Cruzada</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-de-metricas-de-performance">Evaluación de Métricas de Performance</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-de-split-conformal-prediction-sobre-los-resultados-de-sparsetabmoe">Aplicación de <em>Split Conformal Prediction</em> sobre los resultados de <code class="docutils literal notranslate"><span class="pre">SparseTabMoE</span></code>.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observacion-e-interpretacion-de-los-resultados-de-la-calibracion-conformal">Observación e Interpretación de los Resultados de la Calibración Conformal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-de-los-umbrales-de-decision">Interpretación de los Umbrales de Decisión</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-empirica-en-el-conjunto-de-pruebas">Evaluación Empírica en el Conjunto de Pruebas</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="implementacion-de-modelos">
+<h1>Implementación de Modelos<a class="headerlink" href="#implementacion-de-modelos" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !apt install unzip</span>
+<span class="c1"># !unzip -u &#39;/content/sample_data/src.zip&#39; -d &#39;/content/sample_data/&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import sys</span>
+<span class="c1"># sys.path.append(&#39;/content/sample_data&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">graphviz</span>
+
+
+<span class="c1"># Utilidades pre-procesamiento, pipelines y automatización de entrenamiento</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">train_test_split</span><span class="p">,</span> 
+    <span class="n">cross_val_score</span><span class="p">,</span> 
+    <span class="n">KFold</span><span class="p">,</span> 
+    <span class="n">StratifiedKFold</span><span class="p">,</span> 
+    <span class="n">GridSearchCV</span>
+    <span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.compose</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColumnTransformer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="c1"># from sklearn.impute import SimpleImputer</span>
+
+<span class="c1"># Métricas de performance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">classification_report</span><span class="p">,</span>
+    <span class="n">accuracy_score</span><span class="p">,</span> 
+    <span class="n">precision_score</span><span class="p">,</span> 
+    <span class="n">recall_score</span><span class="p">,</span> 
+    <span class="n">f1_score</span><span class="p">,</span> 
+    <span class="n">roc_auc_score</span><span class="p">,</span> 
+    <span class="n">roc_curve</span><span class="p">,</span> <span class="n">auc</span><span class="p">,</span>
+    <span class="n">confusion_matrix</span>
+<span class="p">)</span>
+
+<span class="c1"># Modelos</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src</span><span class="w"> </span><span class="kn">import</span> <span class="n">TopKTabularMoE</span> <span class="k">as</span> <span class="n">tkm</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.trainClassifiers</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_LogisticRegression</span> <span class="c1"># Custom LogisticRegression para evaluar en multiples tresholds.</span>
+
+<span class="c1"># Diccionario con el grid de algoritmos y especificación de sus respectivos hiperparámetros</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src</span><span class="w"> </span><span class="kn">import</span> <span class="n">benchmark_models</span>
+
+
+<span class="c1"># Utilidades</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">missingno</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">msno</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="carga-y-preprocesamiento-de-datos">
+<h2>Carga y Preprocesamiento de datos<a class="headerlink" href="#carga-y-preprocesamiento-de-datos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importación de los datos</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/tuliorozco/applied-statistics/refs/heads/main/data/diabetes_dataset.csv&#39;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>location</th>
+      <th>race:AfricanAmerican</th>
+      <th>race:Asian</th>
+      <th>race:Caucasian</th>
+      <th>race:Hispanic</th>
+      <th>race:Other</th>
+      <th>hypertension</th>
+      <th>heart_disease</th>
+      <th>smoking_history</th>
+      <th>bmi</th>
+      <th>hbA1c_level</th>
+      <th>blood_glucose_level</th>
+      <th>diabetes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020</td>
+      <td>Female</td>
+      <td>32.0</td>
+      <td>Alabama</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>27.32</td>
+      <td>5.0</td>
+      <td>100</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2015</td>
+      <td>Female</td>
+      <td>29.0</td>
+      <td>Alabama</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>19.95</td>
+      <td>5.0</td>
+      <td>90</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2015</td>
+      <td>Male</td>
+      <td>18.0</td>
+      <td>Alabama</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>23.76</td>
+      <td>4.8</td>
+      <td>160</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2015</td>
+      <td>Male</td>
+      <td>41.0</td>
+      <td>Alabama</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>27.32</td>
+      <td>4.0</td>
+      <td>159</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2016</td>
+      <td>Female</td>
+      <td>52.0</td>
+      <td>Alabama</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>never</td>
+      <td>23.75</td>
+      <td>6.5</td>
+      <td>90</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># =================================== PREPROCESAMIENTO ===================================</span>
+
+<span class="c1"># Eliminación de observaciones duplicadas</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nuevo total de registros: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># 1. Separar las features predictoras (X) de la variable objetivo/target (y).</span>
+<span class="n">TARGET_COL</span> <span class="o">=</span> <span class="s1">&#39;diabetes&#39;</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;diabetes&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">TARGET_COL</span><span class="p">]</span>
+
+<span class="c1"># 2. Clasificar los campos por tipo de variable para el pre-procesamiento adecuado</span>
+<span class="n">numerical_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;bmi&quot;</span><span class="p">,</span> <span class="s2">&quot;hbA1c_level&quot;</span><span class="p">,</span> <span class="s2">&quot;blood_glucose_level&quot;</span><span class="p">]</span> 
+
+<span class="n">binary_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;race:AfricanAmerican&#39;</span><span class="p">,</span><span class="s1">&#39;race:Asian&#39;</span><span class="p">,</span><span class="s1">&#39;race:Caucasian&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;race:Hispanic&#39;</span><span class="p">,</span><span class="s1">&#39;race:Other&#39;</span><span class="p">,</span><span class="s1">&#39;hypertension&#39;</span><span class="p">,</span><span class="s1">&#39;heart_disease&#39;</span><span class="p">]</span> 
+
+
+<span class="n">categorical_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">numerical_cols</span> <span class="o">+</span> <span class="n">binary_cols</span><span class="p">]</span>
+<span class="n">categorical_cols</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;diabetes&#39;</span><span class="p">)</span> 
+
+
+<span class="c1"># 3. División Train/Test</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+
+<span class="c1"># 4. Pre-procesamiento de los datos</span>
+<span class="n">preprocessor</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">(</span><span class="n">transformers</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="n">handle_unknown</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">),</span> <span class="n">categorical_cols</span><span class="p">),</span>  
+    <span class="p">(</span><span class="s2">&quot;num&quot;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">numerical_cols</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;bin&quot;</span><span class="p">,</span> <span class="s2">&quot;passthrough&quot;</span><span class="p">,</span> <span class="n">binary_cols</span><span class="p">)</span>  
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nuevo total de registros: 99986
+(99986, 16)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="metodologia">
+<h2>Metodología<a class="headerlink" href="#metodologia" title="Link to this heading">#</a></h2>
+<section id="especificacion-del-grid-de-hiperparametros-por-tipo-de-modelo">
+<h3>Especificación del Grid de Hiperparámetros por Tipo de Modelo<a class="headerlink" href="#especificacion-del-grid-de-hiperparametros-por-tipo-de-modelo" title="Link to this heading">#</a></h3>
+<p>Teniendo en cuenta que los modelos a entrenar y analizar pueden ser ejecutados de forma automática mediante <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> (A excepción del algoritmo propuesto), se especificará un diccionario <em>models_config</em> estructurado de la siguiente forma:</p>
+<ul class="simple">
+<li><p>Key (clave): Identificación del tipo de algoritmo, ejemplo: KNN, LogisticRegresion, DecisionTree, etc.</p></li>
+<li><p>Value (valor): El conjunto de funciones (la implementación de cada algortimo en los paquetes <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> o <code class="docutils literal notranslate"><span class="pre">xgboost</span></code>), los parámetros de inicialización del algoritmo (si los tiene) y sus respectivos hiperparámetros a evaluar en el entrenamiento.</p></li>
+</ul>
+<p>En la especificación se muestra de la siguiente manera:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">models_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;KNN&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;function&#39;</span><span class="p">:</span> <span class="n">KNeighborsClassifier</span><span class="p">,</span>
+            <span class="s1">&#39;param_grid&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;classifier__n_neighbors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+            <span class="s1">&#39;classifier__weights&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;classifier__metric&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;euclidean&#39;</span><span class="p">]</span>
+            <span class="p">}</span>   
+        <span class="p">}</span> <span class="p">,</span>
+         <span class="s1">&#39;LogisticRegression&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;function&#39;</span><span class="p">:</span> <span class="n">LogisticRegression</span><span class="p">,</span>
+            <span class="s1">&#39;init_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_iter&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="n">random_state</span><span class="p">},</span> 
+            <span class="s1">&#39;param_grid&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;classifier__C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+                <span class="s1">&#39;classifier__penalty&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;l1&#39;</span><span class="p">,</span> <span class="s1">&#39;l2&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;classifier__solver&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;liblinear&#39;</span><span class="p">,</span> <span class="s1">&#39;saga&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+         <span class="p">},</span>
+    <span class="c1"># Y así sucesivamente ...</span>
+    <span class="s1">&#39;MLP&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;function&#39;</span><span class="p">:</span> <span class="n">MLPClassifier</span><span class="p">,</span>
+        <span class="s1">&#39;init_params&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;max_iter&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+            <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">101</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;param_grid&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;classifier__hidden_layer_sizes&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">50</span><span class="p">,),</span> <span class="p">(</span><span class="mi">100</span><span class="p">,),</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)],</span>
+            <span class="s1">&#39;classifier__activation&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span> <span class="s1">&#39;tanh&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;classifier__solver&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="s1">&#39;sgd&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;classifier__alpha&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Así mismo, se define una variable tipo <code class="docutils literal notranslate"><span class="pre">Dict</span></code> denominada <em>common_params</em> con las siguientes <em>key-values</em>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X_train</span></code>: Variables predictoras del conjunto de entrenamiento.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X_test</span></code>: Variables predictoras del conjunto de test.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y_train</span></code>: Variable <em>target</em> del conjunto de entrenamiento.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y_test</span></code>: Variable <em>target</em> del conjunto de test.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cv_folds</span></code>: Número de pliegues para la validación cruzada (cross validation).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">random_state</span></code>: Semilla de reproducibilidad.</p></li>
+</ul>
+</section>
+<section id="entrenamiento-algoritmos-clasicos">
+<h3>Entrenamiento: Algoritmos Clásicos<a class="headerlink" href="#entrenamiento-algoritmos-clasicos" title="Link to this heading">#</a></h3>
+<p>Definidos los algoritmos con sus respectivos hiperparámetros así como los parámetros comunes (conjuntos de entrenamiento y pruebas), se define un bucle <em>for</em> que recorrerá el diccionario y procesará cada algoritmo según lo especificado en <em>models_config</em>. Las métricas resultantes del entrenamiento se almacenarán en listas para el análisis comparativo posterior frente al modelo propuesto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random_state</span> <span class="o">=</span> <span class="mi">101</span>
+
+
+<span class="c1"># Parámetros comunes para el entrenamiento</span>
+<span class="n">common_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;X_train&#39;</span><span class="p">:</span> <span class="n">X_train</span><span class="p">,</span>
+    <span class="s1">&#39;X_test&#39;</span><span class="p">:</span> <span class="n">X_test</span><span class="p">,</span>
+    <span class="s1">&#39;y_train&#39;</span><span class="p">:</span> <span class="n">y_train</span><span class="p">,</span>
+    <span class="s1">&#39;y_test&#39;</span><span class="p">:</span> <span class="n">y_test</span><span class="p">,</span>
+    <span class="s1">&#39;cv_folds&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="n">random_state</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span><span class="p">,</span> <span class="n">best_config_df</span><span class="p">,</span> <span class="n">roc_curves</span> <span class="o">=</span> <span class="n">benchmark_models</span><span class="o">.</span><span class="n">run_benchmark</span><span class="p">(</span>
+    <span class="n">common_params</span><span class="o">=</span><span class="n">common_params</span><span class="p">,</span>
+    <span class="n">preprocessor</span><span class="o">=</span><span class="n">preprocessor</span><span class="p">,</span>
+    <span class="n">balance</span><span class="o">=</span><span class="kc">False</span>   <span class="c1"># Sin aplicar remuestreo balanceado mediante SMOTE ni SMOTE-Tomek</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Entrenando modelo: KNN
+Fitting 5 folds for each of 14 candidates, totalling 70 fits
+Entrenamiento completado. Tiempo entrenamiento KNN: 261.6229 segundos
+
+Entrenando modelo: LogisticRegression
+Fitting 5 folds for each of 20 candidates, totalling 100 fits
+Entrenamiento completado. Tiempo entrenamiento LogisticRegression: 74.8851 segundos
+
+Entrenando modelo: DecisionTree
+Fitting 5 folds for each of 45 candidates, totalling 225 fits
+Entrenamiento completado. Tiempo entrenamiento DecisionTree: 7.5441 segundos
+
+Entrenando modelo: RandomForest
+Fitting 5 folds for each of 45 candidates, totalling 225 fits
+Entrenamiento completado. Tiempo entrenamiento RandomForest: 212.1288 segundos
+
+Entrenando modelo: XGBoost
+Fitting 5 folds for each of 72 candidates, totalling 360 fits
+Entrenamiento completado. Tiempo entrenamiento XGBoost: 42.1395 segundos
+
+Entrenando modelo: SVM
+Fitting 5 folds for each of 12 candidates, totalling 60 fits
+Entrenamiento completado. Tiempo entrenamiento SVM: 3225.7654 segundos
+
+Entrenando modelo: MLP
+Fitting 5 folds for each of 36 candidates, totalling 180 fits
+Entrenamiento completado. Tiempo entrenamiento MLP: 1131.1736 segundos
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="entrenamiento-algoritmos-clasicos-caso-regresion-logistica">
+<h3>Entrenamiento Algoritmos Clásicos: Caso Regresión Logística<a class="headerlink" href="#entrenamiento-algoritmos-clasicos-caso-regresion-logistica" title="Link to this heading">#</a></h3>
+<p>En el siguiente bloque se realiza el entrenamiento del modelo de regresión logística evaluando <em>tresholds</em> entre 0.30 y 0.50 (valor por defecto) y de este modo determinar el umbral con mejores métricas en la clasificación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Entreaniemto de modelo con algoritmo de Regresión Logística y evaluación con thresholds entre 0.30 y 0.50</span>
+
+<span class="c1"># Definición de umbrales para la evaluación.</span>
+<span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="mf">0.30</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span><span class="mf">0.02</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+
+<span class="n">results_lr_df</span><span class="p">,</span> <span class="n">best_configs_lr</span> <span class="o">=</span> <span class="n">train_LogisticRegression</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span>
+    <span class="n">X_test</span><span class="o">=</span><span class="n">X_test</span><span class="p">,</span>
+    <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+    <span class="n">y_test</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span>
+    <span class="n">preprocessor</span><span class="o">=</span><span class="n">preprocessor</span><span class="p">,</span>
+    <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
+    <span class="n">param_grid</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;classifier__C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+        <span class="s1">&#39;classifier__solver&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;liblinear&#39;</span><span class="p">,</span> <span class="s1">&#39;lbfgs&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="n">cv_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">101</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="entrenamiento-moe-conformal-transformer">
+<h4>Entrenamiento <code class="docutils literal notranslate"><span class="pre">MoE</span> <span class="pre">Conformal</span> <span class="pre">Transformer</span></code><a class="headerlink" href="#entrenamiento-moe-conformal-transformer" title="Link to this heading">#</a></h4>
+<hr class="docutils" />
+<p>Construcción del modelo:</p>
+<p>Se inicia con la definición del diccionario <em>cat_vocab_sizes</em> que contendrá la relación de las variables categóricas (no binarias) del dataset y valores únicos por cada variable, información necesaria para la especificación de los embeddings requeridos por el modelo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Tamaños:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train:</span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># print(f&quot;Calibración:{X_cal.shape}&quot;)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test:</span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Definir vocabularios para categóricas</span>
+<span class="n">cat_vocab_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">categorical_cols</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Vocabulario variables categóricas = </span><span class="si">{</span><span class="n">cat_vocab_sizes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tamaños:
+Train:(69990, 15)
+Test:(29996, 15)
+
+Vocabulario variables categóricas = {&#39;year&#39;: 7, &#39;gender&#39;: 3, &#39;location&#39;: 55, &#39;smoking_history&#39;: 6}
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<p>Preprocesamiento de los datos para el entrenamiento:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --------------------- PREPROCESAMIENTO PARA TopKTabularMoE -------------------------------</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrdinalEncoder</span>
+
+<span class="c1"># por si en el futuro aparecen categorías no vistas en el entrenamiento.</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">OrdinalEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s1">&#39;use_encoded_value&#39;</span><span class="p">,</span> <span class="n">unknown_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 2. Ajustar el codificador SOLO con los datos de entrenamiento (X_train)</span>
+<span class="c1">#    y transformar X_train.</span>
+<span class="n">X_train</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">])</span>
+
+<span class="c1">#  Transformar X_test usando el encoder YA AJUSTADO. Es crucial no volver a hacer &#39;fit&#39;.</span>
+<span class="n">X_test</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">])</span> <span class="c1"># &lt;-- Paso crucial para X_test</span>
+
+
+<span class="c1"># Crear el DataFrame de entrenamiento completo</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">train_df</span><span class="p">[</span><span class="n">TARGET_COL</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+
+<span class="c1"># DataFrame para la función evaluate</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">test_df</span><span class="p">[</span><span class="n">TARGET_COL</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_test</span> <span class="c1"># &lt;-- Re-unimos X_test con y_test</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Preprocesamiento terminado.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preprocesamiento terminado.
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<p>Especificación del modelo SparseTabularMoE:</p>
+<p>En la siguiente sección se definen los parámetros e hiperparámetros para el entrenamiento del modelo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">src</span><span class="w"> </span><span class="kn">import</span> <span class="n">spartan</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+
+<span class="c1"># --- 2. Configuración de Estrategia Distribuida ---</span>
+<span class="n">strategy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">MirroredStrategy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estrategia distribuida activada. Dispositivos: </span><span class="si">{</span><span class="n">strategy</span><span class="o">.</span><span class="n">num_replicas_in_sync</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">d_model</span> <span class="o">=</span> <span class="mi">128</span>
+
+<span class="c1"># Parámetros para construir la arquitectura del modelo</span>
+<span class="n">model_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;cont_cols&#39;</span><span class="p">:</span> <span class="n">numerical_cols</span><span class="p">,</span>
+    <span class="s1">&#39;bin_cols&#39;</span><span class="p">:</span> <span class="n">binary_cols</span><span class="p">,</span>
+    <span class="s1">&#39;cat_cols&#39;</span><span class="p">:</span> <span class="n">categorical_cols</span><span class="p">,</span>
+    <span class="s1">&#39;cat_vocab_sizes&#39;</span><span class="p">:</span> <span class="n">cat_vocab_sizes</span><span class="p">,</span>
+    <span class="s1">&#39;d_model&#39;</span><span class="p">:</span> <span class="n">d_model</span><span class="p">,</span>
+    <span class="s1">&#39;num_heads&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s1">&#39;d_ff&#39;</span><span class="p">:</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">d_model</span><span class="p">,</span>
+    <span class="s1">&#39;num_experts&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s1">&#39;num_layers&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s1">&#39;dropout&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="s1">&#39;k&#39;</span><span class="p">:</span> <span class="mi">2</span>
+<span class="p">}</span>
+
+<span class="c1"># Parámetros para el proceso de entrenamiento</span>
+<span class="n">training_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">3e-4</span><span class="p">,</span>
+    <span class="s1">&#39;epochs&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="c1"># Puedes reducir las épocas para una CV más rápida</span>
+    <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">256</span> <span class="o">*</span> <span class="n">strategy</span><span class="o">.</span><span class="n">num_replicas_in_sync</span><span class="p">,</span>
+    <span class="s1">&#39;target_col&#39;</span><span class="p">:</span> <span class="n">TARGET_COL</span><span class="p">,</span>
+    <span class="s1">&#39;col_groups&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="c1"># Agrupamos las listas de columnas</span>
+        <span class="s1">&#39;cont_cols&#39;</span><span class="p">:</span> <span class="n">numerical_cols</span><span class="p">,</span>
+        <span class="s1">&#39;bin_cols&#39;</span><span class="p">:</span> <span class="n">binary_cols</span><span class="p">,</span>
+        <span class="s1">&#39;cat_cols&#39;</span><span class="p">:</span> <span class="n">categorical_cols</span><span class="p">,</span>
+        <span class="s1">&#39;target_col&#39;</span><span class="p">:</span> <span class="n">TARGET_COL</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:tensorflow:Using MirroredStrategy with devices (&#39;/job:localhost/replica:0/task:0/device:GPU:0&#39;,)
+Estrategia distribuida activada. Dispositivos: 1
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<p>Entrenamiento del modelo:</p>
+<p>El siguiente bloque de código permite ejecutar la validación cruzada especificando el número de folds requeridos. En este caso, usan 5 pliegues y el modelo se evalúa con umbrales contenidos en el intervalo [0.30, 0.50], con incremento en 0.05, dado el fuerte desbalanceo entre las clases de la variable objetivo (negativa con 91.5% vs 8.5% en la clase positiva).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">src</span><span class="w"> </span><span class="kn">import</span> <span class="n">spartan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.spartan</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_validation</span> <span class="k">as</span> <span class="n">cv</span>
+<span class="c1"># --- 4. Ejecutar la Validación Cruzada ---</span>
+<span class="c1"># Una sola llamada a la función orquesta todo el proceso.</span>
+<span class="n">best_model</span><span class="p">,</span> <span class="n">roc_dict</span><span class="p">,</span> <span class="n">cv_results</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">run_cross_validation</span><span class="p">(</span>
+    <span class="n">df_full_train</span><span class="o">=</span><span class="n">train_df</span><span class="p">,</span> <span class="c1"># Usando el DataFrame de entrenamiento completo</span>
+    <span class="n">target_col</span><span class="o">=</span><span class="n">TARGET_COL</span><span class="p">,</span>
+    <span class="n">strategy</span><span class="o">=</span><span class="n">strategy</span><span class="p">,</span>
+    <span class="n">model_build_params</span><span class="o">=</span><span class="n">model_params</span><span class="p">,</span>
+    <span class="n">training_params</span><span class="o">=</span><span class="n">training_params</span><span class="p">,</span>
+    <span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="c1"># Número de folds</span>
+    <span class="n">apply_smote</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="c1"># No se aplica muestreo balanceado</span>
+    <span class="n">thresholds</span><span class="o">=</span><span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Cross-validation procesada.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Iniciando validación cruzada con 5 folds…</p>
+</section>
+</section>
+<section id="resumen-de-la-validacion-cruzada">
+<h3>Resumen de la Validación Cruzada<a class="headerlink" href="#resumen-de-la-validacion-cruzada" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Criterio</p></th>
+<th class="head text-right"><p>Mean</p></th>
+<th class="head text-right"><p>Std Dev</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Precision</p></td>
+<td class="text-right"><p>0.98012</p></td>
+<td class="text-right"><p>0.037314</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Recall</p></td>
+<td class="text-right"><p>0.50228</p></td>
+<td class="text-right"><p>0.067733</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>F1-Score</p></td>
+<td class="text-right"><p>0.66024</p></td>
+<td class="text-right"><p>0.051215</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Accuracy</p></td>
+<td class="text-right"><p>0.95660</p></td>
+<td class="text-right"><p>0.004213</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>ROC-AUC</p></td>
+<td class="text-right"><p>0.96780</p></td>
+<td class="text-right"><p>0.002533</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>TN</p></td>
+<td class="text-right"><p>12792.44000</p></td>
+<td class="text-right"><p>31.599156</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>TP</p></td>
+<td class="text-right"><p>597.84000</p></td>
+<td class="text-right"><p>80.646699</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>FP</p></td>
+<td class="text-right"><p>15.56000</p></td>
+<td class="text-right"><p>31.599156</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>FN</p></td>
+<td class="text-right"><p>592.16000</p></td>
+<td class="text-right"><p>80.646699</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Cross-validation procesada.</p>
+<p>Con el modelo <code class="docutils literal notranslate"><span class="pre">SparseTabMoE</span></code> entrenado se procede con la evaluación de los resultados.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="evaluacion-de-metricas-de-performance">
+<h1>Evaluación de Métricas de Performance<a class="headerlink" href="#evaluacion-de-metricas-de-performance" title="Link to this heading">#</a></h1>
+<p>A continuación, se presentan en formato tabla las métricas de cada algoritmo con su mejor combinación de parámetros e hiperparámetros, así como la matriz de confusión de cada uno.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">35</span> <span class="o">+</span> <span class="s2">&quot;TABLA COMPARATIVA DE RESULTADOS&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">results_df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F1-Score&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROC-AUC&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>====================================================================================================
+                                   TABLA COMPARATIVA DE RESULTADOS
+====================================================================================================
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_d947f">
+  <thead>
+    <tr>
+      <th id="T_d947f_level0_col0" class="col_heading level0 col0" >Model</th>
+      <th id="T_d947f_level0_col1" class="col_heading level0 col1" >Precision</th>
+      <th id="T_d947f_level0_col2" class="col_heading level0 col2" >Recall</th>
+      <th id="T_d947f_level0_col3" class="col_heading level0 col3" >F1-Score</th>
+      <th id="T_d947f_level0_col4" class="col_heading level0 col4" >Accuracy</th>
+      <th id="T_d947f_level0_col5" class="col_heading level0 col5" >ROC-AUC</th>
+      <th id="T_d947f_level0_col6" class="col_heading level0 col6" >Best Params</th>
+      <th id="T_d947f_level0_col7" class="col_heading level0 col7" >TN</th>
+      <th id="T_d947f_level0_col8" class="col_heading level0 col8" >TP</th>
+      <th id="T_d947f_level0_col9" class="col_heading level0 col9" >FP</th>
+      <th id="T_d947f_level0_col10" class="col_heading level0 col10" >FN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_d947f_row0_col0" class="data row0 col0" >KNN</td>
+      <td id="T_d947f_row0_col1" class="data row0 col1" >0.987</td>
+      <td id="T_d947f_row0_col2" class="data row0 col2" >0.522</td>
+      <td id="T_d947f_row0_col3" class="data row0 col3" >0.683</td>
+      <td id="T_d947f_row0_col4" class="data row0 col4" >0.959</td>
+      <td id="T_d947f_row0_col5" class="data row0 col5" >0.929</td>
+      <td id="T_d947f_row0_col6" class="data row0 col6" >{'metric': 'euclidean', 'n_neighbors': 15, 'weights': 'distance'}</td>
+      <td id="T_d947f_row0_col7" class="data row0 col7" >27428</td>
+      <td id="T_d947f_row0_col8" class="data row0 col8" >1331</td>
+      <td id="T_d947f_row0_col9" class="data row0 col9" >18</td>
+      <td id="T_d947f_row0_col10" class="data row0 col10" >1219</td>
+    </tr>
+    <tr>
+      <td id="T_d947f_row1_col0" class="data row1 col0" >LogisticRegression</td>
+      <td id="T_d947f_row1_col1" class="data row1 col1" >0.875</td>
+      <td id="T_d947f_row1_col2" class="data row1 col2" >0.628</td>
+      <td id="T_d947f_row1_col3" class="data row1 col3" >0.732</td>
+      <td id="T_d947f_row1_col4" class="data row1 col4" >0.961</td>
+      <td id="T_d947f_row1_col5" class="data row1 col5" >0.960</td>
+      <td id="T_d947f_row1_col6" class="data row1 col6" >{'C': 0.1, 'penalty': 'l1', 'solver': 'liblinear'}</td>
+      <td id="T_d947f_row1_col7" class="data row1 col7" >27218</td>
+      <td id="T_d947f_row1_col8" class="data row1 col8" >1602</td>
+      <td id="T_d947f_row1_col9" class="data row1 col9" >228</td>
+      <td id="T_d947f_row1_col10" class="data row1 col10" >948</td>
+    </tr>
+    <tr>
+      <td id="T_d947f_row2_col0" class="data row2 col0" >DecisionTree</td>
+      <td id="T_d947f_row2_col1" class="data row2 col1" >0.972</td>
+      <td id="T_d947f_row2_col2" class="data row2 col2" >0.676</td>
+      <td id="T_d947f_row2_col3" class="data row2 col3" >0.798</td>
+      <td id="T_d947f_row2_col4" class="data row2 col4" >0.971</td>
+      <td id="T_d947f_row2_col5" class="data row2 col5" >0.974</td>
+      <td id="T_d947f_row2_col6" class="data row2 col6" >{'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 10}</td>
+      <td id="T_d947f_row2_col7" class="data row2 col7" >27397</td>
+      <td id="T_d947f_row2_col8" class="data row2 col8" >1724</td>
+      <td id="T_d947f_row2_col9" class="data row2 col9" >49</td>
+      <td id="T_d947f_row2_col10" class="data row2 col10" >826</td>
+    </tr>
+    <tr>
+      <td id="T_d947f_row3_col0" class="data row3 col0" >RandomForest</td>
+      <td id="T_d947f_row3_col1" class="data row3 col1" >0.997</td>
+      <td id="T_d947f_row3_col2" class="data row3 col2" >0.667</td>
+      <td id="T_d947f_row3_col3" class="data row3 col3" >0.799</td>
+      <td id="T_d947f_row3_col4" class="data row3 col4" >0.972</td>
+      <td id="T_d947f_row3_col5" class="data row3 col5" >0.964</td>
+      <td id="T_d947f_row3_col6" class="data row3 col6" >{'max_depth': None, 'min_samples_split': 10, 'n_estimators': 300}</td>
+      <td id="T_d947f_row3_col7" class="data row3 col7" >27441</td>
+      <td id="T_d947f_row3_col8" class="data row3 col8" >1701</td>
+      <td id="T_d947f_row3_col9" class="data row3 col9" >5</td>
+      <td id="T_d947f_row3_col10" class="data row3 col10" >849</td>
+    </tr>
+    <tr>
+      <td id="T_d947f_row4_col0" class="data row4 col0" >XGBoost</td>
+      <td id="T_d947f_row4_col1" class="data row4 col1" >0.985</td>
+      <td id="T_d947f_row4_col2" class="data row4 col2" >0.677</td>
+      <td id="T_d947f_row4_col3" class="data row4 col3" >0.803</td>
+      <td id="T_d947f_row4_col4" class="data row4 col4" >0.972</td>
+      <td id="T_d947f_row4_col5" class="data row4 col5" >0.978</td>
+      <td id="T_d947f_row4_col6" class="data row4 col6" >{'learning_rate': 0.2, 'max_depth': 3, 'n_estimators': 100, 'subsample': 1.0}</td>
+      <td id="T_d947f_row4_col7" class="data row4 col7" >27420</td>
+      <td id="T_d947f_row4_col8" class="data row4 col8" >1727</td>
+      <td id="T_d947f_row4_col9" class="data row4 col9" >26</td>
+      <td id="T_d947f_row4_col10" class="data row4 col10" >823</td>
+    </tr>
+    <tr>
+      <td id="T_d947f_row5_col0" class="data row5 col0" >SVM</td>
+      <td id="T_d947f_row5_col1" class="data row5 col1" >0.922</td>
+      <td id="T_d947f_row5_col2" class="data row5 col2" >0.597</td>
+      <td id="T_d947f_row5_col3" class="data row5 col3" >0.725</td>
+      <td id="T_d947f_row5_col4" class="data row5 col4" >0.961</td>
+      <td id="T_d947f_row5_col5" class="data row5 col5" >0.959</td>
+      <td id="T_d947f_row5_col6" class="data row5 col6" >{'C': 10, 'gamma': 'scale', 'kernel': 'linear'}</td>
+      <td id="T_d947f_row5_col7" class="data row5 col7" >27318</td>
+      <td id="T_d947f_row5_col8" class="data row5 col8" >1522</td>
+      <td id="T_d947f_row5_col9" class="data row5 col9" >128</td>
+      <td id="T_d947f_row5_col10" class="data row5 col10" >1028</td>
+    </tr>
+    <tr>
+      <td id="T_d947f_row6_col0" class="data row6 col0" >MLP</td>
+      <td id="T_d947f_row6_col1" class="data row6 col1" >0.939</td>
+      <td id="T_d947f_row6_col2" class="data row6 col2" >0.682</td>
+      <td id="T_d947f_row6_col3" class="data row6 col3" >0.790</td>
+      <td id="T_d947f_row6_col4" class="data row6 col4" >0.969</td>
+      <td id="T_d947f_row6_col5" class="data row6 col5" >0.972</td>
+      <td id="T_d947f_row6_col6" class="data row6 col6" >{'activation': 'relu', 'alpha': 0.01, 'hidden_layer_sizes': (50,), 'solver': 'adam'}</td>
+      <td id="T_d947f_row6_col7" class="data row6 col7" >27333</td>
+      <td id="T_d947f_row6_col8" class="data row6 col8" >1738</td>
+      <td id="T_d947f_row6_col9" class="data row6 col9" >113</td>
+      <td id="T_d947f_row6_col10" class="data row6 col10" >812</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>La tabla 1 muestra el resumen con el mejor modelo, a partir de la combinación de parámetros, de cada uno de los algoritmos clásicos analizados y destacando especialmente <code class="docutils literal notranslate"><span class="pre">XGBoost</span></code> y <code class="docutils literal notranslate"><span class="pre">RandomForest</span></code>, los cuales exhiben un rendimiento empírico excepcional en este conjunto de datos, con una exactitud superior al 97%. Ahora bien, dado el fuerte desbalanceo la exactitud no puede considerarse como la principal métrica para la selección del mejor modelo (ej., para <code class="docutils literal notranslate"><span class="pre">XGBoost</span></code>, TN=27420 vs. TP=1727). En contraste, el F1-score (0.803 para <code class="docutils literal notranslate"><span class="pre">XGBoost</span></code>) da una mejor imagen y es especialmente útil cuando la distribución de clases es desigual, ya que una alta exactitud (Accuracy) puede ocultar un pobre desempeño en la clase minoritaria.</p>
+<p>Así mismo, se presenta un resumen con el algoritmo que obtuvo mejores resultados por cada métrica evaluada.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Agrupar por métrica y seleccionar el índice del máximo en la columna &#39;Valor&#39;</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">best_config_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Métrica&quot;</span><span class="p">)[</span><span class="s2">&quot;Valor&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+
+<span class="c1"># Filtrar el DataFrame con esos índices</span>
+<span class="n">best_overall_df</span> <span class="o">=</span> <span class="n">best_config_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">35</span> <span class="o">+</span> <span class="s2">&quot;TABLA COMPARATIVA DE RESULTADOS&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">best_overall_df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F1-Score&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROC-AUC&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>====================================================================================================
+                                   TABLA COMPARATIVA DE RESULTADOS
+====================================================================================================
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_4943d">
+  <thead>
+    <tr>
+      <th id="T_4943d_level0_col0" class="col_heading level0 col0" >Modelo</th>
+      <th id="T_4943d_level0_col1" class="col_heading level0 col1" >Métrica</th>
+      <th id="T_4943d_level0_col2" class="col_heading level0 col2" >Valor</th>
+      <th id="T_4943d_level0_col3" class="col_heading level0 col3" >Parámetros</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_4943d_row0_col0" class="data row0 col0" >XGBoost</td>
+      <td id="T_4943d_row0_col1" class="data row0 col1" >Accuracy</td>
+      <td id="T_4943d_row0_col2" class="data row0 col2" >0.971696</td>
+      <td id="T_4943d_row0_col3" class="data row0 col3" >{'learning_rate': 0.2, 'max_depth': 3, 'n_estimators': 100, 'subsample': 1.0}</td>
+    </tr>
+    <tr>
+      <td id="T_4943d_row1_col0" class="data row1 col0" >XGBoost</td>
+      <td id="T_4943d_row1_col1" class="data row1 col1" >F1-Score</td>
+      <td id="T_4943d_row1_col2" class="data row1 col2" >0.802696</td>
+      <td id="T_4943d_row1_col3" class="data row1 col3" >{'learning_rate': 0.2, 'max_depth': 3, 'n_estimators': 100, 'subsample': 1.0}</td>
+    </tr>
+    <tr>
+      <td id="T_4943d_row2_col0" class="data row2 col0" >RandomForest</td>
+      <td id="T_4943d_row2_col1" class="data row2 col1" >Precision</td>
+      <td id="T_4943d_row2_col2" class="data row2 col2" >0.997069</td>
+      <td id="T_4943d_row2_col3" class="data row2 col3" >{'max_depth': None, 'min_samples_split': 10, 'n_estimators': 300}</td>
+    </tr>
+    <tr>
+      <td id="T_4943d_row3_col0" class="data row3 col0" >XGBoost</td>
+      <td id="T_4943d_row3_col1" class="data row3 col1" >ROC-AUC</td>
+      <td id="T_4943d_row3_col2" class="data row3 col2" >0.978170</td>
+      <td id="T_4943d_row3_col3" class="data row3 col3" >{'learning_rate': 0.2, 'max_depth': 3, 'n_estimators': 100, 'subsample': 1.0}</td>
+    </tr>
+    <tr>
+      <td id="T_4943d_row4_col0" class="data row4 col0" >MLP</td>
+      <td id="T_4943d_row4_col1" class="data row4 col1" >Recall</td>
+      <td id="T_4943d_row4_col2" class="data row4 col2" >0.681569</td>
+      <td id="T_4943d_row4_col3" class="data row4 col3" >{'activation': 'relu', 'alpha': 0.01, 'hidden_layer_sizes': (50,), 'solver': 'adam'}</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>La tabla 2 reafirma los resultados vistos inicialmente que señalan a <code class="docutils literal notranslate"><span class="pre">XGBoost</span></code> como el modelo con el mejor rendimiento general y equilibrado. Domina en las métricas que evalúan el desempeño global (<em>Accuracy</em> y <em>ROC-AUC</em>) y también en la que mide el balance entre precisión y sensibilidad para la clase minoritaria (<em>F1-Score</em>).</p>
+<p>Comparativa de resultados en <code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code>:</p>
+<p>Complementando el ejercicio, se presentan los resultados del modelo de clasificación por regresion logística <code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code>, para cada uno de los tresholds evaluados entre 0.30 a 0.48, con un incremento de 0.02 para compararlos frente a los resultados con el umbral 0.5 (valor por defecto).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_lr_df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F1-Score&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROC-AUC&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_c6733">
+  <thead>
+    <tr>
+      <th id="T_c6733_level0_col0" class="col_heading level0 col0" >Threshold</th>
+      <th id="T_c6733_level0_col1" class="col_heading level0 col1" >Precision</th>
+      <th id="T_c6733_level0_col2" class="col_heading level0 col2" >Recall</th>
+      <th id="T_c6733_level0_col3" class="col_heading level0 col3" >F1-Score</th>
+      <th id="T_c6733_level0_col4" class="col_heading level0 col4" >Accuracy</th>
+      <th id="T_c6733_level0_col5" class="col_heading level0 col5" >ROC-AUC</th>
+      <th id="T_c6733_level0_col6" class="col_heading level0 col6" >Best Params</th>
+      <th id="T_c6733_level0_col7" class="col_heading level0 col7" >TN</th>
+      <th id="T_c6733_level0_col8" class="col_heading level0 col8" >TP</th>
+      <th id="T_c6733_level0_col9" class="col_heading level0 col9" >FP</th>
+      <th id="T_c6733_level0_col10" class="col_heading level0 col10" >FN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_c6733_row0_col0" class="data row0 col0" >0.300000</td>
+      <td id="T_c6733_row0_col1" class="data row0 col1" >0.714</td>
+      <td id="T_c6733_row0_col2" class="data row0 col2" >0.709</td>
+      <td id="T_c6733_row0_col3" class="data row0 col3" >0.712</td>
+      <td id="T_c6733_row0_col4" class="data row0 col4" >0.951</td>
+      <td id="T_c6733_row0_col5" class="data row0 col5" >0.961</td>
+      <td id="T_c6733_row0_col6" class="data row0 col6" >C: 0.1</td>
+      <td id="T_c6733_row0_col7" class="data row0 col7" >26723</td>
+      <td id="T_c6733_row0_col8" class="data row0 col8" >1808</td>
+      <td id="T_c6733_row0_col9" class="data row0 col9" >723</td>
+      <td id="T_c6733_row0_col10" class="data row0 col10" >742</td>
+    </tr>
+    <tr>
+      <td id="T_c6733_row1_col0" class="data row1 col0" >0.320000</td>
+      <td id="T_c6733_row1_col1" class="data row1 col1" >0.734</td>
+      <td id="T_c6733_row1_col2" class="data row1 col2" >0.696</td>
+      <td id="T_c6733_row1_col3" class="data row1 col3" >0.714</td>
+      <td id="T_c6733_row1_col4" class="data row1 col4" >0.953</td>
+      <td id="T_c6733_row1_col5" class="data row1 col5" >0.961</td>
+      <td id="T_c6733_row1_col6" class="data row1 col6" >C: 0.1</td>
+      <td id="T_c6733_row1_col7" class="data row1 col7" >26802</td>
+      <td id="T_c6733_row1_col8" class="data row1 col8" >1774</td>
+      <td id="T_c6733_row1_col9" class="data row1 col9" >644</td>
+      <td id="T_c6733_row1_col10" class="data row1 col10" >776</td>
+    </tr>
+    <tr>
+      <td id="T_c6733_row2_col0" class="data row2 col0" >0.340000</td>
+      <td id="T_c6733_row2_col1" class="data row2 col1" >0.751</td>
+      <td id="T_c6733_row2_col2" class="data row2 col2" >0.685</td>
+      <td id="T_c6733_row2_col3" class="data row2 col3" >0.717</td>
+      <td id="T_c6733_row2_col4" class="data row2 col4" >0.954</td>
+      <td id="T_c6733_row2_col5" class="data row2 col5" >0.961</td>
+      <td id="T_c6733_row2_col6" class="data row2 col6" >C: 0.1</td>
+      <td id="T_c6733_row2_col7" class="data row2 col7" >26868</td>
+      <td id="T_c6733_row2_col8" class="data row2 col8" >1747</td>
+      <td id="T_c6733_row2_col9" class="data row2 col9" >578</td>
+      <td id="T_c6733_row2_col10" class="data row2 col10" >803</td>
+    </tr>
+    <tr>
+      <td id="T_c6733_row3_col0" class="data row3 col0" >0.360000</td>
+      <td id="T_c6733_row3_col1" class="data row3 col1" >0.768</td>
+      <td id="T_c6733_row3_col2" class="data row3 col2" >0.678</td>
+      <td id="T_c6733_row3_col3" class="data row3 col3" >0.720</td>
+      <td id="T_c6733_row3_col4" class="data row3 col4" >0.955</td>
+      <td id="T_c6733_row3_col5" class="data row3 col5" >0.961</td>
+      <td id="T_c6733_row3_col6" class="data row3 col6" >C: 0.1</td>
+      <td id="T_c6733_row3_col7" class="data row3 col7" >26924</td>
+      <td id="T_c6733_row3_col8" class="data row3 col8" >1728</td>
+      <td id="T_c6733_row3_col9" class="data row3 col9" >522</td>
+      <td id="T_c6733_row3_col10" class="data row3 col10" >822</td>
+    </tr>
+    <tr>
+      <td id="T_c6733_row4_col0" class="data row4 col0" >0.380000</td>
+      <td id="T_c6733_row4_col1" class="data row4 col1" >0.784</td>
+      <td id="T_c6733_row4_col2" class="data row4 col2" >0.668</td>
+      <td id="T_c6733_row4_col3" class="data row4 col3" >0.721</td>
+      <td id="T_c6733_row4_col4" class="data row4 col4" >0.956</td>
+      <td id="T_c6733_row4_col5" class="data row4 col5" >0.961</td>
+      <td id="T_c6733_row4_col6" class="data row4 col6" >C: 0.1</td>
+      <td id="T_c6733_row4_col7" class="data row4 col7" >26976</td>
+      <td id="T_c6733_row4_col8" class="data row4 col8" >1704</td>
+      <td id="T_c6733_row4_col9" class="data row4 col9" >470</td>
+      <td id="T_c6733_row4_col10" class="data row4 col10" >846</td>
+    </tr>
+    <tr>
+      <td id="T_c6733_row5_col0" class="data row5 col0" >0.400000</td>
+      <td id="T_c6733_row5_col1" class="data row5 col1" >0.804</td>
+      <td id="T_c6733_row5_col2" class="data row5 col2" >0.663</td>
+      <td id="T_c6733_row5_col3" class="data row5 col3" >0.727</td>
+      <td id="T_c6733_row5_col4" class="data row5 col4" >0.958</td>
+      <td id="T_c6733_row5_col5" class="data row5 col5" >0.961</td>
+      <td id="T_c6733_row5_col6" class="data row5 col6" >C: 0.1</td>
+      <td id="T_c6733_row5_col7" class="data row5 col7" >27035</td>
+      <td id="T_c6733_row5_col8" class="data row5 col8" >1690</td>
+      <td id="T_c6733_row5_col9" class="data row5 col9" >411</td>
+      <td id="T_c6733_row5_col10" class="data row5 col10" >860</td>
+    </tr>
+    <tr>
+      <td id="T_c6733_row6_col0" class="data row6 col0" >0.420000</td>
+      <td id="T_c6733_row6_col1" class="data row6 col1" >0.820</td>
+      <td id="T_c6733_row6_col2" class="data row6 col2" >0.656</td>
+      <td id="T_c6733_row6_col3" class="data row6 col3" >0.729</td>
+      <td id="T_c6733_row6_col4" class="data row6 col4" >0.959</td>
+      <td id="T_c6733_row6_col5" class="data row6 col5" >0.961</td>
+      <td id="T_c6733_row6_col6" class="data row6 col6" >C: 0.1</td>
+      <td id="T_c6733_row6_col7" class="data row6 col7" >27079</td>
+      <td id="T_c6733_row6_col8" class="data row6 col8" >1673</td>
+      <td id="T_c6733_row6_col9" class="data row6 col9" >367</td>
+      <td id="T_c6733_row6_col10" class="data row6 col10" >877</td>
+    </tr>
+    <tr>
+      <td id="T_c6733_row7_col0" class="data row7 col0" >0.440000</td>
+      <td id="T_c6733_row7_col1" class="data row7 col1" >0.836</td>
+      <td id="T_c6733_row7_col2" class="data row7 col2" >0.649</td>
+      <td id="T_c6733_row7_col3" class="data row7 col3" >0.731</td>
+      <td id="T_c6733_row7_col4" class="data row7 col4" >0.959</td>
+      <td id="T_c6733_row7_col5" class="data row7 col5" >0.961</td>
+      <td id="T_c6733_row7_col6" class="data row7 col6" >C: 0.1</td>
+      <td id="T_c6733_row7_col7" class="data row7 col7" >27122</td>
+      <td id="T_c6733_row7_col8" class="data row7 col8" >1654</td>
+      <td id="T_c6733_row7_col9" class="data row7 col9" >324</td>
+      <td id="T_c6733_row7_col10" class="data row7 col10" >896</td>
+    </tr>
+    <tr>
+      <td id="T_c6733_row8_col0" class="data row8 col0" >0.460000</td>
+      <td id="T_c6733_row8_col1" class="data row8 col1" >0.851</td>
+      <td id="T_c6733_row8_col2" class="data row8 col2" >0.639</td>
+      <td id="T_c6733_row8_col3" class="data row8 col3" >0.730</td>
+      <td id="T_c6733_row8_col4" class="data row8 col4" >0.960</td>
+      <td id="T_c6733_row8_col5" class="data row8 col5" >0.961</td>
+      <td id="T_c6733_row8_col6" class="data row8 col6" >C: 0.1</td>
+      <td id="T_c6733_row8_col7" class="data row8 col7" >27160</td>
+      <td id="T_c6733_row8_col8" class="data row8 col8" >1630</td>
+      <td id="T_c6733_row8_col9" class="data row8 col9" >286</td>
+      <td id="T_c6733_row8_col10" class="data row8 col10" >920</td>
+    </tr>
+    <tr>
+      <td id="T_c6733_row9_col0" class="data row9 col0" >0.480000</td>
+      <td id="T_c6733_row9_col1" class="data row9 col1" >0.862</td>
+      <td id="T_c6733_row9_col2" class="data row9 col2" >0.633</td>
+      <td id="T_c6733_row9_col3" class="data row9 col3" >0.730</td>
+      <td id="T_c6733_row9_col4" class="data row9 col4" >0.960</td>
+      <td id="T_c6733_row9_col5" class="data row9 col5" >0.961</td>
+      <td id="T_c6733_row9_col6" class="data row9 col6" >C: 0.1</td>
+      <td id="T_c6733_row9_col7" class="data row9 col7" >27188</td>
+      <td id="T_c6733_row9_col8" class="data row9 col8" >1614</td>
+      <td id="T_c6733_row9_col9" class="data row9 col9" >258</td>
+      <td id="T_c6733_row9_col10" class="data row9 col10" >936</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>La siguiente tabla muestra las configuraciones con mejores métricas para <code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_configs_lr</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
+    <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F1-Score&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROC-AUC&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_c9672">
+  <thead>
+    <tr>
+      <th id="T_c9672_level0_col0" class="col_heading level0 col0" >Métrica</th>
+      <th id="T_c9672_level0_col1" class="col_heading level0 col1" >Mejor Threshold</th>
+      <th id="T_c9672_level0_col2" class="col_heading level0 col2" >Valor</th>
+      <th id="T_c9672_level0_col3" class="col_heading level0 col3" >Parámetros</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_c9672_row0_col0" class="data row0 col0" >Precision</td>
+      <td id="T_c9672_row0_col1" class="data row0 col1" >0.480000</td>
+      <td id="T_c9672_row0_col2" class="data row0 col2" >0.862179</td>
+      <td id="T_c9672_row0_col3" class="data row0 col3" >C: 0.1</td>
+    </tr>
+    <tr>
+      <td id="T_c9672_row1_col0" class="data row1 col0" >Recall</td>
+      <td id="T_c9672_row1_col1" class="data row1 col1" >0.300000</td>
+      <td id="T_c9672_row1_col2" class="data row1 col2" >0.709020</td>
+      <td id="T_c9672_row1_col3" class="data row1 col3" >C: 0.1</td>
+    </tr>
+    <tr>
+      <td id="T_c9672_row2_col0" class="data row2 col0" >F1-Score</td>
+      <td id="T_c9672_row2_col1" class="data row2 col1" >0.440000</td>
+      <td id="T_c9672_row2_col2" class="data row2 col2" >0.730565</td>
+      <td id="T_c9672_row2_col3" class="data row2 col3" >C: 0.1</td>
+    </tr>
+    <tr>
+      <td id="T_c9672_row3_col0" class="data row3 col0" >Accuracy</td>
+      <td id="T_c9672_row3_col1" class="data row3 col1" >0.480000</td>
+      <td id="T_c9672_row3_col2" class="data row3 col2" >0.960195</td>
+      <td id="T_c9672_row3_col3" class="data row3 col3" >C: 0.1</td>
+    </tr>
+    <tr>
+      <td id="T_c9672_row4_col0" class="data row4 col0" >ROC-AUC</td>
+      <td id="T_c9672_row4_col1" class="data row4 col1" >0.300000</td>
+      <td id="T_c9672_row4_col2" class="data row4 col2" >0.960556</td>
+      <td id="T_c9672_row4_col3" class="data row4 col3" >C: 0.1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_roc_curves</span><span class="p">(</span><span class="n">roc_curves</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Grafica curvas ROC a partir del diccionario roc_curves.</span>
+<span class="sd">    </span>
+<span class="sd">    roc_curves : dict</span>
+<span class="sd">        { modelo: (fpr, tpr, roc_auc) }</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">model_name</span><span class="p">,</span> <span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">roc_auc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">roc_curves</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> (AUC = </span><span class="si">{</span><span class="n">roc_auc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Línea diagonal de azar</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;False Positive Rate&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;True Positive Rate&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Curvas ROC comparativas&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Curvas <em>ROC-AUC</em> para los algoritmos clásicos:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_roc_curves</span><span class="p">(</span><span class="n">roc_curves</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c01f1b083167c83121861f69ba2b2895774a7c9379a6666ba06c3afc58cdb9a5.png" src="../_images/c01f1b083167c83121861f69ba2b2895774a7c9379a6666ba06c3afc58cdb9a5.png" />
+</div>
+</div>
+<p>La figura 1 presenta una comparativa de las curvas ROC-AUC de cada uno de los algoritmos de clasificación analizados. El eje X representa la tasa de falsos positivos (FPR), mientras que el eje Y muestra la tasa de verdaderos positivos (TPR). Los resultados reflejan un buen comportamiento general de los modelos, ya que todos presentan valores de AUC superiores a 0.92, lo que indica un alto poder predictivo. Sin embargo, algunos destacan sobre los demás:</p>
+<ul class="simple">
+<li><p>XGBoost → Es el modelo con mejor desempeño (AUC = 0.978), logrando la mayor capacidad de discriminación entre clases.</p></li>
+<li><p>Decision Tree (AUC = 0.974) y MLP (red neuronal) (AUC = 0.972) → También ofrecen resultados sobresalientes, muy cercanos al rendimiento de XGBoost.</p></li>
+<li><p>Random Forest (AUC = 0.964) y SVM (AUC = 0.959) → Mantienen una buena precisión y estabilidad en las predicciones.</p></li>
+<li><p>Logistic Regression (AUC = 0.960) → A pesar de ser un modelo más simple, logra un rendimiento competitivo.</p></li>
+<li><p>KNN (AUC = 0.929) → Presenta el valor más bajo dentro del conjunto, pero aun así mantiene un desempeño aceptable.
+En síntesis, el modelo XGBoost se posiciona como la mejor alternativa para la clasificación de pacientes con y sin diabetes, seguido muy de cerca por Decision Tree y MLP. Estos resultados evidencian que los modelos basados en aprendizaje no lineal y técnicas avanzadas de ensamble ofrecen mayor precisión y confiabilidad para este problema.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">roc_dict</span><span class="p">[</span><span class="s2">&quot;fpr&quot;</span><span class="p">],</span> <span class="n">roc_dict</span><span class="p">[</span><span class="s2">&quot;tpr&quot;</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;SparseTabMoE = </span><span class="si">{</span><span class="n">roc_dict</span><span class="p">[</span><span class="s1">&#39;auc&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;False Positive Rate (1 - Especificidad)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;True Positive Rate (Sensibilidad)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Curva ROC&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/5e6344ee212481bcfb3f58fe418b2b78ad8f8d4c6c31daacd9b3d09445fbfecf.png" src="../_images/5e6344ee212481bcfb3f58fe418b2b78ad8f8d4c6c31daacd9b3d09445fbfecf.png" />
+</div>
+</div>
+<p>La figura 2 presenta gráfica de ROC-AUC para <code class="docutils literal notranslate"><span class="pre">SparseTabMoE</span></code>, que evidencia un AUC=0.967, entrando en la franja alta: esencialmente a la par de <code class="docutils literal notranslate"><span class="pre">RandomForest</span></code> y muy cerca de <code class="docutils literal notranslate"><span class="pre">MLP</span></code>/<code class="docutils literal notranslate"><span class="pre">DecisionTree</span></code>, aunque aún por debajo de <code class="docutils literal notranslate"><span class="pre">XGBoost</span></code> por un margen pequeño. Es decir, que el modelo ordena una instancia positiva por encima de una negativa 96.7% de las veces.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Análisis detallado por fold: SparseTabMoE&quot;</span><span class="p">)</span>
+<span class="n">cv_results</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Análisis detallado por fold: SparseTabMoE
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Threshold</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1-Score</th>
+      <th>Accuracy</th>
+      <th>ROC-AUC</th>
+      <th>TN</th>
+      <th>TP</th>
+      <th>FP</th>
+      <th>FN</th>
+      <th>fold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.30</td>
+      <td>0.917</td>
+      <td>0.575</td>
+      <td>0.707</td>
+      <td>0.959</td>
+      <td>0.968</td>
+      <td>12746</td>
+      <td>684</td>
+      <td>62</td>
+      <td>506</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.35</td>
+      <td>0.990</td>
+      <td>0.498</td>
+      <td>0.663</td>
+      <td>0.957</td>
+      <td>0.968</td>
+      <td>12802</td>
+      <td>593</td>
+      <td>6</td>
+      <td>597</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.40</td>
+      <td>1.000</td>
+      <td>0.454</td>
+      <td>0.624</td>
+      <td>0.954</td>
+      <td>0.968</td>
+      <td>12808</td>
+      <td>540</td>
+      <td>0</td>
+      <td>650</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.45</td>
+      <td>1.000</td>
+      <td>0.433</td>
+      <td>0.604</td>
+      <td>0.952</td>
+      <td>0.968</td>
+      <td>12808</td>
+      <td>515</td>
+      <td>0</td>
+      <td>675</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.50</td>
+      <td>1.000</td>
+      <td>0.418</td>
+      <td>0.590</td>
+      <td>0.951</td>
+      <td>0.968</td>
+      <td>12808</td>
+      <td>498</td>
+      <td>0</td>
+      <td>692</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.30</td>
+      <td>0.875</td>
+      <td>0.623</td>
+      <td>0.728</td>
+      <td>0.960</td>
+      <td>0.965</td>
+      <td>12702</td>
+      <td>741</td>
+      <td>106</td>
+      <td>449</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.35</td>
+      <td>0.963</td>
+      <td>0.546</td>
+      <td>0.697</td>
+      <td>0.960</td>
+      <td>0.965</td>
+      <td>12783</td>
+      <td>650</td>
+      <td>25</td>
+      <td>540</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.40</td>
+      <td>0.993</td>
+      <td>0.506</td>
+      <td>0.670</td>
+      <td>0.958</td>
+      <td>0.965</td>
+      <td>12804</td>
+      <td>602</td>
+      <td>4</td>
+      <td>588</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.45</td>
+      <td>0.998</td>
+      <td>0.478</td>
+      <td>0.647</td>
+      <td>0.956</td>
+      <td>0.965</td>
+      <td>12807</td>
+      <td>569</td>
+      <td>1</td>
+      <td>621</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.50</td>
+      <td>1.000</td>
+      <td>0.455</td>
+      <td>0.625</td>
+      <td>0.954</td>
+      <td>0.965</td>
+      <td>12808</td>
+      <td>541</td>
+      <td>0</td>
+      <td>649</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.30</td>
+      <td>0.886</td>
+      <td>0.629</td>
+      <td>0.735</td>
+      <td>0.962</td>
+      <td>0.966</td>
+      <td>12712</td>
+      <td>748</td>
+      <td>96</td>
+      <td>442</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.35</td>
+      <td>0.960</td>
+      <td>0.546</td>
+      <td>0.696</td>
+      <td>0.959</td>
+      <td>0.966</td>
+      <td>12781</td>
+      <td>650</td>
+      <td>27</td>
+      <td>540</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0.40</td>
+      <td>0.993</td>
+      <td>0.501</td>
+      <td>0.666</td>
+      <td>0.957</td>
+      <td>0.966</td>
+      <td>12804</td>
+      <td>596</td>
+      <td>4</td>
+      <td>594</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0.45</td>
+      <td>0.998</td>
+      <td>0.466</td>
+      <td>0.636</td>
+      <td>0.955</td>
+      <td>0.966</td>
+      <td>12807</td>
+      <td>555</td>
+      <td>1</td>
+      <td>635</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0.50</td>
+      <td>1.000</td>
+      <td>0.442</td>
+      <td>0.613</td>
+      <td>0.953</td>
+      <td>0.966</td>
+      <td>12808</td>
+      <td>526</td>
+      <td>0</td>
+      <td>664</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0.30</td>
+      <td>0.880</td>
+      <td>0.624</td>
+      <td>0.731</td>
+      <td>0.961</td>
+      <td>0.968</td>
+      <td>12707</td>
+      <td>743</td>
+      <td>101</td>
+      <td>447</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0.35</td>
+      <td>0.957</td>
+      <td>0.559</td>
+      <td>0.706</td>
+      <td>0.960</td>
+      <td>0.968</td>
+      <td>12778</td>
+      <td>665</td>
+      <td>30</td>
+      <td>525</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0.40</td>
+      <td>0.987</td>
+      <td>0.492</td>
+      <td>0.656</td>
+      <td>0.956</td>
+      <td>0.968</td>
+      <td>12800</td>
+      <td>585</td>
+      <td>8</td>
+      <td>605</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0.45</td>
+      <td>0.996</td>
+      <td>0.450</td>
+      <td>0.620</td>
+      <td>0.953</td>
+      <td>0.968</td>
+      <td>12806</td>
+      <td>535</td>
+      <td>2</td>
+      <td>655</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0.50</td>
+      <td>1.000</td>
+      <td>0.412</td>
+      <td>0.583</td>
+      <td>0.950</td>
+      <td>0.968</td>
+      <td>12808</td>
+      <td>490</td>
+      <td>0</td>
+      <td>700</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0.30</td>
+      <td>0.940</td>
+      <td>0.562</td>
+      <td>0.703</td>
+      <td>0.960</td>
+      <td>0.967</td>
+      <td>12765</td>
+      <td>669</td>
+      <td>43</td>
+      <td>521</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0.35</td>
+      <td>0.992</td>
+      <td>0.499</td>
+      <td>0.664</td>
+      <td>0.957</td>
+      <td>0.967</td>
+      <td>12803</td>
+      <td>594</td>
+      <td>5</td>
+      <td>596</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>0.40</td>
+      <td>0.998</td>
+      <td>0.475</td>
+      <td>0.644</td>
+      <td>0.955</td>
+      <td>0.967</td>
+      <td>12807</td>
+      <td>565</td>
+      <td>1</td>
+      <td>625</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>0.45</td>
+      <td>0.998</td>
+      <td>0.457</td>
+      <td>0.627</td>
+      <td>0.954</td>
+      <td>0.967</td>
+      <td>12807</td>
+      <td>544</td>
+      <td>1</td>
+      <td>646</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0.50</td>
+      <td>0.998</td>
+      <td>0.440</td>
+      <td>0.611</td>
+      <td>0.952</td>
+      <td>0.967</td>
+      <td>12807</td>
+      <td>524</td>
+      <td>1</td>
+      <td>666</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>La tabla 3 muestra el resumen de las métricas para el modelo <em>SparseTabMoE</em>, destacando en cada uno de los <em>folds</em> valores consistentemente altos y estables en el ROC-AUC, variando entre 0.965 y 0.968, lo que demuestra la capacidad del modelo para distinguir entre las clases, independientemente del umbral de clasificación. Con estos resultados en AUC tan cercanos a 1 se puede afirmar que el modelo posee un excelente poder discriminatorio. Si se toma un caso positivo y uno negativo al azar, el modelo tiene una probabilidad de entre el 96.5% y el 96.8% de asignar una puntuación de riesgo más alta al caso positivo. La estabilidad de esta métrica a lo largo de los pliegues es un fuerte indicio de que el modelo generaliza bien y no sufre de un sobreajuste significativo a una porción particular de los datos.</p>
+<p>Por otra parte, el resumen revela además que al aumentar el umbral de decisión la precisión tiende a aumentar (llegando a 1 en varios casos), mientras que la sensibilidad disminuye sistemáticamente. Este comportamiento dice claramente que un umbral más alto hace que el modelo sea más “conservador” y solo clasificará una observación como positiva si la evidencia es abrumadora. Esto reduce drásticamente los Falsos Positivos (FP), llevando la precisión al máximo, pero a costa de ignorar casos positivos menos evidentes, lo que incrementa los Falsos Negativos (FN) y reduce la sensibilidad.</p>
+<section id="aplicacion-de-split-conformal-prediction-sobre-los-resultados-de-sparsetabmoe">
+<h2>Aplicación de <em>Split Conformal Prediction</em> sobre los resultados de <code class="docutils literal notranslate"><span class="pre">SparseTabMoE</span></code>.<a class="headerlink" href="#aplicacion-de-split-conformal-prediction-sobre-los-resultados-de-sparsetabmoe" title="Link to this heading">#</a></h2>
+<p>Se divide el conjunto de entrenamiento en 2 subconjuntos para implementar la calibración del modelo:</p>
+<ul class="simple">
+<li><p>Train con el 80% de los datos del conjunto inicial de entrenamiento.</p></li>
+<li><p>Cal con el 20% de los datos del conjunto inicial de entrenamiento.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- 3. División y Procesamiento de Datos ---</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">common_params</span><span class="p">[</span><span class="s1">&#39;X_train&#39;</span><span class="p">]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">common_params</span><span class="p">[</span><span class="s1">&#39;y_train&#39;</span><span class="p">]</span>
+<span class="c1"># Dividir el conjunto train en entrenamiento (80%) y calibración (20%) para la calibración.</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_cal</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_cal</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># 2. Ajustar el codificador SOLO con los datos de entrenamiento (X_train)</span>
+<span class="c1">#    y transformar X_train.</span>
+<span class="n">X_train</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">])</span>
+
+<span class="c1">#  Transformar X_cal y X_test usando el encoder YA AJUSTADO. Es crucial no volver a hacer &#39;fit&#39;.</span>
+<span class="n">X_cal</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_cal</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">])</span>
+
+
+<span class="c1"># Crear el DataFrame de entrenamiento completo</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">train_df</span><span class="p">[</span><span class="n">TARGET_COL</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+
+<span class="c1"># Crear el DataFrame de calibración completo</span>
+<span class="n">cal_df</span> <span class="o">=</span> <span class="n">X_cal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">cal_df</span><span class="p">[</span><span class="n">TARGET_COL</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_cal</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tamaños:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train:</span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calibración:</span><span class="si">{</span><span class="n">X_cal</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tamaños:
+Train:(55992, 15)
+Calibración:(13998, 15)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Luego se ejecuta el procedimiento para calcular los cuantiles de calibración por clase: <span class="math notranslate nohighlight">\(\widehat{q}_{0}\)</span> y <span class="math notranslate nohighlight">\(\widehat{q}_{1}\)</span>. Mediante esta metodología se obtiene un cuantil específico para cada clase en vez de un único cuantil para todos los datos de calibración, lo que permite que el procedimiento se adapte a posibles desequilibrios en la dificultad de clasificación o en la calibración del modelo para cada clase.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">src.spartan</span><span class="w"> </span><span class="kn">import</span> <span class="n">conformal</span>
+<span class="c1"># --- PASO 4: CALIBRACIÓN CONFORMAL ---</span>
+
+<span class="c1"># Usar el conjunto de calibración para encontrar un umbral de decisión con garantías estadísticas.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Paso 4: Realizando la calibración conformal...&quot;</span><span class="p">)</span>
+<span class="n">ALPHA</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># Nivel de error aceptable (queremos un 90% de confianza)</span>
+
+<span class="c1"># 1. Recibe el diccionario completo en una sola variable</span>
+<span class="n">qhat_dict</span> <span class="o">=</span> <span class="n">conformal</span><span class="o">.</span><span class="n">calibrate_conformal_conditional</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">best_model</span><span class="p">,</span>
+    <span class="n">df_cal</span><span class="o">=</span><span class="n">cal_df</span><span class="p">,</span>
+    <span class="n">cont_cols</span><span class="o">=</span><span class="n">numerical_cols</span><span class="p">,</span>
+    <span class="n">bin_cols</span><span class="o">=</span><span class="n">binary_cols</span><span class="p">,</span>
+    <span class="n">cat_cols</span><span class="o">=</span><span class="n">categorical_cols</span><span class="p">,</span>
+    <span class="n">target_col</span><span class="o">=</span><span class="n">TARGET_COL</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="n">ALPHA</span>
+<span class="p">)</span>
+
+<span class="c1"># 2. Extrae los valores numéricos del diccionario</span>
+<span class="n">qhat_0</span> <span class="o">=</span> <span class="n">qhat_dict</span><span class="p">[</span><span class="s2">&quot;qhat_0&quot;</span><span class="p">]</span>
+<span class="n">qhat_1</span> <span class="o">=</span> <span class="n">qhat_dict</span><span class="p">[</span><span class="s2">&quot;qhat_1&quot;</span><span class="p">]</span>
+
+<span class="c1"># 3. Ahora puedes imprimir los valores numéricos correctamente</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nivel de error alpha: </span><span class="si">{</span><span class="n">ALPHA</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cuantil para la clase negativa (qhat_0): </span><span class="si">{</span><span class="n">qhat_0</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cuantil para la clase positiva (qhat_1): </span><span class="si">{</span><span class="n">qhat_1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Opcional: Calcula y muestra los umbrales de decisión finales</span>
+<span class="c1"># según la documentación de tu propia función</span>
+<span class="n">umbral_decision_negativo</span> <span class="o">=</span> <span class="n">qhat_0</span>
+<span class="n">umbral_decision_positivo</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">qhat_1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Umbral de decisión para clase negativa (p &lt;= qhat_0): </span><span class="si">{</span><span class="n">umbral_decision_negativo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Umbral de decisión para clase positiva (p &gt;= 1 - qhat_1): </span><span class="si">{</span><span class="n">umbral_decision_positivo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paso 4: Realizando la calibración conformal...
+Nivel de error alpha: 0.1
+Cuantil para la clase negativa (qhat_0): 0.1572
+Cuantil para la clase positiva (qhat_1): 0.8399
+------------------------------
+Umbral de decisión para clase negativa (p &lt;= qhat_0): 0.1572
+Umbral de decisión para clase positiva (p &gt;= 1 - qhat_1): 0.1601
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="observacion-e-interpretacion-de-los-resultados-de-la-calibracion-conformal">
+<h2>Observación e Interpretación de los Resultados de la Calibración Conformal<a class="headerlink" href="#observacion-e-interpretacion-de-los-resultados-de-la-calibracion-conformal" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Cuantil</span> <span class="pre">para</span> <span class="pre">la</span> <span class="pre">clase</span> <span class="pre">negativa</span></code> <span class="math notranslate nohighlight">\(\widehat{q}_{0}\)</span>: 0.1562: Este es el cuantil <span class="math notranslate nohighlight">\((1 - \alpha)\)</span> de los puntajes de no conformidad calculados para las observaciones de la clase negativa en el conjunto de calibración. Típicamente, para un modelo que produce probabilidades <span class="math notranslate nohighlight">\(p_{i}\)</span>, el puntaje de no conformidad para una observación <span class="math notranslate nohighlight">\((x_{i}, y_{i})\)</span> es <span class="math notranslate nohighlight">\(1 - \widehat{p}_{y_{i}}(x_{i})\)</span>. Por lo tanto, <span class="math notranslate nohighlight">\(\widehat{q}_{0}\)</span> representa el umbral que captura al 90% de los puntajes de no conformidad “menos anómalos” para la clase negativa.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cuantil</span> <span class="pre">para</span> <span class="pre">la</span> <span class="pre">clase</span> <span class="pre">positiva</span></code> <span class="math notranslate nohighlight">\(\widehat{q}_{1}\)</span>: 0.8480: Análogamente, este es el cuantil <span class="math notranslate nohighlight">\((1 - \alpha)\)</span> de los puntajes de no conformidad para las observaciones de la clase positiva en el conjunto de calibración.</p></li>
+</ul>
+</section>
+<section id="interpretacion-de-los-umbrales-de-decision">
+<h2>Interpretación de los Umbrales de Decisión<a class="headerlink" href="#interpretacion-de-los-umbrales-de-decision" title="Link to this heading">#</a></h2>
+<p>Los cuantiles calculados en la sección anterior se utilizan para definir las reglas de inclusión de etiquetas en el conjunto de predicción para una nueva instancia <span class="math notranslate nohighlight">\(x_{new}\)</span> con una probabilidad predicha <span class="math notranslate nohighlight">\(p = \widehat{p}(y=1|x_{new})\)</span>.</p>
+<ul class="simple">
+<li><p>Regla para la Clase Negativa (Etiqueta 0):</p>
+<ul>
+<li><p>El umbral es <span class="math notranslate nohighlight">\(p \leq 0.1572\)</span></p></li>
+<li><p>Interpretación: Para que la etiqueta “0” (clase negativa) sea incluida en el conjunto de predicción, la           probabilidad asignada por el modelo a la clase positiva (p) debe ser menor o igual a 0.1572. Esto es equivalente a decir que la probabilidad de la clase negativa, <span class="math notranslate nohighlight">\(1 - p\)</span>, debe ser mayor o igual a <span class="math notranslate nohighlight">\(1 - 0.1572 = 0.8428\)</span>. El modelo debe tener una “confianza” muy alta en la clase negativa para incluirla en el conjunto.</p></li>
+</ul>
+</li>
+<li><p>Regla para la Clase Positiva (Etiqueta 1):</p>
+<ul>
+<li><p>El umbral es <span class="math notranslate nohighlight">\(p \geq 1 - \widehat{q}_{1} \rightarrow p \geq 1 − 0.8399 = 0.1601\)</span></p></li>
+<li><p>Interpretación: Para que la etiqueta “1” (clase positiva) sea incluida en el conjunto de predicción, la probabilidad asignada a esta misma clase <span class="math notranslate nohighlight">\((p)\)</span> debe ser mayor o igual a 0.1601. Este umbral es relativamente bajo, lo que sugiere que el modelo no necesita estar “excesivamente seguro” para considerar la clase positiva como una posibilidad válida bajo el nivel de confianza del 90%.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="evaluacion-empirica-en-el-conjunto-de-pruebas">
+<h2>Evaluación Empírica en el Conjunto de Pruebas<a class="headerlink" href="#evaluacion-empirica-en-el-conjunto-de-pruebas" title="Link to this heading">#</a></h2>
+<p>Complementando el proceso de calibración, se procede con la evaluación del predictor conformal sobre el conjunto <em>Test</em>, que contiene el 29.99% del dataset inicial. Esta etapa es de gran importancia dado que es en esta instancia que se verifica si las garantías teóricas del método se sostienen en la práctica y además, los resultados pueden confirmar la validez y eficiencia del procedimiento. Al evaluar en el conjunto test se tiene que:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- PASO 5: EVALUACIÓN FINAL EN EL CONJUNTO DE PRUEBA ---</span>
+<span class="c1"># Evaluar el rendimiento del modelo en datos nunca antes vistos.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Paso 5: Evaluando el modelo en el conjunto de prueba...&quot;</span><span class="p">)</span>
+<span class="c1"># Primero, preparamos el df_test completo</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_test</span><span class="p">[</span><span class="n">TARGET_COL</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_test</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tamaño dataset test:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train:</span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Evaluar con el umbral estándar de 0.5 como línea base</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Evaluación con umbral estándar de 0.5 ---&quot;</span><span class="p">)</span>
+<span class="n">conformal_metrics</span> <span class="o">=</span> <span class="n">conformal</span><span class="o">.</span><span class="n">evaluate_conformal_sets</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">best_model</span><span class="p">,</span>
+    <span class="n">df_test</span><span class="o">=</span><span class="n">df_test</span><span class="p">,</span>
+    <span class="n">cont_cols</span><span class="o">=</span><span class="n">numerical_cols</span><span class="p">,</span>
+    <span class="n">bin_cols</span><span class="o">=</span><span class="n">binary_cols</span><span class="p">,</span>
+    <span class="n">cat_cols</span><span class="o">=</span><span class="n">categorical_cols</span><span class="p">,</span>
+    <span class="n">target_col</span><span class="o">=</span><span class="n">TARGET_COL</span><span class="p">,</span>
+    <span class="n">qhats</span><span class="o">=</span><span class="n">qhat_dict</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conformal_metrics</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paso 5: Evaluando el modelo en el conjunto de prueba...
+Tamaño dataset test:
+Train:(29996, 15)
+
+--- Evaluación con umbral estándar de 0.5 ---
+{&#39;coverage&#39;: 0.8966528870516068, &#39;average_set_size&#39;: 0.9958327777036938}
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Interpretación de los resultados:</strong></p>
+<ul>
+<li><p>Validación de la Garantía de Cobertura Marginal</p>
+<ul class="simple">
+<li><p>Resultado Clave: coverage: 0.89665 (89.66%).</p></li>
+<li><p>Interpretación Teórica: El objetivo del procedimiento, fijado por el nivel de error <span class="math notranslate nohighlight">\(\alpha = 0.1\)</span>, es el de alcanzar una cobertura marginal de, como mínimo <span class="math notranslate nohighlight">\(1 - \alpha = 0.9\)</span> (90%).</p></li>
+<li><p>Análisis Empírico: La cobertura empírica obtenida en el conjunto de prueba es del 89.66%. Este valor está extraordinariamente cerca del nivel de confianza teórico del 90%. Esta es la validación más importante del modelo: el predictor conformal cumple su promesa. Las ligeras desviaciones entre la cobertura teórica y la empírica son esperables debido a los efectos de muestra finita, pero la proximidad del valor obtenido al valor nominal confirma que el método está correctamente calibrado y es robusto.</p></li>
+</ul>
+<p>En el contexto de este artículo, este resultado es la prueba fundamental de que el método proporciona un control de errores riguroso y predecible, a diferencia de los modelos de clasificación estándar cuya tasa de error en datos nuevos es desconocida.</p>
+</li>
+<li><p>Análisis de la Eficiencia del Predictor</p>
+<ul class="simple">
+<li><p>Resultado Clave: average_set_size: 0.99583.</p></li>
+<li><p>Interpretación Teórica: La eficiencia de un predictor conformal se mide por el tamaño de los conjuntos de predicción que genera. Conjuntos más pequeños indican predicciones más informativas y, por lo tanto, una mayor eficiencia.</p></li>
+<li><p>Análisis Empírico: Un tamaño de conjunto promedio de 0.99583 es un indicador de muy alta eficiencia. Esto revela dos comportamientos críticos del modelo:</p>
+<ul>
+<li><p>Predicciones Mayoritariamente Unívocas: Dado que los conjuntos solo pueden tener tamaño 0 (vacío) o 1 (una clase) según nuestra calibración anterior, un promedio tan cercano a 1 significa que en la abrumadora mayoría de los casos, el modelo emitió una predicción única y definitiva <span class="math notranslate nohighlight">\(C(x) = {0} \text{ o } C(x) = {1}\)</span>.</p></li>
+<li><p>Identificación de Instancias Ambiguas: El hecho de que el promedio sea ligeramente inferior a 1 confirma la existencia de conjuntos de predicción vacíos. Podemos estimar la proporción de estos casos: la proporción de conjuntos de tamaño 1 es aproximadamente 99.58%, lo que implica que la proporción de conjuntos vacíos (tamaño 0) es de aproximadamente 100%−99.58%=0.42%.</p></li>
+</ul>
+</li>
+</ul>
+<p>Esto demuestra que el modelo es capaz de abstenerse de tomar una decisión en un subconjunto muy pequeño y específico (menos del 0.5%) de las instancias, que corresponden precisamente a aquellas que caen en la “zona de ambigüedad” (0.1572,0.1601) que identificamos previamente. El modelo está señalando de forma honesta cuándo no tiene la confianza del 90% para asignar una etiqueta.</p>
+</li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./c03_proyectoFinal"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="diabetes_classifier_eda.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">EDA- PROYECTO FINAL</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="diabetes_classifier_conclusions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Conclusiones</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Implementación de Modelos</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-y-preprocesamiento-de-datos">Carga y Preprocesamiento de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">Metodología</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#especificacion-del-grid-de-hiperparametros-por-tipo-de-modelo">Especificación del Grid de Hiperparámetros por Tipo de Modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-algoritmos-clasicos">Entrenamiento: Algoritmos Clásicos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-algoritmos-clasicos-caso-regresion-logistica">Entrenamiento Algoritmos Clásicos: Caso Regresión Logística</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-moe-conformal-transformer">Entrenamiento <code class="docutils literal notranslate"><span class="pre">MoE</span> <span class="pre">Conformal</span> <span class="pre">Transformer</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-de-la-validacion-cruzada">Resumen de la Validación Cruzada</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-de-metricas-de-performance">Evaluación de Métricas de Performance</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-de-split-conformal-prediction-sobre-los-resultados-de-sparsetabmoe">Aplicación de <em>Split Conformal Prediction</em> sobre los resultados de <code class="docutils literal notranslate"><span class="pre">SparseTabMoE</span></code>.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observacion-e-interpretacion-de-los-resultados-de-la-calibracion-conformal">Observación e Interpretación de los Resultados de la Calibración Conformal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-de-los-umbrales-de-decision">Interpretación de los Umbrales de Decisión</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-empirica-en-el-conjunto-de-pruebas">Evaluación Empírica en el Conjunto de Pruebas</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
