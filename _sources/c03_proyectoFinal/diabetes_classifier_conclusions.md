@@ -4,13 +4,13 @@
 
 ### Un Contraste entre Rendimiento Empírico y Fiabilidad Garantizada
 
-El análisis comparativo exhaustivo entre los modelos de clasificación clásicos (tales como `XGBoost`, `RandomForest` y `MLP`) y el marco de `MoE-Conformal Prediction` (MoE-CP) revela una distinción fundamental en sus objetivos, capacidades y dominios de aplicabilidad. Las conclusiones de este artículo no señalan a un ganador absoluto, sino que delinean dos paradigmas distintos de la predicción estadística, cada uno con fortalezas inherentes para propósitos específicos.
+El análisis comparativo exhaustivo entre los modelos de clasificación clásicos (tales como `XGBoost`, `RandomForest` y `MLP`) y `SparseTabMoE` del marco `MoE-Conformal Prediction` (MoE-CP) revela una distinción fundamental en sus objetivos, capacidades y dominios de aplicabilidad. Las conclusiones de este artículo no señalan a un ganador absoluto, sino que delinean dos enfoques distintos de la predicción estadística, cada uno con fortalezas inherentes para propósitos específicos.
 
 ### Maximización del Rendimiento Puntual vs. Garantía de Fiabilidad a Largo Plazo
 
 Los modelos clásicos, con `XGBoost` a la cabeza, demostraron una superioridad empírica en métricas de rendimiento puntual como la *Accuracy* (97.2%) y el *F1-Score* (0.803). Estos algoritmos están diseñados para minimizar una función de pérdida sobre el conjunto de entrenamiento, resultando en modelos altamente optimizados para la distribución de datos específica con la que fueron entrenados. Sin embargo, este alto rendimiento carece de garantías formales sobre su comportamiento en datos futuros no observados.
 
-En contraste, el enfoque `MoE-Conformal Prediction` no tiene como objetivo principal superar la exactitud de los modelos clásicos, sino establecer un contrato de fiabilidad con el usuario. Al alcanzar una cobertura empírica (~89.7%) que se alinea rigurosamente con el nivel de confianza predefinido del 90% $(1 - \alpha)$,  el método MoE-CP valida su principal fortaleza: la capacidad de proporcionar un control de error marginal que es robusto, no paramétrico y libre de supuestos distribucionales. La conclusión es clara: se sacrifica un potencial de rendimiento máximo a cambio de una garantía estadística de fiabilidad, un **compromiso indispensable en aplicaciones de alto riesgo**.
+En contraste, `SparseTabMoE` del enfoque `MoE-Conformal Prediction` no tiene como objetivo principal superar la exactitud de los modelos clásicos, sino establecer un contrato de fiabilidad con el usuario. Al alcanzar una cobertura empírica (~89.7%) que se alinea rigurosamente con el nivel de confianza predefinido del 90% $(1 - \alpha)$,  el método MoE-CP valida su principal fortaleza: la capacidad de proporcionar un control de error marginal que es robusto, no paramétrico y libre de supuestos distribucionales. La conclusión es clara: se sacrifica un potencial de rendimiento máximo a cambio de una garantía estadística de fiabilidad, un **compromiso indispensable en aplicaciones de alto riesgo**.
 
 ### Cuantificación Implícita vs. Explícita de la Incertidumbre
 
