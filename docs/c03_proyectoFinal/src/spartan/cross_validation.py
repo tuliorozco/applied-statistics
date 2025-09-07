@@ -118,7 +118,7 @@ def run_cross_validation(
 
 
         print(f"Fold {fold+1}: Evaluando el modelo...")
-        results_df, _ = evaluate(
+        results_df, roc_dict, _ = evaluate(
             model=model,
             df_test=val_fold_df,
             thresholds=thresholds,
@@ -146,4 +146,4 @@ def run_cross_validation(
     print("="*50)
     print(summary_df)
 
-    return best_model, final_results_df
+    return best_model, roc_dict, final_results_df

@@ -160,11 +160,56 @@ El concepto central de MoE es reemplazar componentes densos del modelo, como las
 
 *Mixture of Experts* (MoE) puede ser interpretado no solo como una técnica de *ensemble learning*, sino como una poderosa extensión de los modelos de mezcla finita y los Modelos Lineales Generalizados (GLM). Su concepción fundamental radica en una estrategia de "divide y vencerás" que particiona el espacio de los predictores de manera suave (*soft partitioning*), permitiendo que diferentes modelos expertos se especialicen en distintas regiones de dicho espacio. Esta aproximación ofrece una flexibilidad considerable para modelar procesos complejos y heterogéneos, y ha resurgido como un componente clave en la arquitectura de modelos de lenguaje a gran escala (LLMs) y otros sistemas de aprendizaje profundo.
 
+#### Fundamentos del Concepto: Una Perspectiva Probabilística
+
+En esencia, un modelo MoE establece que la variable de respuesta $Y$, dado un vector de predictores $x$, se genera a partir de un modelo de mezcla cuya densidad (o masa) de probabilidad condicional es:
+
+$$
+    p(y|x, \theta) = \sum_{i=1}^{N}g_{i}(x,v)*p_{i}(y|x, {\theta}_{i})  
+$$
+
+donde:
+
+* $N$ es el número de subpoblaciones o regímenes, cada uno modelado por un "experto".
+* $p_{i}(y|x, {\theta}_{i})$ es la densidad de probabilidad condicional del i-ésimo modelo experto, parametrizado por ${\theta}_{i}$. Típicamente, los expertos son modelos de una misma familia, como regresiones lineales, regresiones logísticas o incluso redes neuronales más complejas.
+* $g_{i}(x,v)$ es la función de la red de puertas (gating network), que representa la probabilidad a priori, dependiente de los predictores $x$, de seleccionar al experto $i$. Estas funciones deben satisfacer las condiciones $\sum_{i=1}^{N}g_{i}(x,v) = 1$ y $g_{i}(x,v) \geq 0$.
+
+El conjunto total de parámetros del modelo es $\theta = \{{\theta}_{1},...,{\theta}_{N}, v\}$.  A diferencia de un modelo de mezcla estándar, donde las probabilidades de mezcla son constantes, en un MoE estas probabilidades son funciones de las variables de entrada, permitiendo una partición dinámica y flexible del espacio de datos.
+
 #### Objetivos y Propiedades Estadísticas
 
 El objetivo principal de un MoE es modelar datos que exhiben heterogeneidad en la relación entre variables predictoras y respuesta. En lugar de ajustar un único modelo global que puede resultar inadecuado, MoE ajusta múltiples modelos más simples, cada uno especializado en una región del espacio de entrada, y los combina de una manera probabilísticamente coherente.
 
-Desde una perspectiva estadística, las propiedades de los estimadores de MoE son de sumo interés. La estimación de los parámetros se realiza comúnmente a través de Máxima Verosimilitud (Maximum Likelihood Estimation, MLE). Dada la estructura de la verosimilitud, que involucra una suma dentro del logaritmo, la optimización directa es a menudo intratable. Por ello, el algoritmo de Expectativa-Maximización (EM) es el mecanismo operativo para la inferencia en estos modelos.
+Desde una perspectiva estadística, las propiedades de los estimadores de MoE son de gran interés. La estimación de los parámetros se realiza comúnmente a través de Máxima Verosimilitud (Maximum Likelihood Estimation, MLE). Dada la estructura de la verosimilitud, que involucra una suma dentro del logaritmo, la optimización directa es a menudo intratable. Por ello, el algoritmo de Expectativa-Maximización (EM) es el mecanismo operativo para la inferencia en estos modelos.
+
+#### Algoritmo EM para MoE:
+
+El algoritmo EM aborda el problema de optimización introduciendo variables latentes $z_{i}$, que indican qué experto generó cada observación.
+
+1. Paso E (Expectativa): Se calcula la responsabilidad o probabilidad a posteriori de que el experto $j$ haya generado la observación $(y_{k}, x_{k})$, dados los parámetros actuales ${\theta}^{(t)}$:
+
+$$
+    h_{j}^{(k)}
+                = P\!\left(z_{k}=j \mid y_{k}, \mathbf{x}_{k}, \boldsymbol{\theta}^{(t)}\right)
+                = \frac{
+                g_{j}\!\left(\mathbf{x}_{k}, \boldsymbol{\nu}^{(t)}\right)\,
+                p_{j}\!\left(y_{k}\mid \mathbf{x}_{k}, \boldsymbol{\theta}_{j}^{(t)}\right)
+                }{
+                \sum_{i=1}^{N}
+                g_{i}\!\left(\mathbf{x}_{k}, \boldsymbol{\nu}^{(t)}\right)\,
+                p_{i}\!\left(y_{k}\mid \mathbf{x}_{k}, \boldsymbol{\theta}_{i}^{(t)}\right)
+                }
+$$
+
+2. Paso M (Maximización): Se actualizan los parámetros del modelo maximizando la esperanza del logaritmo de la verosimilitud completa, que se desacopla en optimizaciones separadas para la red de puertas y para cada experto. Para el experto j, esto equivale a resolver un problema de máxima verosimilitud ponderada:
+
+$$
+    {\theta}_{j}^{t+1} = = \operatorname*{arg\,max}_{\theta_j}
+\sum_{k=1}^{M} h_{j}^{(k)} \, \log p_{j}\!\left(y_{k}\mid \mathbf{x}_{k}, \theta_{j}\right)
+$$
+La actualización de los parámetros $v$ de la red de puertas también se realiza de manera similar, tratándolo como un problema de clasificación multiclase ponderado.
+
+Bajo ciertas condiciones de regularidad, se ha demostrado que los estimadores de máxima verosimilitud en los modelos MoE son consistentes y asintóticamente normales. Sin embargo, la teoría asintótica es compleja y presenta desafíos, como la posibilidad de una función de verosimilitud no acotada (particularmente en mezclas de regresiones gausianas) y cuestiones de identificabilidad de los parámetros en la red de puertas.
 
 #### Mecanismos Operativos: La Red de Compuertas
 

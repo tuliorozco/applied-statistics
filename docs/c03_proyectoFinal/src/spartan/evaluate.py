@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow import keras
 from sklearn.metrics import (
     precision_score, recall_score, f1_score, accuracy_score,
-    roc_auc_score, confusion_matrix
+    roc_auc_score, roc_curve, confusion_matrix
 )
 
 from typing import List, Dict, Tuple, Optional, Any
@@ -46,8 +46,20 @@ def evaluate(model: keras.Model,
     probs = model.predict(ds_test, verbose=0).reshape(-1)
     
     # --- FIN DE LA CORRECCIÓN ---
-    
+
     y_true = df_test[target_col].astype(int).values
+
+    # --- PUNTOS ROC + AUC (independientes de los thresholds de clasificación) ---
+    fpr, tpr, thr = roc_curve(y_true, probs)      # arrays del mismo largo
+    auc_val = roc_auc_score(y_true, probs)        # escalar
+    roc_dict = {
+        "fpr": fpr,
+        "tpr": tpr,
+        "thresholds": thr,
+        "auc": float(auc_val)
+    }
+
+    # roc_curves = {}
 
     thr_list = thresholds if thresholds is not None else [threshold]
     rows = []
@@ -59,6 +71,9 @@ def evaluate(model: keras.Model,
         f1 = f1_score(y_true, y_pred, zero_division=0)
         acc = accuracy_score(y_true, y_pred)
         roc = roc_auc_score(y_true, probs)
+        # fpr, tpr, thr = roc_curve(y_true, probs)
+        # roc_curves = {thr: (fpr, tpr, float(roc))}
+
         tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
         rows.append({
             "Threshold": round(thr, 3),
@@ -72,4 +87,6 @@ def evaluate(model: keras.Model,
         last_cm = {"tn":int(tn), "tp":int(tp), "fp":int(fp), "fn":int(fn)}
 
     results_df = pd.DataFrame(rows)
-    return results_df, last_cm
+
+  
+    return results_df, roc_dict, last_cm

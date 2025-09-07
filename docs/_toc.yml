@@ -18,4 +18,4 @@ chapters:
   sections:
     - file: c03_proyectoFinal/diabetes_classifier_eda
     - file: c03_proyectoFinal/diabetes_classifier_model
-#    - file: c03_proyectoFinal/diabetes_classifier_conclusions
+    - file: c03_proyectoFinal/diabetes_classifier_conclusions

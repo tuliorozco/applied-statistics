@@ -191,6 +191,7 @@
 <li class="toctree-l2"><a class="reference internal" href="diabetes_classifier_eda.html">EDA- PROYECTO FINAL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diabetes_classifier_model.html">Implementación de Modelos</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="diabetes_classifier_conclusions.html">Conclusiones</a></li>
 </ul>
 </details></li>
 </ul>
@@ -405,7 +406,9 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-mixture-of-experts">¿Qué es <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamentos-del-concepto-una-perspectiva-probabilistica">Fundamentos del Concepto: Una Perspectiva Probabilística</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-y-propiedades-estadisticas">Objetivos y Propiedades Estadísticas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-em-para-moe">Algoritmo EM para MoE:</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mecanismos-operativos-la-red-de-compuertas">Mecanismos Operativos: La Red de Compuertas</a></li>
 </ul>
 </li>
@@ -567,10 +570,55 @@ s(x,y) = |y - \widehat{\mu}(x)|
 <section id="que-es-mixture-of-experts">
 <h3>¿Qué es <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts</span></code>?<a class="headerlink" href="#que-es-mixture-of-experts" title="Link to this heading">#</a></h3>
 <p><em>Mixture of Experts</em> (MoE) puede ser interpretado no solo como una técnica de <em>ensemble learning</em>, sino como una poderosa extensión de los modelos de mezcla finita y los Modelos Lineales Generalizados (GLM). Su concepción fundamental radica en una estrategia de “divide y vencerás” que particiona el espacio de los predictores de manera suave (<em>soft partitioning</em>), permitiendo que diferentes modelos expertos se especialicen en distintas regiones de dicho espacio. Esta aproximación ofrece una flexibilidad considerable para modelar procesos complejos y heterogéneos, y ha resurgido como un componente clave en la arquitectura de modelos de lenguaje a gran escala (LLMs) y otros sistemas de aprendizaje profundo.</p>
+<section id="fundamentos-del-concepto-una-perspectiva-probabilistica">
+<h4>Fundamentos del Concepto: Una Perspectiva Probabilística<a class="headerlink" href="#fundamentos-del-concepto-una-perspectiva-probabilistica" title="Link to this heading">#</a></h4>
+<p>En esencia, un modelo MoE establece que la variable de respuesta <span class="math notranslate nohighlight">\(Y\)</span>, dado un vector de predictores <span class="math notranslate nohighlight">\(x\)</span>, se genera a partir de un modelo de mezcla cuya densidad (o masa) de probabilidad condicional es:</p>
+<div class="math notranslate nohighlight">
+\[
+    p(y|x, \theta) = \sum_{i=1}^{N}g_{i}(x,v)*p_{i}(y|x, {\theta}_{i})  
+\]</div>
+<p>donde:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(N\)</span> es el número de subpoblaciones o regímenes, cada uno modelado por un “experto”.</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_{i}(y|x, {\theta}_{i})\)</span> es la densidad de probabilidad condicional del i-ésimo modelo experto, parametrizado por <span class="math notranslate nohighlight">\({\theta}_{i}\)</span>. Típicamente, los expertos son modelos de una misma familia, como regresiones lineales, regresiones logísticas o incluso redes neuronales más complejas.</p></li>
+<li><p><span class="math notranslate nohighlight">\(g_{i}(x,v)\)</span> es la función de la red de puertas (gating network), que representa la probabilidad a priori, dependiente de los predictores <span class="math notranslate nohighlight">\(x\)</span>, de seleccionar al experto <span class="math notranslate nohighlight">\(i\)</span>. Estas funciones deben satisfacer las condiciones <span class="math notranslate nohighlight">\(\sum_{i=1}^{N}g_{i}(x,v) = 1\)</span> y <span class="math notranslate nohighlight">\(g_{i}(x,v) \geq 0\)</span>.</p></li>
+</ul>
+<p>El conjunto total de parámetros del modelo es <span class="math notranslate nohighlight">\(\theta = \{{\theta}_{1},...,{\theta}_{N}, v\}\)</span>.  A diferencia de un modelo de mezcla estándar, donde las probabilidades de mezcla son constantes, en un MoE estas probabilidades son funciones de las variables de entrada, permitiendo una partición dinámica y flexible del espacio de datos.</p>
+</section>
 <section id="objetivos-y-propiedades-estadisticas">
 <h4>Objetivos y Propiedades Estadísticas<a class="headerlink" href="#objetivos-y-propiedades-estadisticas" title="Link to this heading">#</a></h4>
 <p>El objetivo principal de un MoE es modelar datos que exhiben heterogeneidad en la relación entre variables predictoras y respuesta. En lugar de ajustar un único modelo global que puede resultar inadecuado, MoE ajusta múltiples modelos más simples, cada uno especializado en una región del espacio de entrada, y los combina de una manera probabilísticamente coherente.</p>
-<p>Desde una perspectiva estadística, las propiedades de los estimadores de MoE son de sumo interés. La estimación de los parámetros se realiza comúnmente a través de Máxima Verosimilitud (Maximum Likelihood Estimation, MLE). Dada la estructura de la verosimilitud, que involucra una suma dentro del logaritmo, la optimización directa es a menudo intratable. Por ello, el algoritmo de Expectativa-Maximización (EM) es el mecanismo operativo para la inferencia en estos modelos.</p>
+<p>Desde una perspectiva estadística, las propiedades de los estimadores de MoE son de gran interés. La estimación de los parámetros se realiza comúnmente a través de Máxima Verosimilitud (Maximum Likelihood Estimation, MLE). Dada la estructura de la verosimilitud, que involucra una suma dentro del logaritmo, la optimización directa es a menudo intratable. Por ello, el algoritmo de Expectativa-Maximización (EM) es el mecanismo operativo para la inferencia en estos modelos.</p>
+</section>
+<section id="algoritmo-em-para-moe">
+<h4>Algoritmo EM para MoE:<a class="headerlink" href="#algoritmo-em-para-moe" title="Link to this heading">#</a></h4>
+<p>El algoritmo EM aborda el problema de optimización introduciendo variables latentes <span class="math notranslate nohighlight">\(z_{i}\)</span>, que indican qué experto generó cada observación.</p>
+<ol class="arabic simple">
+<li><p>Paso E (Expectativa): Se calcula la responsabilidad o probabilidad a posteriori de que el experto <span class="math notranslate nohighlight">\(j\)</span> haya generado la observación <span class="math notranslate nohighlight">\((y_{k}, x_{k})\)</span>, dados los parámetros actuales <span class="math notranslate nohighlight">\({\theta}^{(t)}\)</span>:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+    h_{j}^{(k)}
+                = P\!\left(z_{k}=j \mid y_{k}, \mathbf{x}_{k}, \boldsymbol{\theta}^{(t)}\right)
+                = \frac{
+                g_{j}\!\left(\mathbf{x}_{k}, \boldsymbol{\nu}^{(t)}\right)\,
+                p_{j}\!\left(y_{k}\mid \mathbf{x}_{k}, \boldsymbol{\theta}_{j}^{(t)}\right)
+                }{
+                \sum_{i=1}^{N}
+                g_{i}\!\left(\mathbf{x}_{k}, \boldsymbol{\nu}^{(t)}\right)\,
+                p_{i}\!\left(y_{k}\mid \mathbf{x}_{k}, \boldsymbol{\theta}_{i}^{(t)}\right)
+                }
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>Paso M (Maximización): Se actualizan los parámetros del modelo maximizando la esperanza del logaritmo de la verosimilitud completa, que se desacopla en optimizaciones separadas para la red de puertas y para cada experto. Para el experto j, esto equivale a resolver un problema de máxima verosimilitud ponderada:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+    {\theta}_{j}^{t+1} = = \operatorname*{arg\,max}_{\theta_j}
+\sum_{k=1}^{M} h_{j}^{(k)} \, \log p_{j}\!\left(y_{k}\mid \mathbf{x}_{k}, \theta_{j}\right)
+\]</div>
+<p>La actualización de los parámetros <span class="math notranslate nohighlight">\(v\)</span> de la red de puertas también se realiza de manera similar, tratándolo como un problema de clasificación multiclase ponderado.</p>
+<p>Bajo ciertas condiciones de regularidad, se ha demostrado que los estimadores de máxima verosimilitud en los modelos MoE son consistentes y asintóticamente normales. Sin embargo, la teoría asintótica es compleja y presenta desafíos, como la posibilidad de una función de verosimilitud no acotada (particularmente en mezclas de regresiones gausianas) y cuestiones de identificabilidad de los parámetros en la red de puertas.</p>
 </section>
 <section id="mecanismos-operativos-la-red-de-compuertas">
 <h4>Mecanismos Operativos: La Red de Compuertas<a class="headerlink" href="#mecanismos-operativos-la-red-de-compuertas" title="Link to this heading">#</a></h4>
@@ -759,7 +807,9 @@ positivos: <span class="math notranslate nohighlight">\(s = 1 - p\)</span>; nega
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-mixture-of-experts">¿Qué es <code class="docutils literal notranslate"><span class="pre">Mixture</span> <span class="pre">of</span> <span class="pre">Experts</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamentos-del-concepto-una-perspectiva-probabilistica">Fundamentos del Concepto: Una Perspectiva Probabilística</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-y-propiedades-estadisticas">Objetivos y Propiedades Estadísticas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-em-para-moe">Algoritmo EM para MoE:</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mecanismos-operativos-la-red-de-compuertas">Mecanismos Operativos: La Red de Compuertas</a></li>
 </ul>
 </li>
